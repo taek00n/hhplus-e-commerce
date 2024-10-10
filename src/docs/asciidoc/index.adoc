@@ -1,0 +1,8 @@
+= 항플 백앤드 6기 8팀 김태현
+
+== 포인트 조회
+
+=== 요청
+include::{snippets}/index/http-request.adoc[]
+=== 응답
+include::{snippets}/index/http-response.adoc[]
