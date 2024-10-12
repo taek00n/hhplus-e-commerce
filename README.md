@@ -46,7 +46,7 @@
 <details>
   <summary>ERD</summary>
 
-![ERD](./ERD.png)
+![ERD](./erd.png)
 </details>
 
 ### Api-Spec
