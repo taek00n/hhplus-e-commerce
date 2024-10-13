@@ -3,8 +3,8 @@ package com.hhplus.ecommerce.presentation;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/basket")
+@RequestMapping("/orders")
 @RestController
-public class BasketController {
+public class OrdersController {
 
 }
