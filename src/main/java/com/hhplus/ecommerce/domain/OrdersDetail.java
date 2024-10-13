@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "ORDERS_DETAIL")
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class OrdersDetail {
@@ -30,4 +29,16 @@ public class OrdersDetail {
 
     @Column(name = "ITEM_PRICE")
     private int itemPrice;
+
+    @Column(name = "AMOUNT")
+    private int amount;
+
+    public OrdersDetail(Long ordersDetailId, Orders ordersDetailOrders, ItemDetail ordersDetailItemsDetail, String itemName, int itemPrice, int amount) {
+        this.ordersDetailId = ordersDetailId;
+        this.ordersDetailOrders = ordersDetailOrders;
+        this.ordersDetailItemsDetail = ordersDetailItemsDetail;
+        this.itemName = itemName;
+        this.itemPrice = itemPrice;
+        this.amount = amount;
+    }
 }

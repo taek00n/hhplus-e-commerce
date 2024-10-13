@@ -12,7 +12,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "USER")
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class User {
@@ -35,4 +34,19 @@ public class User {
 
     @OneToMany(mappedBy = "orderUser", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Orders> orders = new ArrayList<>();
+
+    public User(Long userId, String userName, int balance, LocalDateTime joinDate) {
+        this.userId = userId;
+        this.userName = userName;
+        this.balance = balance;
+        this.joinDate = joinDate;
+    }
+
+    public void chargeBalance(int chargeBalance) {
+        this.balance += chargeBalance;
+    }
+
+    public void useBalance(int useBalance) {
+        this.balance -= useBalance;
+    }
 }

@@ -28,6 +28,24 @@ public class Orders {
     @Column(name = "ORDERS_DATE")
     private LocalDateTime ordersDate;
 
+    @Column(name = "PAY_YN")
+    private String payYn;
+
     @OneToMany(mappedBy = "ordersDetailOrders", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrdersDetail> ordersDetails = new ArrayList<>();
+
+    public Orders(Long ordersId, User orderUser, LocalDateTime ordersDate) {
+        this.ordersId = ordersId;
+        this.orderUser = orderUser;
+        this.ordersDate = ordersDate;
+        this.payYn = "N";
+    }
+
+    public void addOrdersDetail(OrdersDetail ordersDetail) {
+        this.ordersDetails.add(ordersDetail);
+    }
+
+    public void removeOrdersDetail(OrdersDetail ordersDetail) {
+        this.ordersDetails.remove(ordersDetail);
+    }
 }

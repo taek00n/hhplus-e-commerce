@@ -11,6 +11,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -47,12 +50,31 @@ class ItemServiceTest {
     @DisplayName("전체_상품_조회")
     void getAllItems() {
         //given
+        List<Item> mockItemList = new ArrayList<>();
         Item mockItem1 = new Item(1L, "후드티", LocalDateTime.now());
         Item mockItem2 = new Item(2L, "청바지", LocalDateTime.now());
         Item mockItem3 = new Item(3L, "맨투맨", LocalDateTime.now());
+        mockItemList.add(mockItem1);
+        mockItemList.add(mockItem2);
+        mockItemList.add(mockItem3);
+        when(itemRepository.findAll()).thenReturn(mockItemList);
         //when
-
+        List<Item> resultItemList = itemService.getAllItems();
         //then
+        assertNotNull(resultItemList);
+        assertEquals(mockItemList.size(), resultItemList.size());
     }
 
+    @Test
+    @DisplayName("특정_상품_조회")
+    void getItemById() {
+        //given
+        Item mockItem = new Item(1L, "후드티", LocalDateTime.now());
+        when(itemRepository.findById(1L)).thenReturn(Optional.of(mockItem));
+        //when
+        Item resultItem = itemService.findById(1L);
+        //then
+        assertNotNull(resultItem);
+        assertEquals(mockItem.getItemId(), resultItem.getItemId());
+    }
 }

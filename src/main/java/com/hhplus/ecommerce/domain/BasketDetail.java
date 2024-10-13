@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "BASKET_DETAIL")
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class BasketDetail {
@@ -23,5 +22,15 @@ public class BasketDetail {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ITEM_ID")
-    private Item basketDetailItem;
+    private ItemDetail basketDetailItem;
+
+    @Column(name = "AMOUNT")
+    private int amount;
+
+    public BasketDetail(Long basketDetailId, Basket basket, ItemDetail basketDetailItem, int amount) {
+        this.basketDetailId = basketDetailId;
+        this.basket = basket;
+        this.basketDetailItem = basketDetailItem;
+        this.amount = amount;
+    }
 }

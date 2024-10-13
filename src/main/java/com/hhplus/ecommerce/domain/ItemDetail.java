@@ -11,7 +11,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "ITEM_DETAIL")
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class ItemDetail {
@@ -23,15 +22,23 @@ public class ItemDetail {
     @JoinColumn(name = "ITEM_ID")
     private Item itemDetailItem;
 
-    @Column(name = "ITEM_NAME")
-    private String itemName;
+    @Column(name = "ITEM_EXPLAIN")
+    private String itemExplain;
 
     @Column(name = "ITEM_PRICE")
     private int itemPrice;
 
-    @Column(name = "ITEM_STOCK")
-    private int itemStock;
+    @Column(name = "ITEM_QUANTITY")
+    private int itemQuantity;
 
     @OneToMany(mappedBy = "ordersDetailItemsDetail", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrdersDetail> ordersDetails = new ArrayList<>();
+
+    public ItemDetail(Long itemDetailId, Item itemDetailItem, String itemExplain, int itemPrice, int itemQuantity) {
+        this.itemDetailId = itemDetailId;
+        this.itemDetailItem = itemDetailItem;
+        this.itemExplain = itemExplain;
+        this.itemPrice = itemPrice;
+        this.itemQuantity = itemQuantity;
+    }
 }
