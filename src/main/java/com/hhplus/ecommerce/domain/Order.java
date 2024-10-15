@@ -42,20 +42,10 @@ public class Order {
 
     public void addOrderDetail(OrderDetail orderDetail) {
         this.orderDetails.add(orderDetail);
-        orderDetail.setOrder(this);
     }
 
     public void removeOrdersDetail(OrderDetail orderDetail) {
         this.orderDetails.remove(orderDetail);
-    }
-
-    public static Order createOrder(User orderUser, List<OrderDetail> orderDetails) {
-        Order order = new Order(orderUser, OrderStatus.ORDER, LocalDateTime.now());
-        for (OrderDetail orderDetail : orderDetails) {
-            order.addOrderDetail(orderDetail);
-        }
-
-        return order;
     }
 
     public int getTotalPrice() {

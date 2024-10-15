@@ -29,25 +29,15 @@ public class OrderDetail {
     @Column(name = "AMOUNT")
     private int amount;
 
-    public OrderDetail(Item item, int amount, int orderPrice) {
+    public OrderDetail(Order order, Item item, int amount, int orderPrice) {
+        this.order = order;
         this.item = item;
         this.amount = amount;
         this.orderPrice = orderPrice;
     }
 
-    public static OrderDetail createOrderDetail(Item item, int amount) {
-        OrderDetail orderDetail = new OrderDetail(item, amount, item.getItemPrice());
-        item.removeStock(amount);
-
-        return orderDetail;
-    }
-
     public int getTotalPrice() {
 
         return orderPrice * amount;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
     }
 }
