@@ -13,24 +13,30 @@ public class BasketService {
 
     private final BasketRepository basketRepository;
 
-    public Basket save(Basket basket) {
+    public Basket createBasket(Basket basket) {
 
-        return basketRepository.save(basket);
+        return basketRepository.createBasket(basket);
     }
 
-    public void delete(long basketId) {
+    public void removeBasket(long basketId) {
 
-        Basket basket = basketRepository.findById(basketId)
-                .orElseThrow(() -> new IllegalArgumentException("삭제 할려는 장바구니가 없습니다."));
+        Basket basket = this.getBasket(basketId);
 
-        basketRepository.delete(basket);
+        basketRepository.removeBasket(basket);
     }
 
     public Basket getBasket(Long basketId) {
 
-        Basket basket = basketRepository.findById(basketId)
+        Basket basket = basketRepository.getBasket(basketId)
                 .orElseThrow(() -> new IllegalArgumentException("장바구니가 존재하지 않습니다."));
 
         return basket;
+    }
+
+    public Basket getUserBasket(long userId) {
+
+        Basket userBasket = basketRepository.getUserBasket(userId);
+
+        return userBasket;
     }
 }

@@ -1,5 +1,7 @@
 package com.hhplus.ecommerce.domain;
 
+import com.hhplus.ecommerce.common.constant.BasketStatus;
+import com.hhplus.ecommerce.common.constant.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,12 +19,12 @@ public class Basket {
     @Column(name = "BASKET_ID", nullable = false)
     private Long basketId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ID")
+    @OneToOne
+    @JoinColumn(name="user_id")
     private User basketUser;
 
-    @Column(name = "ORDER_YN")
-    private String orderYn;
+    @Enumerated(EnumType.STRING)
+    private BasketStatus basketStatus;
 
     @Column(name = "CREATE_TIME")
     private LocalDateTime createTime;
@@ -30,10 +32,9 @@ public class Basket {
     @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BasketDetail> basketDetails = new ArrayList<>();
 
-    public Basket(Long basketId, User basketUser, LocalDateTime createTime) {
-        this.basketId = basketId;
+    public Basket(User basketUser, LocalDateTime createTime) {
         this.basketUser = basketUser;
-        this.orderYn = "N";
+        this.basketStatus = BasketStatus.SHOPPING;
         this.createTime = createTime;
     }
 
@@ -43,5 +44,14 @@ public class Basket {
 
     public void removeBasketDetail(BasketDetail basketDetail) {
         this.basketDetails.remove(basketDetail);
+    }
+
+    public int totalPrice() {
+        int totalPrice = 0;
+        for (BasketDetail basketDetail : basketDetails) {
+            totalPrice = basketDetail.getItem().getItemPrice();
+        }
+
+        return totalPrice;
     }
 }

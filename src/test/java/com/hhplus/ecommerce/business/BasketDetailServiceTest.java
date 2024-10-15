@@ -28,22 +28,20 @@ class BasketDetailServiceTest {
     private User mockUser;
     private Basket mockBasket;
     private Item mockItem;
-    private ItemDetail mockItemDetail;
 
     @BeforeEach
     void setUp() {
         reset(basketDetailRepository);
-        mockUser = new User(1L, "김태현", 0, LocalDateTime.now());
-        mockBasket = new Basket(1L, mockUser, LocalDateTime.now());
-        mockItem = new Item(1L, "청바지", LocalDateTime.now());
-        mockItemDetail = new ItemDetail(1L, mockItem, "청바지정상", 5000, 4);
+        mockUser = new User("김태현", 0, LocalDateTime.now());
+        mockBasket = new Basket(mockUser, LocalDateTime.now());
+        mockItem = new Item("청바지", 10000, 10, LocalDateTime.now());
     }
 
     @Test
     @DisplayName("상품_장바구니에_담기")
     void saveBasketDetail() {
         //given
-        BasketDetail mockBasketDetail = new BasketDetail(1L, mockBasket, mockItemDetail, 1);
+        BasketDetail mockBasketDetail = new BasketDetail(mockBasket, mockItem, 1);
         when(basketDetailRepository.save(mockBasketDetail)).thenReturn(mockBasketDetail);
         //when
         BasketDetail resultBasketDetail = basketDetailService.save(mockBasketDetail);
@@ -56,7 +54,7 @@ class BasketDetailServiceTest {
     @DisplayName("상품_장바구니에서_제거")
     void deleteBasketDetail() {
         //given
-        BasketDetail mockBasketDetail = new BasketDetail(1L, mockBasket, mockItemDetail, 1);
+        BasketDetail mockBasketDetail = new BasketDetail(mockBasket, mockItem, 1);
         when(basketDetailRepository.findById(mockBasketDetail.getBasketDetailId())).thenReturn(Optional.of(mockBasketDetail));
         //when
         basketDetailService.delete(mockBasketDetail.getBasketDetailId());
@@ -68,7 +66,7 @@ class BasketDetailServiceTest {
     @DisplayName("장바구니_상세_조회")
     void getBasketDetail() {
         //given
-        BasketDetail mockBasketDetail = new BasketDetail(1L, mockBasket, mockItemDetail, 1);
+        BasketDetail mockBasketDetail = new BasketDetail(mockBasket, mockItem, 1);
         when(basketDetailRepository.findById(mockBasketDetail.getBasketDetailId())).thenReturn(Optional.of(mockBasketDetail));
         //when
         BasketDetail resultBastDetail = basketDetailService.findById(mockBasketDetail.getBasketDetailId());

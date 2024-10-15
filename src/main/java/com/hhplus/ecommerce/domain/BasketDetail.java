@@ -2,7 +2,6 @@ package com.hhplus.ecommerce.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,17 +19,16 @@ public class BasketDetail {
     @JoinColumn(name = "BASKET_ID")
     private Basket basket;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "ITEM_ID")
-    private ItemDetail basketDetailItem;
+    private Item item;
 
     @Column(name = "AMOUNT")
     private int amount;
 
-    public BasketDetail(Long basketDetailId, Basket basket, ItemDetail basketDetailItem, int amount) {
-        this.basketDetailId = basketDetailId;
+    public BasketDetail(Basket basket, Item item, int amount) {
         this.basket = basket;
-        this.basketDetailItem = basketDetailItem;
+        this.item = item;
         this.amount = amount;
     }
 }
