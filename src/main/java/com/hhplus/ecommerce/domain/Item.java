@@ -1,10 +1,9 @@
 package com.hhplus.ecommerce.domain;
 
+import com.hhplus.ecommerce.common.constant.ItemSellStatus;
+import com.hhplus.ecommerce.common.exception.OutOfStockException;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -23,34 +22,39 @@ public class Item {
     @Column(name = "ITEM_NAME")
     private String itemName;
 
+    @Column(name = "ITEM_PRICE")
+    private int itemPrice;
+
+    @Column(name = "ITEM_STOCK")
+    private int itemStock;
+
+    @Enumerated(EnumType.STRING)
+    private ItemSellStatus itemSellStatus;
+
     @Column(name = "REGISTER_DATE")
     private LocalDateTime registerDate;
 
     @OneToMany(mappedBy = "basketDetailItem", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BasketDetail> basketDetails = new ArrayList<>();
 
-    @OneToMany(mappedBy = "itemDetailItem", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ItemDetail> itemDetails = new ArrayList<>();
-
-    public Item(Long itemId, String itemName, LocalDateTime registerDate) {
-        this.itemId = itemId;
+    public Item(String itemName, int itemPrice, int itemStock, LocalDateTime registerDate) {
         this.itemName = itemName;
+        this.itemPrice = itemPrice;
+        this.itemStock = itemStock;
+        this.itemSellStatus = ItemSellStatus.SELL;
         this.registerDate = registerDate;
+
+        if(itemStock < 1) {
+            this.itemSellStatus = ItemSellStatus.SOLD_OUT;
+        }
     }
 
-    public void addBasketDetail(BasketDetail basketDetail) {
-        this.basketDetails.add(basketDetail);
-    }
-
-    public void removeBasketDetail(BasketDetail basketDetail) {
-        this.basketDetails.remove(basketDetail);
-    }
-
-    public void addItemDetail(ItemDetail itemDetail) {
-        this.itemDetails.add(itemDetail);
-    }
-
-    public void removeItemDetail(ItemDetail itemDetail) {
-        this.itemDetails.remove(itemDetail);
+    public void removeStock(int amount) {
+        int restStock = this.itemStock - amount;
+        if (restStock < 0) {
+            this.itemSellStatus = ItemSellStatus.SOLD_OUT;
+            throw new OutOfStockException("상품의 재고가 부족합니다. (현재 재고 : " + this.itemStock + ")");
+        }
+        this.itemStock = restStock;
     }
 }

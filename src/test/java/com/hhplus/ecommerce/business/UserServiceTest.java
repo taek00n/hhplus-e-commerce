@@ -73,7 +73,7 @@ class UserServiceTest {
         //given
         int chargeBalance = 3000;
         User mockUser = new User("김태현", 0, LocalDateTime.now());
-        when(userRepository.findById(mockUser.getUserId())).thenReturn(Optional.of(mockUser));
+        when(userRepository.getUser(1L)).thenReturn(Optional.of(mockUser));
         //when
         User resultUser = userService.chargeUserBalance(1L, chargeBalance);
         //then
@@ -88,9 +88,9 @@ class UserServiceTest {
         //given
         int useBalance = 3000;
         User mockUser = new User("김태현", 5000, LocalDateTime.now());
-        when(userRepository.findById(mockUser.getUserId())).thenReturn(Optional.of(mockUser));
+        when(userRepository.getUser(1L)).thenReturn(Optional.of(mockUser));
         //when
-        User resultUser = userService.useUserBalance(mockUser.getUserId(), useBalance);
+        User resultUser = userService.useUserBalance(1L, useBalance);
         //then
         assertNotNull(resultUser);
         assertEquals(mockUser.getUserId(), resultUser.getUserId());
