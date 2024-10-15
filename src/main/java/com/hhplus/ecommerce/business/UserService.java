@@ -11,22 +11,22 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public User findUserById(long userId) {
+    public User getUser(long userId) {
 
-        User user = userRepository.findById(userId)
+        User user = userRepository.getUser(userId)
                 .orElseThrow(() -> new IllegalArgumentException("없는 사용자입니다."));
 
         return user;
     }
 
-    public User save(User user) {
+    public User createUser(User user) {
 
-        return userRepository.save(user);
+        return userRepository.createUser(user);
     }
 
     public User chargeUserBalance(long userId, int chargeBalance) {
 
-        User user = this.findUserById(userId);
+        User user = this.getUser(userId);
         user.chargeBalance(chargeBalance);
 
         return user;
@@ -34,7 +34,7 @@ public class UserService {
 
     public User useUserBalance(long userId, int useBalance) {
 
-        User user = this.findUserById(userId);
+        User user = this.getUser(userId);
         user.useBalance(useBalance);
 
         return user;
