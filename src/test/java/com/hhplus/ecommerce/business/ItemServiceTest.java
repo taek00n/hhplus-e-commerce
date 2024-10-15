@@ -11,6 +11,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -33,10 +36,10 @@ class ItemServiceTest {
     @DisplayName("상품_등록")
     void saveItem() {
         //given
-        Item mockItem = new Item(1L, "후드티", LocalDateTime.now());
+        Item mockItem = new Item("후드티", 50000, 10, LocalDateTime.now());
         when(itemRepository.save(mockItem)).thenReturn(mockItem);
         //when
-        Item resultItem = itemService.save(mockItem);
+        Item resultItem = itemService.saveItem(mockItem);
         //then
         assertNotNull(resultItem);
         assertEquals(mockItem.getItemId(), resultItem.getItemId());
@@ -45,14 +48,33 @@ class ItemServiceTest {
 
     @Test
     @DisplayName("전체_상품_조회")
-    void getAllItems() {
+    void getItems() {
         //given
-        Item mockItem1 = new Item(1L, "후드티", LocalDateTime.now());
-        Item mockItem2 = new Item(2L, "청바지", LocalDateTime.now());
-        Item mockItem3 = new Item(3L, "맨투맨", LocalDateTime.now());
+        List<Item> mockItemList = new ArrayList<>();
+        Item mockItem1 = new Item("후드티", 50000, 10, LocalDateTime.now());
+        Item mockItem2 = new Item("청바지", 56000, 16, LocalDateTime.now());
+        Item mockItem3 = new Item("맨투맨", 58000, 13, LocalDateTime.now());
+        mockItemList.add(mockItem1);
+        mockItemList.add(mockItem2);
+        mockItemList.add(mockItem3);
+        when(itemRepository.getItems()).thenReturn(mockItemList);
         //when
-
+        List<Item> resultItemList = itemService.getItems();
         //then
+        assertNotNull(resultItemList);
+        assertEquals(mockItemList.size(), resultItemList.size());
     }
 
+    @Test
+    @DisplayName("특정_상품_조회")
+    void getItemById() {
+        //given
+        Item mockItem = new Item("후드티", 50000, 10, LocalDateTime.now());
+        when(itemRepository.getItem(1L)).thenReturn(Optional.of(mockItem));
+        //when
+        Item resultItem = itemService.getItem(1L);
+        //then
+        assertNotNull(resultItem);
+        assertEquals(mockItem.getItemId(), resultItem.getItemId());
+    }
 }

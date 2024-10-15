@@ -9,7 +9,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "BASKET")
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Basket {
@@ -30,4 +29,19 @@ public class Basket {
 
     @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BasketDetail> basketDetails = new ArrayList<>();
+
+    public Basket(Long basketId, User basketUser, LocalDateTime createTime) {
+        this.basketId = basketId;
+        this.basketUser = basketUser;
+        this.orderYn = "N";
+        this.createTime = createTime;
+    }
+
+    public void addBasketDetail(BasketDetail basketDetail) {
+        this.basketDetails.add(basketDetail);
+    }
+
+    public void removeBasketDetail(BasketDetail basketDetail) {
+        this.basketDetails.remove(basketDetail);
+    }
 }

@@ -2,7 +2,6 @@ package com.hhplus.ecommerce.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +11,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "USER")
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class User {
@@ -30,9 +28,20 @@ public class User {
     @Column(name = "JOIN_DATE")
     private LocalDateTime joinDate;
 
-    @OneToMany(mappedBy = "basketUser", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Basket> baskets = new ArrayList<>();
-
     @OneToMany(mappedBy = "orderUser", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Orders> orders = new ArrayList<>();
+    private List<Order> orders = new ArrayList<>();
+
+    public User(String userName, int balance, LocalDateTime joinDate) {
+        this.userName = userName;
+        this.balance = balance;
+        this.joinDate = joinDate;
+    }
+
+    public void chargeBalance(int chargeBalance) {
+        this.balance += chargeBalance;
+    }
+
+    public void useBalance(int useBalance) {
+        this.balance -= useBalance;
+    }
 }
