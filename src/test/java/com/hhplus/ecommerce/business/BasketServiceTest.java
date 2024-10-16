@@ -36,7 +36,7 @@ class BasketServiceTest {
 
     @Test
     @DisplayName("장바구니_생성")
-    void putInBasket() {
+    void createBasket() {
         //given
         Basket mockBasket = new Basket(mockUser, LocalDateTime.now());
         when(basketRepository.createBasket(mockBasket)).thenReturn(mockBasket);

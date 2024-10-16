@@ -11,6 +11,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,21 +29,23 @@ class BasketDetailServiceTest {
 
     private User mockUser;
     private Basket mockBasket;
-    private Item mockItem;
+    private Item mockItem1;
+    private Item mockItem2;
 
     @BeforeEach
     void setUp() {
         reset(basketDetailRepository);
         mockUser = new User("김태현", 0, LocalDateTime.now());
         mockBasket = new Basket(mockUser, LocalDateTime.now());
-        mockItem = new Item("청바지", 10000, 10, LocalDateTime.now());
+        mockItem1 = new Item("청바지1", 10000, 10, LocalDateTime.now());
+        mockItem2 = new Item("청바지2", 20000, 20, LocalDateTime.now());
     }
 
     @Test
     @DisplayName("상품_장바구니에_담기")
     void saveBasketDetail() {
         //given
-        BasketDetail mockBasketDetail = new BasketDetail(mockBasket, mockItem, 1);
+        BasketDetail mockBasketDetail = new BasketDetail(mockBasket, mockItem1, 1);
         when(basketDetailRepository.save(mockBasketDetail)).thenReturn(mockBasketDetail);
         //when
         BasketDetail resultBasketDetail = basketDetailService.save(mockBasketDetail);
@@ -54,7 +58,7 @@ class BasketDetailServiceTest {
     @DisplayName("상품_장바구니에서_제거")
     void deleteBasketDetail() {
         //given
-        BasketDetail mockBasketDetail = new BasketDetail(mockBasket, mockItem, 1);
+        BasketDetail mockBasketDetail = new BasketDetail(mockBasket, mockItem1, 1);
         when(basketDetailRepository.findById(mockBasketDetail.getBasketDetailId())).thenReturn(Optional.of(mockBasketDetail));
         //when
         basketDetailService.delete(mockBasketDetail.getBasketDetailId());
@@ -63,15 +67,32 @@ class BasketDetailServiceTest {
     }
 
     @Test
-    @DisplayName("장바구니_상세_조회")
-    void getBasketDetail() {
+    @DisplayName("장바구니에_아이템이_있는_확인")
+    void findItemInBasketDetail() {
         //given
-        BasketDetail mockBasketDetail = new BasketDetail(mockBasket, mockItem, 1);
-        when(basketDetailRepository.findById(mockBasketDetail.getBasketDetailId())).thenReturn(Optional.of(mockBasketDetail));
+        BasketDetail mockBasketDetail = new BasketDetail(mockBasket, mockItem1, 1);
+        when(basketDetailRepository.findItemInBasketDetail(mockItem1)).thenReturn(mockBasketDetail);
         //when
-        BasketDetail resultBastDetail = basketDetailService.findById(mockBasketDetail.getBasketDetailId());
+        BasketDetail resultBastDetail = basketDetailService.findItemInBasketDetail(mockItem1);
         //then
         assertNotNull(resultBastDetail);
         assertEquals(mockBasketDetail.getBasketDetailId(), resultBastDetail.getBasketDetailId());
+    }
+
+    @Test
+    @DisplayName("장바구니번호로_상세_내역_전부_조회")
+    void getAllItemInBasketDetail() {
+        //given
+        BasketDetail mockBasketDetail1 = new BasketDetail(mockBasket, mockItem1, 1);
+        BasketDetail mockBasketDetail2 = new BasketDetail(mockBasket, mockItem2, 1);
+        List<BasketDetail> mockBasketDetailList = new ArrayList<>();
+        mockBasketDetailList.add(mockBasketDetail1);
+        mockBasketDetailList.add(mockBasketDetail2);
+        when(basketDetailRepository.getAllDetailByBasket(mockBasket)).thenReturn(mockBasketDetailList);
+        //when
+        List<BasketDetail> resultBasketDetailList = basketDetailService.getAllDetailByBasket(mockBasket);
+        // then
+        assertNotNull(resultBasketDetailList);
+        assertEquals(mockBasketDetailList.size(), resultBasketDetailList.size());
     }
 }
