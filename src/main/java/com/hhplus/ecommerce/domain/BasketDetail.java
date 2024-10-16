@@ -5,6 +5,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Map;
+
 @Entity
 @Table(name = "BASKET_DETAIL")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -30,5 +32,9 @@ public class BasketDetail {
         this.basket = basket;
         this.item = item;
         this.amount = amount;
+    }
+
+    public void addAmount(int amount) {
+        this.amount += amount;
     }
 }
