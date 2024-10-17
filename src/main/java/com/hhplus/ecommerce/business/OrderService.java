@@ -2,6 +2,7 @@ package com.hhplus.ecommerce.business;
 
 import com.hhplus.ecommerce.domain.Item;
 import com.hhplus.ecommerce.domain.Order;
+import com.hhplus.ecommerce.domain.User;
 import com.hhplus.ecommerce.infrastructure.OrderRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,9 +22,15 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    public Order getOrder(Long ordersId) {
+    public Order getOrder(Long orderId) {
 
-        return orderRepository.findByOrderId(ordersId)
+        return orderRepository.findByOrderId(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 주문은 존재하지않습니다."));
+    }
+
+    public Order getOrderByUserId(User user) {
+
+        return orderRepository.findByOrderUser(user)
                 .orElseThrow(() -> new IllegalArgumentException("해당 주문은 존재하지않습니다."));
     }
 
