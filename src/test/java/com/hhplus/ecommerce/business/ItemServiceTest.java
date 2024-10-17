@@ -57,7 +57,7 @@ class ItemServiceTest {
         mockItemList.add(mockItem1);
         mockItemList.add(mockItem2);
         mockItemList.add(mockItem3);
-        when(itemRepository.getItems()).thenReturn(mockItemList);
+        when(itemRepository.findAll()).thenReturn(mockItemList);
         //when
         List<Item> resultItemList = itemService.getItems();
         //then
@@ -70,7 +70,7 @@ class ItemServiceTest {
     void getItemById() {
         //given
         Item mockItem = new Item("후드티", 50000, 10, LocalDateTime.now());
-        when(itemRepository.getItem(1L)).thenReturn(Optional.of(mockItem));
+        when(itemRepository.findByItemId(1L)).thenReturn(Optional.of(mockItem));
         //when
         Item resultItem = itemService.getItem(1L);
         //then

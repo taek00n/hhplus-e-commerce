@@ -12,8 +12,8 @@ import java.util.List;
 public interface BasketDetailRepository extends JpaRepository<BasketDetail, Long> {
 
     @Query(value = "select b from BasketDetail b where b.item = :item")
-    BasketDetail findItemInBasketDetail(@Param("item")Item item);
+    BasketDetail findBasketDetailByItem(@Param("item")Item item);
 
     @Query(value = "select b from BasketDetail b where b.basket = :basket")
-    List<BasketDetail> getAllDetailByBasket(@Param("basket") Basket basket);
+    List<BasketDetail> findAllByBasket(@Param("basket") Basket basket);
 }

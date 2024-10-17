@@ -18,12 +18,12 @@ public class OrderService {
 
     public Order createOrder(Order order) {
 
-        return orderRepository.createOrder(order);
+        return orderRepository.save(order);
     }
 
     public Order getOrder(Long ordersId) {
 
-        return orderRepository.getOrder(ordersId)
+        return orderRepository.findByOrderId(ordersId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 주문은 존재하지않습니다."));
     }
 

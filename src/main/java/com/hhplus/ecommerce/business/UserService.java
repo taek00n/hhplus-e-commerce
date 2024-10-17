@@ -13,7 +13,7 @@ public class UserService {
 
     public User getUser(long userId) {
 
-        User user = userRepository.getUser(userId)
+        User user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new IllegalArgumentException("없는 사용자입니다."));
 
         return user;
@@ -21,7 +21,7 @@ public class UserService {
 
     public User createUser(User user) {
 
-        return userRepository.createUser(user);
+        return userRepository.save(user);
     }
 
     public User chargeUserBalance(long userId, int chargeBalance) {

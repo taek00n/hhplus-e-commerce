@@ -34,7 +34,7 @@ public class Item {
     @Column(name = "REGISTER_DATE")
     private LocalDateTime registerDate;
 
-    @OneToMany(mappedBy = "basketDetailItem", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BasketDetail> basketDetails = new ArrayList<>();
 
     public Item(String itemName, int itemPrice, int itemStock, LocalDateTime registerDate) {

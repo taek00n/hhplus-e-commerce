@@ -71,7 +71,7 @@ class BasketDetailServiceTest {
     void findItemInBasketDetail() {
         //given
         BasketDetail mockBasketDetail = new BasketDetail(mockBasket, mockItem1, 1);
-        when(basketDetailRepository.findItemInBasketDetail(mockItem1)).thenReturn(mockBasketDetail);
+        when(basketDetailRepository.findBasketDetailByItem(mockItem1)).thenReturn(mockBasketDetail);
         //when
         BasketDetail resultBastDetail = basketDetailService.findItemInBasketDetail(mockItem1);
         //then
@@ -88,7 +88,7 @@ class BasketDetailServiceTest {
         List<BasketDetail> mockBasketDetailList = new ArrayList<>();
         mockBasketDetailList.add(mockBasketDetail1);
         mockBasketDetailList.add(mockBasketDetail2);
-        when(basketDetailRepository.getAllDetailByBasket(mockBasket)).thenReturn(mockBasketDetailList);
+        when(basketDetailRepository.findAllByBasket(mockBasket)).thenReturn(mockBasketDetailList);
         //when
         List<BasketDetail> resultBasketDetailList = basketDetailService.getAllDetailByBasket(mockBasket);
         // then

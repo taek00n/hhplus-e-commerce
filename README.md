@@ -30,7 +30,7 @@
 
 - 마무리
 
-![milestone](./milestone.png)
+![milestone](docs/milestone.png)
 
 </details>
 
@@ -39,29 +39,30 @@
 <details>
   <summary>flow chart</summary>
 
-![flowchart](./flowchart.png)
+![flowchart](docs/flowchart.png)
 </details>
 
 ### ERD
 <details>
   <summary>ERD</summary>
 
-![ERD](./erd.png)
+![ERD](docs/erd.png)
 </details>
+
+### Swagger
+<details>
+  <summary>swagger</summary>
+
+![ORDER](docs/OrderSwagger.png)
+![ITEM](docs/ItemSwagger.png)
+![BASKET](docs/BasketSwagger.png)
+![USER](docs/UserSwagger.png)
+</details>
+
 
 ### Api-Spec
 <details>
   <summary>Api-Spec</summary>
-
-<details>
-  <summary>Spring REST Docs 예시</summary>
-
-![charge](./charge.png)
-![balance](./balance.png)
-</details>
-
-<details>
-  <summary>이커머스_API_명세_v0.1</summary>
 
 ### 이커머스_API_명세_v0.1
 
@@ -287,7 +288,6 @@
     "message": "인기 상품 목록 조회에 실패했습니다."
   }
   ```
-</details>
 </details>
 </details>
 

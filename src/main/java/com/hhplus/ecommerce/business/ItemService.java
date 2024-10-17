@@ -20,12 +20,12 @@ public class ItemService {
 
     public List<Item> getItems() {
 
-        return itemRepository.getItems();
+        return itemRepository.findAll();
     }
 
     public Item getItem(long itemId) {
 
-        return itemRepository.getItem(itemId).orElseThrow(
+        return itemRepository.findByItemId(itemId).orElseThrow(
                 () -> new IllegalArgumentException("상품이 없습니다.")
         );
     }

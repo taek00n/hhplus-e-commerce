@@ -15,19 +15,17 @@ public class BasketService {
 
     public Basket createBasket(Basket basket) {
 
-        return basketRepository.createBasket(basket);
+        return basketRepository.save(basket);
     }
 
     public void removeBasket(long basketId) {
 
-        Basket basket = this.getBasket(basketId);
-
-        basketRepository.removeBasket(basket);
+        basketRepository.deleteByBasketId(basketId);
     }
 
     public Basket getBasket(Long basketId) {
 
-        Basket basket = basketRepository.getBasket(basketId)
+        Basket basket = basketRepository.findByBasketId(basketId)
                 .orElseThrow(() -> new IllegalArgumentException("장바구니가 존재하지 않습니다."));
 
         return basket;
