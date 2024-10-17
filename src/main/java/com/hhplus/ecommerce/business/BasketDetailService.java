@@ -38,14 +38,14 @@ public class BasketDetailService {
 
     public BasketDetail findItemInBasketDetail(Item item) {
 
-        BasketDetail basketDetail = basketDetailRepository.findItemInBasketDetail(item);
+        BasketDetail basketDetail = basketDetailRepository.findBasketDetailByItem(item);
 
         return basketDetail;
     }
 
     public List<BasketDetail> getAllDetailByBasket(Basket basket) {
 
-        List<BasketDetail> allDetailByBasket = basketDetailRepository.getAllDetailByBasket(basket);
+        List<BasketDetail> allDetailByBasket = basketDetailRepository.findAllByBasket(basket);
 
         return allDetailByBasket;
     }

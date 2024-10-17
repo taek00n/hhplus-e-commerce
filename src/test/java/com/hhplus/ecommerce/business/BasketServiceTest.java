@@ -39,7 +39,7 @@ class BasketServiceTest {
     void createBasket() {
         //given
         Basket mockBasket = new Basket(mockUser, LocalDateTime.now());
-        when(basketRepository.createBasket(mockBasket)).thenReturn(mockBasket);
+        when(basketRepository.save(mockBasket)).thenReturn(mockBasket);
         //when
         Basket resultBasket = basketService.createBasket(mockBasket);
         //then
@@ -53,7 +53,7 @@ class BasketServiceTest {
     void deleteBasket() {
         // given
         Basket mockBasket = new Basket(mockUser, LocalDateTime.now());
-        when(basketRepository.getBasket(1L)).thenReturn(Optional.of(mockBasket));
+        when(basketRepository.findByBasketId(1L)).thenReturn(Optional.of(mockBasket));
         // when
         basketService.removeBasket(1L);
         //then
@@ -65,7 +65,7 @@ class BasketServiceTest {
     void getBasket() {
         //given
         Basket mockBasket = new Basket(mockUser, LocalDateTime.now());
-        when(basketRepository.getBasket(1L)).thenReturn(Optional.of(mockBasket));
+        when(basketRepository.findByBasketId(1L)).thenReturn(Optional.of(mockBasket));
         //when
         Basket resultBasket = basketService.getBasket(1L);
         //then
