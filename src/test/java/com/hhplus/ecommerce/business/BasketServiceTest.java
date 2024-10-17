@@ -2,87 +2,79 @@ package com.hhplus.ecommerce.business;
 
 import com.hhplus.ecommerce.domain.Basket;
 import com.hhplus.ecommerce.domain.User;
-import com.hhplus.ecommerce.infrastructure.BasketRepository;
+import com.hhplus.ecommerce.infrastructure.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
+@Transactional
 class BasketServiceTest {
 
-    @Mock
-    private BasketRepository basketRepository;
-
-    @InjectMocks
+    @Autowired
     private BasketService basketService;
 
-    private User mockUser;
+    @Autowired
+    private UserRepository userRepository;
+
+
+    private User saveUser;
+    private Basket saveBasket;
 
     @BeforeEach
     void setUp() {
-        reset(basketRepository);
-        mockUser = new User("김태현", 0, LocalDateTime.now());
+        saveUser = userRepository.save(new User("김태현", 0, LocalDateTime.now()));
+        saveBasket = basketService.createBasket(new Basket(saveUser, LocalDateTime.now()));
     }
 
     @Test
     @DisplayName("장바구니_생성")
     void createBasket() {
         //given
-        Basket mockBasket = new Basket(mockUser, LocalDateTime.now());
-        when(basketRepository.save(mockBasket)).thenReturn(mockBasket);
+        Basket basket = new Basket(saveUser, LocalDateTime.now());
         //when
-        Basket resultBasket = basketService.createBasket(mockBasket);
+        Basket saveBasket = basketService.createBasket(basket);
         //then
-        assertNotNull(resultBasket);
-        assertEquals(mockBasket.getBasketId(), resultBasket.getBasketId());
-        assertEquals(mockBasket.getBasketUser().getUserId(), resultBasket.getBasketUser().getUserId());
+        assertNotNull(saveBasket);
+        assertEquals(saveBasket.getBasketUser(), saveUser);
     }
 
     @Test
-    @DisplayName("장바구니_삭제")
-    void deleteBasket() {
-        // given
-        Basket mockBasket = new Basket(mockUser, LocalDateTime.now());
-        when(basketRepository.findByBasketId(1L)).thenReturn(Optional.of(mockBasket));
-        // when
-        basketService.removeBasket(1L);
-        //then
-        verify(basketRepository, times(1)).delete(mockBasket);
+    @DisplayName("없는_장바구니_번호로_조회")
+    void getNoneBasketByBasketId() {
+        //given
+        Long basketId = saveBasket.getBasketId() + 1L;
+        //when then
+        assertThrows(IllegalArgumentException.class, () -> basketService.getBasket(basketId));
     }
 
     @Test
     @DisplayName("장바구니_번호로_조회")
-    void getBasket() {
-        //given
-        Basket mockBasket = new Basket(mockUser, LocalDateTime.now());
-        when(basketRepository.findByBasketId(1L)).thenReturn(Optional.of(mockBasket));
+    void getBasketByBasketId() {
         //when
-        Basket resultBasket = basketService.getBasket(1L);
+        Basket resultBasket = basketService.getBasket(saveBasket.getBasketId());
         //then
         assertNotNull(resultBasket);
-        assertEquals(mockBasket.getBasketId(), resultBasket.getBasketId());
+        assertEquals(resultBasket.getBasketId(), saveBasket.getBasketId());
+        assertEquals(saveBasket.getBasketUser(), saveUser);
     }
 
     @Test
-    @DisplayName("사용자의_장바구니_조회")
-    void getUserBasket() {
-        //given
-        Basket mockBasket = new Basket(mockUser, LocalDateTime.now());
-        when(basketRepository.getUserBasket(1L)).thenReturn(mockBasket);
+    @DisplayName("사용자번호로_장바구니_조회")
+    void getBasketByUserId() {
         //when
-        Basket resultBasket = basketService.getUserBasket(1L);
+        Basket userBasket = basketService.getUserBasket(saveUser.getUserId());
         //then
-        assertNotNull(resultBasket);
-        assertEquals(mockBasket.getBasketId(), resultBasket.getBasketId());
+        assertNotNull(userBasket);
+        assertEquals(userBasket.getBasketUser(), saveUser);
+        assertEquals(userBasket.getBasketId(), saveBasket.getBasketId());
     }
 }

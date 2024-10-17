@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "USER")
+@Table(name = "USERS")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class User {
