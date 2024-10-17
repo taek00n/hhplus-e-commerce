@@ -7,6 +7,6 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    User createUser(User user);
-    Optional<User> getUser(long userId);
+    User save(User user);
+    Optional<User> findByUserId(long userId);
 }

@@ -38,7 +38,7 @@ class UserServiceTest {
     void saveUser() {
         //given
         User mockUser = new User("김태현", 0, LocalDateTime.now());
-        when(userRepository.createUser(mockUser)).thenReturn(mockUser);
+        when(userRepository.save(mockUser)).thenReturn(mockUser);
         //when
         User resultUser = userService.createUser(mockUser);
         //then
@@ -51,7 +51,7 @@ class UserServiceTest {
     void getUser() {
         //given
         int balance = 2000;
-        when(userRepository.getUser(userId)).thenReturn(Optional.of(new User("김태현", balance, LocalDateTime.now())));
+        when(userRepository.findByUserId(userId)).thenReturn(Optional.of(new User("김태현", balance, LocalDateTime.now())));
         //when
         User resultUser = userService.getUser(userId);
         //then
@@ -63,7 +63,7 @@ class UserServiceTest {
     @DisplayName("없는_사용자_조회")
     void getNoneUser() {
         //given
-        when(userRepository.getUser(1L)).thenThrow(new IllegalArgumentException());
+        when(userRepository.findByUserId(1L)).thenThrow(new IllegalArgumentException());
         assertThrows(IllegalArgumentException.class, () -> userService.getUser(1L));
     }
 
@@ -73,7 +73,7 @@ class UserServiceTest {
         //given
         int chargeBalance = 3000;
         User mockUser = new User("김태현", 0, LocalDateTime.now());
-        when(userRepository.getUser(1L)).thenReturn(Optional.of(mockUser));
+        when(userRepository.findByUserId(1L)).thenReturn(Optional.of(mockUser));
         //when
         User resultUser = userService.chargeUserBalance(1L, chargeBalance);
         //then
@@ -88,7 +88,7 @@ class UserServiceTest {
         //given
         int useBalance = 3000;
         User mockUser = new User("김태현", 5000, LocalDateTime.now());
-        when(userRepository.getUser(1L)).thenReturn(Optional.of(mockUser));
+        when(userRepository.findByUserId(1L)).thenReturn(Optional.of(mockUser));
         //when
         User resultUser = userService.useUserBalance(1L, useBalance);
         //then
