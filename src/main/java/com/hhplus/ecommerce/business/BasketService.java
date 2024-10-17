@@ -18,7 +18,7 @@ public class BasketService {
         return basketRepository.save(basket);
     }
 
-    public void removeBasket(long basketId) {
+    public void removeBasket(Long basketId) {
 
         basketRepository.deleteByBasketId(basketId);
     }
@@ -31,7 +31,7 @@ public class BasketService {
         return basket;
     }
 
-    public Basket getUserBasket(long userId) {
+    public Basket getUserBasket(Long userId) {
 
         Basket userBasket = basketRepository.getUserBasket(userId);
 

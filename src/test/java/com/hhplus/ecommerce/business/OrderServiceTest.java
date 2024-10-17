@@ -3,89 +3,106 @@ package com.hhplus.ecommerce.business;
 import com.hhplus.ecommerce.common.constant.OrderStatus;
 import com.hhplus.ecommerce.domain.Item;
 import com.hhplus.ecommerce.domain.Order;
+import com.hhplus.ecommerce.domain.OrderDetail;
 import com.hhplus.ecommerce.domain.User;
-import com.hhplus.ecommerce.infrastructure.OrderRepository;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
+@Transactional
 class OrderServiceTest {
 
-    @Mock
-    private OrderRepository orderRepository;
-
-    @InjectMocks
+    @Autowired
     private OrderService orderService;
 
-    private User mockUser;
+    @Autowired
+    private OrderDetailService orderDetailService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private ItemService itemService;
+
+    private User saveUser;
+    private Item saveItem1;
+    private Item saveItem2;
 
     @BeforeEach
     void setUp() {
-        reset(orderRepository);
-        mockUser = new User("김태현", 0, LocalDateTime.now());
+        saveUser = userService.createUser(new User("김태현", 0, LocalDateTime.now()));
+        saveItem1 = itemService.saveItem(new Item("청바지1", 40000, 5, LocalDateTime.now()));
+        saveItem2 = itemService.saveItem(new Item("청바지2", 20000, 5, LocalDateTime.now()));
     }
 
     @Test
     @DisplayName("주문_생성")
-    void createOrders() {
+    void createOrder() {
         //given
-        Order mockOrder = new Order(mockUser, OrderStatus.ORDER, LocalDateTime.now());
-        when(orderService.createOrder(mockOrder)).thenReturn(mockOrder);
+        Order order = new Order(saveUser, OrderStatus.ORDER, LocalDateTime.now());
+        OrderDetail orderDetail = new OrderDetail(order, saveItem1, 2, saveItem1.getItemPrice());
+        order.addOrderDetail(orderDetail);
         //when
-        Order resultOrder = orderService.createOrder(mockOrder);
+        Order resultOrder = orderService.createOrder(order);
         //then
         assertNotNull(resultOrder);
-        assertEquals(mockOrder.getOrderId(), resultOrder.getOrderId());
-        assertEquals(mockOrder.getOrderUser().getUserId(), resultOrder.getOrderUser().getUserId());
+        assertEquals(resultOrder.getOrderUser().getUserId(), saveUser.getUserId());
     }
 
     @Test
-    @DisplayName("주문_조회")
-    void getOrders() {
+    @DisplayName("사용자의_주문_조회")
+    void getOrderByUserId() {
         //given
-        Order mockOrder = new Order(mockUser, OrderStatus.ORDER, LocalDateTime.now());
-        when(orderRepository.findByOrderId(mockOrder.getOrderId())).thenReturn(Optional.of(mockOrder));
+        Order order = new Order(saveUser, OrderStatus.ORDER, LocalDateTime.now());
+        Order createOrder = orderService.createOrder(order);
         //when
-        Order resultOrder = orderService.getOrder(mockOrder.getOrderId());
+        Order resultOrder = orderService.getOrderByUserId(saveUser);
         //then
         assertNotNull(resultOrder);
-        assertEquals(mockOrder.getOrderId(), resultOrder.getOrderId());
+        assertEquals(resultOrder.getOrderUser().getUserId(), saveUser.getUserId());
+        assertEquals(resultOrder.getOrderId(), createOrder.getOrderId());
     }
 
     @Test
-    @DisplayName("주문_상위5개_조회")
-    void findTopItems() {
-        // given
-        LocalDateTime endDateTime = LocalDate.now().atStartOfDay();
-        LocalDateTime startDateTime = endDateTime.minusDays(3);
-
-        Item mockItem1 = new Item("청바지1", 10000, 90, LocalDateTime.now());
-        Item mockItem2 = new Item("청바지2", 20000, 90, LocalDateTime.now());
-        Item mockItem3 = new Item("청바지3", 30000, 90, LocalDateTime.now());
-        Item mockItem4 = new Item("청바지4", 40000, 90, LocalDateTime.now());
-        Item mockItem5 = new Item("청바지5", 50000, 90, LocalDateTime.now());
-        Item mockItem6 = new Item("청바지6", 60000, 90, LocalDateTime.now());
-        List<Item> mockTopItemList = List.of(mockItem1, mockItem2, mockItem3, mockItem4, mockItem5);
-        when(orderRepository.findTopItems(startDateTime, endDateTime)).thenReturn(mockTopItemList);
+    @DisplayName("주문번호로_주문_상세_조회")
+    void getDetailByOrderId() {
+        //given
+        Order order = new Order(saveUser, OrderStatus.ORDER, LocalDateTime.now());
+        OrderDetail orderDetail = new OrderDetail(order, saveItem1, 2, saveItem1.getItemPrice());
+        order.addOrderDetail(orderDetail);
+        Order resultOrder = orderService.createOrder(order);
         //when
-        List<Item> resultTopItem = orderService.findTopItems();
+        List<OrderDetail> orderDetailList = orderDetailService.findByOrder(resultOrder);
+        //given
+        assertNotNull(orderDetailList);
+        assertEquals(orderDetailList.size(), 1);
+    }
+
+    @Test
+    @DisplayName("주문량_1위_상품조회")
+    void getTopOrders() {
+        //given
+        Order order1 = new Order(saveUser, OrderStatus.ORDER, LocalDateTime.now());
+        OrderDetail orderDetail1 = new OrderDetail(order1, saveItem1, 2, saveItem1.getItemPrice());
+        order1.addOrderDetail(orderDetail1);
+        orderService.createOrder(order1);
+        Order order2 = new Order(saveUser, OrderStatus.ORDER, LocalDateTime.now());
+        OrderDetail orderDetail2 = new OrderDetail(order2, saveItem1, 2, saveItem1.getItemPrice());
+        order2.addOrderDetail(orderDetail2);
+        orderService.createOrder(order2);
+        //when
+        List<Item> topItems = orderService.findTopItems();
         //then
-        assertNotNull(resultTopItem);
-        assertEquals(mockTopItemList.size(), resultTopItem.size());
-        assertEquals(mockTopItemList.get(0), resultTopItem.get(0));
+        assertNotNull(topItems);
+        assertEquals(topItems.get(0).getItemId(), saveItem1.getItemId());
     }
 }

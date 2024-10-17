@@ -1,80 +1,68 @@
 package com.hhplus.ecommerce.business;
 
 import com.hhplus.ecommerce.domain.Item;
-import com.hhplus.ecommerce.infrastructure.ItemRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
+@Transactional
 class ItemServiceTest {
 
-    @Mock
-    private ItemRepository itemRepository;
-
-    @InjectMocks
+    @Autowired
     private ItemService itemService;
+
+    private Item saveItem;
+    private Long itemId;
 
     @BeforeEach
     void setUp() {
-        reset(itemRepository);
+        saveItem = itemService.saveItem(new Item("청바지", 50000, 5, LocalDateTime.now()));
+        itemId = saveItem.getItemId();
     }
 
     @Test
-    @DisplayName("상품_등록")
-    void saveItem() {
-        //given
-        Item mockItem = new Item("후드티", 50000, 10, LocalDateTime.now());
-        when(itemRepository.save(mockItem)).thenReturn(mockItem);
+    @DisplayName("단일_상품_조회")
+    void getItem() {
         //when
-        Item resultItem = itemService.saveItem(mockItem);
+        Item resultItem = itemService.getItem(itemId);
         //then
-        assertNotNull(resultItem);
-        assertEquals(mockItem.getItemId(), resultItem.getItemId());
-        assertEquals(mockItem.getItemName(), resultItem.getItemName());
+        assertEquals(saveItem.getItemId(), resultItem.getItemId());
+        assertEquals(saveItem.getItemPrice(), resultItem.getItemPrice());
+        assertEquals(saveItem.getItemPrice(), resultItem.getItemPrice());
+    }
+
+    @Test
+    @DisplayName("단일_상품_조회_없을떄")
+    void getNoneItem() {
+        //given
+        Long searchItemId = itemId + 1L;
+        //when then
+        assertThrows(IllegalArgumentException.class, () -> itemService.getItem(searchItemId));
     }
 
     @Test
     @DisplayName("전체_상품_조회")
     void getItems() {
         //given
-        List<Item> mockItemList = new ArrayList<>();
-        Item mockItem1 = new Item("후드티", 50000, 10, LocalDateTime.now());
-        Item mockItem2 = new Item("청바지", 56000, 16, LocalDateTime.now());
-        Item mockItem3 = new Item("맨투맨", 58000, 13, LocalDateTime.now());
-        mockItemList.add(mockItem1);
-        mockItemList.add(mockItem2);
-        mockItemList.add(mockItem3);
-        when(itemRepository.findAll()).thenReturn(mockItemList);
+        Item item1 = new Item("맨투맨", 30000, 59, LocalDateTime.now());
+        Item item2 = new Item("후드티", 30000, 59, LocalDateTime.now());
+        Item item3 = new Item("슬랙스", 30000, 59, LocalDateTime.now());
+        itemService.saveItem(item1);
+        itemService.saveItem(item2);
+        itemService.saveItem(item3);
         //when
-        List<Item> resultItemList = itemService.getItems();
+        List<Item> resultItems = itemService.getItems();
         //then
-        assertNotNull(resultItemList);
-        assertEquals(mockItemList.size(), resultItemList.size());
-    }
-
-    @Test
-    @DisplayName("특정_상품_조회")
-    void getItemById() {
-        //given
-        Item mockItem = new Item("후드티", 50000, 10, LocalDateTime.now());
-        when(itemRepository.findByItemId(1L)).thenReturn(Optional.of(mockItem));
-        //when
-        Item resultItem = itemService.getItem(1L);
-        //then
-        assertNotNull(resultItem);
-        assertEquals(mockItem.getItemId(), resultItem.getItemId());
+        assertEquals(4, resultItems.size());
     }
 }
