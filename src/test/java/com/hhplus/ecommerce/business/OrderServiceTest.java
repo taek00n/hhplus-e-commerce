@@ -40,8 +40,8 @@ class OrderServiceTest {
     @BeforeEach
     void setUp() {
         saveUser = userService.createUser(new User("김태현", 0, LocalDateTime.now()));
-        saveItem1 = itemService.saveItem(new Item("청바지1", 40000, 5, LocalDateTime.now()));
-        saveItem2 = itemService.saveItem(new Item("청바지2", 20000, 5, LocalDateTime.now()));
+        saveItem1 = itemService.createItem(new Item("청바지1", 40000, 5, LocalDateTime.now()));
+        saveItem2 = itemService.createItem(new Item("청바지2", 20000, 5, LocalDateTime.now()));
     }
 
     @Test

@@ -40,7 +40,7 @@ class BasketFacadeTest {
     void addBasket() {
         //given
         User saveUser = userService.createUser(new User("김태현", 3999, LocalDateTime.now()));
-        Item saveItem = itemService.saveItem(new Item("후드티", 30000, 4, LocalDateTime.now()));
+        Item saveItem = itemService.createItem(new Item("후드티", 30000, 4, LocalDateTime.now()));
         Map<Long, Integer> itemMap = new HashMap<>();
         itemMap.put(saveItem.getItemId(), 1);
         //when
@@ -54,7 +54,7 @@ class BasketFacadeTest {
     void deleteBasketDetail() {
         //given
         User saveUser = userService.createUser(new User("김태현", 3999, LocalDateTime.now()));
-        Item saveItem = itemService.saveItem(new Item("후드티", 30000, 4, LocalDateTime.now()));
+        Item saveItem = itemService.createItem(new Item("후드티", 30000, 4, LocalDateTime.now()));
         Map<Long, Integer> itemMap = new HashMap<>();
         itemMap.put(saveItem.getItemId(), 1);
         basketFacade.addBasket(new AddBasketRequestDto(saveUser.getUserId(), itemMap));
@@ -71,7 +71,7 @@ class BasketFacadeTest {
     void getBasket() {
         //given
         User saveUser = userService.createUser(new User("김태현", 3999, LocalDateTime.now()));
-        Item saveItem = itemService.saveItem(new Item("후드티", 30000, 4, LocalDateTime.now()));
+        Item saveItem = itemService.createItem(new Item("후드티", 30000, 4, LocalDateTime.now()));
         Map<Long, Integer> itemMap = new HashMap<>();
         itemMap.put(saveItem.getItemId(), 1);
         basketFacade.addBasket(new AddBasketRequestDto(saveUser.getUserId(), itemMap));
