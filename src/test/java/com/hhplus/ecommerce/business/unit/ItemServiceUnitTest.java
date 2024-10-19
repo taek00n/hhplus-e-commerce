@@ -40,7 +40,7 @@ class ItemServiceUnitTest {
         Item mockItem = new Item("후드티", 50000, 10, LocalDateTime.now());
         when(itemRepository.save(mockItem)).thenReturn(mockItem);
         //when
-        Item resultItem = itemService.saveItem(mockItem);
+        Item resultItem = itemService.createItem(mockItem);
         //then
         assertNotNull(resultItem);
         assertEquals(mockItem.getItemId(), resultItem.getItemId());
@@ -60,7 +60,7 @@ class ItemServiceUnitTest {
         mockItemList.add(mockItem3);
         when(itemRepository.findAll()).thenReturn(mockItemList);
         //when
-        List<Item> resultItemList = itemService.getItems();
+        List<Item> resultItemList = itemService.getItemAll();
         //then
         assertNotNull(resultItemList);
         assertEquals(mockItemList.size(), resultItemList.size());
@@ -73,7 +73,7 @@ class ItemServiceUnitTest {
         Item mockItem = new Item("후드티", 50000, 10, LocalDateTime.now());
         when(itemRepository.findByItemId(1L)).thenReturn(Optional.of(mockItem));
         //when
-        Item resultItem = itemService.getItem(1L);
+        Item resultItem = itemService.getItemByItemId(1L);
         //then
         assertNotNull(resultItem);
         assertEquals(mockItem.getItemId(), resultItem.getItemId());

@@ -54,7 +54,7 @@ class UserServiceUnitTest {
         int balance = 2000;
         when(userRepository.findByUserId(userId)).thenReturn(Optional.of(new User("김태현", balance, LocalDateTime.now())));
         //when
-        User resultUser = userService.getUser(userId);
+        User resultUser = userService.getUserByUserId(userId);
         //then
         assertNotNull(resultUser);
         assertEquals(balance, resultUser.getBalance());
@@ -65,7 +65,7 @@ class UserServiceUnitTest {
     void getNoneUser() {
         //given
         when(userRepository.findByUserId(1L)).thenThrow(new IllegalArgumentException());
-        assertThrows(IllegalArgumentException.class, () -> userService.getUser(1L));
+        assertThrows(IllegalArgumentException.class, () -> userService.getUserByUserId(1L));
     }
 
     @Test

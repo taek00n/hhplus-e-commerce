@@ -45,7 +45,7 @@ public class OrderController {
     @PostMapping
     public OrderResponseDto getOrder(@RequestBody OrderRequestDto orderRequestDto) {
 
-        return orderFacade.getOrder(orderRequestDto);
+        return orderFacade.getUserOrder(orderRequestDto);
     }
 
     @Operation(

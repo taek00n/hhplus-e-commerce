@@ -75,7 +75,7 @@ class OrderFacadeTest {
         itemMap.put(saveItem.getItemId(), 1);
         orderFacade.createOrder(new CreateOrderRequestDto(saveUser.getUserId(), itemMap, 1));
         //when
-        OrderResponseDto responseDto = orderFacade.getOrder(new OrderRequestDto(saveUser.getUserId()));
+        OrderResponseDto responseDto = orderFacade.getUserOrder(new OrderRequestDto(saveUser.getUserId()));
         //given
         assertNotNull(responseDto);
         assertEquals(responseDto.totalPrice(), 30000);

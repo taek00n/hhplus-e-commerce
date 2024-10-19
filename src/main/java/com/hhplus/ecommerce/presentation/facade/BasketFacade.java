@@ -78,7 +78,7 @@ public class BasketFacade {
         Basket userBasket = basketService.getUserBasket(userId);
 
         if (userBasket == null) {
-            User user = userService.getUser(userId);
+            User user = userService.getUserByUserId(userId);
             return new Basket(user, LocalDateTime.now());
         }
 
@@ -89,8 +89,8 @@ public class BasketFacade {
         List<BasketDetail> basketDetailList = new ArrayList<>();
 
         itemMap.forEach((itemId, amount) -> {
-            Item item = itemService.getItem(itemId);
-            BasketDetail itemInBasketDetail = basketDetailService.findItemInBasketDetail(item);
+            Item item = itemService.getItemByItemId(itemId);
+            BasketDetail itemInBasketDetail = basketDetailService.getBasketDetailByItem(item);
 
             if (item.getItemStock() < amount) {
                 throw new IllegalArgumentException("수량이 부족합니다.");

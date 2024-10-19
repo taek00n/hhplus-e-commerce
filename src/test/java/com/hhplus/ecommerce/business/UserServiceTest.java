@@ -34,14 +34,14 @@ class UserServiceTest {
         //given
         Long testId = 526L;
         //when then
-        assertThrows(IllegalArgumentException.class, () -> userService.getUser(testId));
+        assertThrows(IllegalArgumentException.class, () -> userService.getUserByUserId(testId));
     }
 
     @Test
     @DisplayName("사용자_잔액_조회")
     void getBalance() {
         //given
-        User resultUser = userService.getUser(userId);
+        User resultUser = userService.getUserByUserId(userId);
         // when then
         assertEquals(saveUser.getBalance(), resultUser.getBalance());
     }
@@ -51,7 +51,7 @@ class UserServiceTest {
     void chargeBalance() {
         //given
         int chargeBalance = 20000;
-        User user = userService.getUser(userId);
+        User user = userService.getUserByUserId(userId);
         //when
         User resultUser = userService.chargeUserBalance(user.getUserId(), chargeBalance);
         //then

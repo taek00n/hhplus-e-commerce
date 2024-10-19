@@ -61,7 +61,7 @@ public class UserController {
     @PostMapping("/charge")
     public UserChargeResponseDto chargeBalance(@RequestBody UserChargeRequestDto userChargeRequestDto) {
 
-        return userFacade.chargeBalance(userChargeRequestDto);
+        return userFacade.chargeUserBalance(userChargeRequestDto);
     }
 
 }

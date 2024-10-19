@@ -65,7 +65,7 @@ class OrderServiceTest {
         Order order = new Order(saveUser, OrderStatus.ORDER, LocalDateTime.now());
         Order createOrder = orderService.createOrder(order);
         //when
-        Order resultOrder = orderService.getOrderByUserId(saveUser);
+        Order resultOrder = orderService.getOrderByUser(saveUser);
         //then
         assertNotNull(resultOrder);
         assertEquals(resultOrder.getOrderUser().getUserId(), saveUser.getUserId());
@@ -81,7 +81,7 @@ class OrderServiceTest {
         order.addOrderDetail(orderDetail);
         Order resultOrder = orderService.createOrder(order);
         //when
-        List<OrderDetail> orderDetailList = orderDetailService.findByOrder(resultOrder);
+        List<OrderDetail> orderDetailList = orderDetailService.getOrderDetailByOrder(resultOrder);
         //given
         assertNotNull(orderDetailList);
         assertEquals(orderDetailList.size(), 1);

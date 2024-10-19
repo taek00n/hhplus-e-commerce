@@ -13,17 +13,17 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
 
-    public Item saveItem(Item item) {
+    public Item createItem(Item item) {
 
         return itemRepository.save(item);
     }
 
-    public List<Item> getItems() {
+    public List<Item> getItemAll() {
 
         return itemRepository.findAll();
     }
 
-    public Item getItem(long itemId) {
+    public Item getItemByItemId(long itemId) {
 
         return itemRepository.findByItemId(itemId).orElseThrow(
                 () -> new IllegalArgumentException("상품이 없습니다.")

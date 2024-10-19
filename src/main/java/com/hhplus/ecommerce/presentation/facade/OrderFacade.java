@@ -30,11 +30,11 @@ public class OrderFacade {
     private final UserService userService;
     private final ItemService itemService;
 
-    public OrderResponseDto getOrder(OrderRequestDto orderRequestDto) {
+    public OrderResponseDto getUserOrder(OrderRequestDto orderRequestDto) {
 
-        User user = userService.getUser(orderRequestDto.userId());
-        Order order = orderService.getOrderByUserId(user);
-        List<OrderDetail> orderDetailList = orderDetailService.findByOrder(order);
+        User user = userService.getUserByUserId(orderRequestDto.userId());
+        Order order = orderService.getOrderByUser(user);
+        List<OrderDetail> orderDetailList = orderDetailService.getOrderDetailByOrder(order);
 
         return new OrderResponseDto(order.getOrderId(), orderDetailList, order.getTotalPrice(), order.getTotalAmount());
     }
@@ -43,11 +43,11 @@ public class OrderFacade {
 
         List<OrderDetail> orderDetails = new ArrayList<>();
 
-        User user = userService.getUser(requestDto.userId());
+        User user = userService.getUserByUserId(requestDto.userId());
         Order order = new Order(user, OrderStatus.ORDER, LocalDateTime.now());
 
         requestDto.itemMap().forEach((itemId, amount) -> {
-            Item item = itemService.getItem(itemId);
+            Item item = itemService.getItemByItemId(itemId);
             OrderDetail orderDetail = new OrderDetail(order, item, amount, item.getItemPrice());
             orderDetails.add(orderDetail);
             item.removeStock(amount);

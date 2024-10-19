@@ -19,14 +19,14 @@ public class UserFacade {
 
     public UserBalanceResponseDto getUserBalance(UserBalanceRequestDto requestDto) {
 
-        User user = userService.getUser(requestDto.userId());
+        User user = userService.getUserByUserId(requestDto.userId());
 
         return new UserBalanceResponseDto(user.getUserId(), user.getBalance());
     }
 
-    public UserChargeResponseDto chargeBalance(UserChargeRequestDto requestDto) {
+    public UserChargeResponseDto chargeUserBalance(UserChargeRequestDto requestDto) {
 
-        User user = userService.getUser(requestDto.userId());
+        User user = userService.getUserByUserId(requestDto.userId());
         user.chargeBalance(requestDto.balance());
 
         return new UserChargeResponseDto(user.getUserId(), requestDto.balance(), user.getBalance());

@@ -22,11 +22,11 @@ public class PayFacade {
 
     public PayResponseDto receiveOrderToPay(PayRequestDto requestDto) {
 
-        Order order = orderService.getOrder(requestDto.orderId());
+        Order order = orderService.getOrderByOrderId(requestDto.orderId());
 
-        User orderUser = userService.getUser(order.getOrderUser().getUserId());
+        User orderUser = userService.getUserByUserId(order.getOrderUser().getUserId());
         for (OrderDetail orderDetail : order.getOrderDetails()) {
-            Item orderItem = itemService.getItem(orderDetail.getItem().getItemId());
+            Item orderItem = itemService.getItemByItemId(orderDetail.getItem().getItemId());
 
             if (orderItem.getItemStock() < orderDetail.getAmount()) {
                 return new PayResponseDto(false, orderItem.getItemName() + "의 재고부족 (현재 " + orderItem.getItemStock() + "개 남아있습니다.)");

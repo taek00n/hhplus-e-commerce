@@ -49,7 +49,7 @@ class BasketDetailServiceUnitTest {
         BasketDetail mockBasketDetail = new BasketDetail(mockBasket, mockItem1, 1);
         when(basketDetailRepository.save(mockBasketDetail)).thenReturn(mockBasketDetail);
         //when
-        BasketDetail resultBasketDetail = basketDetailService.save(mockBasketDetail);
+        BasketDetail resultBasketDetail = basketDetailService.createBasketDetail(mockBasketDetail);
         //then
         assertNotNull(resultBasketDetail);
         assertEquals(mockBasketDetail.getBasketDetailId(), resultBasketDetail.getBasketDetailId());
@@ -72,9 +72,9 @@ class BasketDetailServiceUnitTest {
     void findItemInBasketDetail() {
         //given
         BasketDetail mockBasketDetail = new BasketDetail(mockBasket, mockItem1, 1);
-        when(basketDetailRepository.findBasketDetailByItem(mockItem1)).thenReturn(mockBasketDetail);
+        when(basketDetailRepository.findByItem(mockItem1)).thenReturn(mockBasketDetail);
         //when
-        BasketDetail resultBastDetail = basketDetailService.findItemInBasketDetail(mockItem1);
+        BasketDetail resultBastDetail = basketDetailService.getBasketDetailByItem(mockItem1);
         //then
         assertNotNull(resultBastDetail);
         assertEquals(mockBasketDetail.getBasketDetailId(), resultBastDetail.getBasketDetailId());

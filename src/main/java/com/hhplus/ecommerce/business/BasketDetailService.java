@@ -16,7 +16,7 @@ public class BasketDetailService {
     private BasketDetailRepository basketDetailRepository;
 
 
-    public BasketDetail save(BasketDetail basketDetail) {
+    public BasketDetail createBasketDetail(BasketDetail basketDetail) {
 
         return basketDetailRepository.save(basketDetail);
     }
@@ -36,9 +36,9 @@ public class BasketDetailService {
         return basketDetail;
     }
 
-    public BasketDetail findItemInBasketDetail(Item item) {
+    public BasketDetail getBasketDetailByItem(Item item) {
 
-        BasketDetail basketDetail = basketDetailRepository.findBasketDetailByItem(item);
+        BasketDetail basketDetail = basketDetailRepository.findByItem(item);
 
         return basketDetail;
     }

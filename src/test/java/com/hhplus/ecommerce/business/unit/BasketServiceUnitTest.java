@@ -56,7 +56,7 @@ class BasketServiceUnitTest {
         Basket mockBasket = new Basket(mockUser, LocalDateTime.now());
         when(basketRepository.findByBasketId(1L)).thenReturn(Optional.of(mockBasket));
         // when
-        basketService.removeBasket(1L);
+        basketService.removeBasketByBasketId(1L);
         //then
         verify(basketRepository, times(1)).delete(mockBasket);
     }

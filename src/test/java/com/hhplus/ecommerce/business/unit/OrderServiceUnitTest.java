@@ -61,7 +61,7 @@ class OrderServiceUnitTest {
         Order mockOrder = new Order(mockUser, OrderStatus.ORDER, LocalDateTime.now());
         when(orderRepository.findByOrderId(mockOrder.getOrderId())).thenReturn(Optional.of(mockOrder));
         //when
-        Order resultOrder = orderService.getOrder(mockOrder.getOrderId());
+        Order resultOrder = orderService.getOrderByOrderId(mockOrder.getOrderId());
         //then
         assertNotNull(resultOrder);
         assertEquals(mockOrder.getOrderId(), resultOrder.getOrderId());

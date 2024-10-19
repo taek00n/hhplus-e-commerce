@@ -22,13 +22,13 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    public Order getOrder(Long orderId) {
+    public Order getOrderByOrderId(Long orderId) {
 
         return orderRepository.findByOrderId(orderId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 주문은 존재하지않습니다."));
     }
 
-    public Order getOrderByUserId(User user) {
+    public Order getOrderByUser(User user) {
 
         return orderRepository.findByOrderUser(user)
                 .orElseThrow(() -> new IllegalArgumentException("해당 주문은 존재하지않습니다."));

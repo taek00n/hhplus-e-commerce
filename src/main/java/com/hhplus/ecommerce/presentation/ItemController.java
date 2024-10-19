@@ -38,7 +38,7 @@ public class ItemController {
     @GetMapping
     public ItemsResponseDto getItems() {
 
-        return new ItemsResponseDto(itemService.getItems());
+        return new ItemsResponseDto(itemService.getItemAll());
     }
 
     @Operation(
@@ -56,7 +56,7 @@ public class ItemController {
     @GetMapping("/{itemId}")
     public ItemResponseDto getItem(@PathVariable Long itemId) {
 
-        Item item = itemService.getItem(itemId);
+        Item item = itemService.getItemByItemId(itemId);
         return new ItemResponseDto(item.getItemId(), item.getItemName(), item.getItemPrice(), item.getItemStock());
     }
 }

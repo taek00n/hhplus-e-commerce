@@ -14,7 +14,7 @@ public class OrderDetailService {
 
     private final OrderDetailRepository orderDetailRepository;
 
-    public List<OrderDetail> findByOrder(Order order) {
+    public List<OrderDetail> getOrderDetailByOrder(Order order) {
 
         return orderDetailRepository.findByOrder(order);
     }

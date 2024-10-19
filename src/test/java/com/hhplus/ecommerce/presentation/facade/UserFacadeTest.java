@@ -41,11 +41,11 @@ class UserFacadeTest {
 
     @Test
     @DisplayName("사용자_금액_충전")
-    void chargeBalance() {
+    void chargeUserBalance() {
         //given
         User saveUser = userService.createUser(new User("김태현", 3999, LocalDateTime.now()));
         //when
-        UserChargeResponseDto responseDto = userFacade.chargeBalance(new UserChargeRequestDto(saveUser.getUserId(), 4000));
+        UserChargeResponseDto responseDto = userFacade.chargeUserBalance(new UserChargeRequestDto(saveUser.getUserId(), 4000));
         //then
         assertNotNull(responseDto);
         assertEquals(responseDto.userId(), saveUser.getUserId());

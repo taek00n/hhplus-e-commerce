@@ -26,7 +26,7 @@ class ItemServiceTest {
 
     @BeforeEach
     void setUp() {
-        saveItem = itemService.saveItem(new Item("청바지", 50000, 5, LocalDateTime.now()));
+        saveItem = itemService.createItem(new Item("청바지", 50000, 5, LocalDateTime.now()));
         itemId = saveItem.getItemId();
     }
 
@@ -34,7 +34,7 @@ class ItemServiceTest {
     @DisplayName("단일_상품_조회")
     void getItem() {
         //when
-        Item resultItem = itemService.getItem(itemId);
+        Item resultItem = itemService.getItemByItemId(itemId);
         //then
         assertEquals(saveItem.getItemId(), resultItem.getItemId());
         assertEquals(saveItem.getItemPrice(), resultItem.getItemPrice());
@@ -47,7 +47,7 @@ class ItemServiceTest {
         //given
         Long searchItemId = itemId + 1L;
         //when then
-        assertThrows(IllegalArgumentException.class, () -> itemService.getItem(searchItemId));
+        assertThrows(IllegalArgumentException.class, () -> itemService.getItemByItemId(searchItemId));
     }
 
     @Test
@@ -57,11 +57,11 @@ class ItemServiceTest {
         Item item1 = new Item("맨투맨", 30000, 59, LocalDateTime.now());
         Item item2 = new Item("후드티", 30000, 59, LocalDateTime.now());
         Item item3 = new Item("슬랙스", 30000, 59, LocalDateTime.now());
-        itemService.saveItem(item1);
-        itemService.saveItem(item2);
-        itemService.saveItem(item3);
+        itemService.createItem(item1);
+        itemService.createItem(item2);
+        itemService.createItem(item3);
         //when
-        List<Item> resultItems = itemService.getItems();
+        List<Item> resultItems = itemService.getItemAll();
         //then
         assertEquals(4, resultItems.size());
     }
