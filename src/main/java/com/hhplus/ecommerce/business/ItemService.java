@@ -1,5 +1,7 @@
 package com.hhplus.ecommerce.business;
 
+import com.hhplus.ecommerce.common.exception.RestApiException;
+import com.hhplus.ecommerce.common.exception.domain.ItemErrorCode;
 import com.hhplus.ecommerce.domain.Item;
 import com.hhplus.ecommerce.infrastructure.ItemRepository;
 import lombok.AllArgsConstructor;
@@ -26,7 +28,7 @@ public class ItemService {
     public Item getItemByItemId(long itemId) {
 
         return itemRepository.findByItemId(itemId).orElseThrow(
-                () -> new IllegalArgumentException("상품이 없습니다.")
+                () -> new RestApiException(ItemErrorCode.NO_ITEM_BY_ID)
         );
     }
 }

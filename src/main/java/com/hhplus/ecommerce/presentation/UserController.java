@@ -1,10 +1,9 @@
 package com.hhplus.ecommerce.presentation;
 
-import com.hhplus.ecommerce.common.exception.CommonErrorCode;
+import com.hhplus.ecommerce.common.exception.domain.CommonErrorCode;
 import com.hhplus.ecommerce.common.exception.RestApiException;
 import com.hhplus.ecommerce.presentation.dto.request.user.UserBalanceRequestDto;
 import com.hhplus.ecommerce.presentation.dto.request.user.UserChargeRequestDto;
-import com.hhplus.ecommerce.presentation.dto.response.basket.AddBasketResponseDto;
 import com.hhplus.ecommerce.presentation.dto.response.user.UserBalanceResponseDto;
 import com.hhplus.ecommerce.presentation.dto.response.user.UserChargeResponseDto;
 import com.hhplus.ecommerce.presentation.facade.UserFacade;
@@ -47,8 +46,8 @@ public class UserController {
         UserBalanceResponseDto userBalance;
 
         userBalance = userFacade.getUserBalance(userBalanceRequestDto);
+        throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
 
-        return userBalance;
     }
 
     @Operation(

@@ -1,5 +1,7 @@
 package com.hhplus.ecommerce.business;
 
+import com.hhplus.ecommerce.common.exception.RestApiException;
+import com.hhplus.ecommerce.common.exception.domain.BasketErrorCode;
 import com.hhplus.ecommerce.domain.Basket;
 import com.hhplus.ecommerce.infrastructure.BasketRepository;
 import lombok.AllArgsConstructor;
@@ -26,7 +28,7 @@ public class BasketService {
     public Basket getBasket(Long basketId) {
 
         Basket basket = basketRepository.findByBasketId(basketId)
-                .orElseThrow(() -> new IllegalArgumentException("장바구니가 존재하지 않습니다."));
+                .orElseThrow(() -> new RestApiException(BasketErrorCode.NO_BASKET_BY_ID));
 
         return basket;
     }
