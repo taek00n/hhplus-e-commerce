@@ -1,5 +1,7 @@
 package com.hhplus.ecommerce.presentation;
 
+import com.hhplus.ecommerce.common.exception.CommonErrorCode;
+import com.hhplus.ecommerce.common.exception.RestApiException;
 import com.hhplus.ecommerce.presentation.dto.request.user.UserBalanceRequestDto;
 import com.hhplus.ecommerce.presentation.dto.request.user.UserChargeRequestDto;
 import com.hhplus.ecommerce.presentation.dto.response.basket.AddBasketResponseDto;
@@ -40,9 +42,13 @@ public class UserController {
             )
     )
     @PostMapping
-    public UserBalanceResponseDto getBalance(@RequestBody UserBalanceRequestDto userBalanceRequestDto) {
+    public UserBalanceResponseDto getBalance(@RequestBody UserBalanceRequestDto userBalanceRequestDto) throws RestApiException {
 
-        return userFacade.getUserBalance(userBalanceRequestDto);
+        UserBalanceResponseDto userBalance;
+
+        userBalance = userFacade.getUserBalance(userBalanceRequestDto);
+
+        return userBalance;
     }
 
     @Operation(
