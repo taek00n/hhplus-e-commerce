@@ -3,6 +3,7 @@ package com.hhplus.ecommerce.presentation.facade;
 import com.hhplus.ecommerce.business.ItemService;
 import com.hhplus.ecommerce.business.OrderService;
 import com.hhplus.ecommerce.business.UserService;
+import com.hhplus.ecommerce.common.constant.OrderStatus;
 import com.hhplus.ecommerce.presentation.dto.request.pay.PayRequestDto;
 import com.hhplus.ecommerce.presentation.dto.response.pay.PayResponseDto;
 import com.hhplus.ecommerce.domain.Item;
@@ -38,6 +39,7 @@ public class PayFacade {
             return new PayResponseDto(false, minusBalance + "만큼 잔액을 충전해주세요");
         }
 
+        order.changeOrderStatus(OrderStatus.PAY);
         return new PayResponseDto(true, "결제 성공하였습니다.");
     }
 }

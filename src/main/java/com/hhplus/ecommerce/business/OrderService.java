@@ -1,5 +1,7 @@
 package com.hhplus.ecommerce.business;
 
+import com.hhplus.ecommerce.common.exception.RestApiException;
+import com.hhplus.ecommerce.common.exception.domain.OrderErrorCode;
 import com.hhplus.ecommerce.domain.Item;
 import com.hhplus.ecommerce.domain.Order;
 import com.hhplus.ecommerce.domain.User;
@@ -25,13 +27,13 @@ public class OrderService {
     public Order getOrderByOrderId(Long orderId) {
 
         return orderRepository.findByOrderId(orderId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 주문은 존재하지않습니다."));
+                .orElseThrow(() -> new RestApiException(OrderErrorCode.NO_ORDER_BY_ID));
     }
 
     public Order getOrderByUser(User user) {
 
         return orderRepository.findByOrderUser(user)
-                .orElseThrow(() -> new IllegalArgumentException("해당 주문은 존재하지않습니다."));
+                .orElseThrow(() -> new RestApiException(OrderErrorCode.NO_ORDER_BY_ID));
     }
 
     public List<Item> findTopItems() {

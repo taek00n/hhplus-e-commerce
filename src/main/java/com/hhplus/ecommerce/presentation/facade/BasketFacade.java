@@ -4,6 +4,9 @@ import com.hhplus.ecommerce.business.BasketDetailService;
 import com.hhplus.ecommerce.business.BasketService;
 import com.hhplus.ecommerce.business.ItemService;
 import com.hhplus.ecommerce.business.UserService;
+import com.hhplus.ecommerce.common.exception.RestApiException;
+import com.hhplus.ecommerce.common.exception.domain.BasketErrorCode;
+import com.hhplus.ecommerce.common.exception.domain.ItemErrorCode;
 import com.hhplus.ecommerce.domain.Basket;
 import com.hhplus.ecommerce.domain.BasketDetail;
 import com.hhplus.ecommerce.domain.Item;
@@ -35,6 +38,9 @@ public class BasketFacade {
     public BasketResponseDto getBasket(BasketRequestDto basketRequestDto) {
 
         Basket userBasket = basketService.getUserBasket(basketRequestDto.userId());
+        if (userBasket == null) {
+            throw new RestApiException(BasketErrorCode.NO_BASKET_BY_ID);
+        }
         List<BasketDetail> allDetailByBasket = basketDetailService.getAllDetailByBasket(userBasket);
 
         return new BasketResponseDto(userBasket.getBasketId(), allDetailByBasket);
@@ -54,23 +60,19 @@ public class BasketFacade {
         return new AddBasketResponseDto(createBasket.getBasketId());
     }
 
-    public DeleteBasketDetailResponseDto deleteBasketDetail(DeleteBasketDetailRequestDto requestDto) {
+    public DeleteBasketDetailResponseDto deleteBasketDetailByItem(DeleteBasketDetailRequestDto requestDto) {
 
         Basket userBasket = getUserBasket(requestDto.userId());
-        BasketDetail deleteBasketDetail = null;
+        Item deleteItem = itemService.getItemByItemId(requestDto.itemId());
+
         List<BasketDetail> allDetailByBasket = basketDetailService.getAllDetailByBasket(userBasket);
         for (BasketDetail basketDetail : allDetailByBasket) {
             if(basketDetail.getItem().getItemId() == requestDto.itemId()){
-                deleteBasketDetail = basketDetail;
                 basketDetailService.delete(basketDetail.getBasketDetailId());
             }
         }
 
-        if (deleteBasketDetail == null) {
-            throw new IllegalArgumentException("삭제할 데이터가 없습니다.");
-        }
-
-        return new DeleteBasketDetailResponseDto(deleteBasketDetail.getBasketDetailId(), deleteBasketDetail.getItem().getItemId(), deleteBasketDetail.getItem().getItemName());
+        return new DeleteBasketDetailResponseDto(deleteItem.getItemId(), deleteItem.getItemName());
     }
     
     private Basket getUserBasket(Long userId) {
@@ -93,7 +95,7 @@ public class BasketFacade {
             BasketDetail itemInBasketDetail = basketDetailService.getBasketDetailByItem(item);
 
             if (item.getItemStock() < amount) {
-                throw new IllegalArgumentException("수량이 부족합니다.");
+                throw new RestApiException(ItemErrorCode.NO_ENOUGH_ITEM);
             }
 
             if (itemInBasketDetail == null) {

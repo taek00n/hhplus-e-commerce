@@ -59,7 +59,7 @@ class BasketFacadeTest {
         itemMap.put(saveItem.getItemId(), 1);
         basketFacade.addBasket(new AddBasketRequestDto(saveUser.getUserId(), itemMap));
         //when
-        DeleteBasketDetailResponseDto responseDto = basketFacade.deleteBasketDetail(new DeleteBasketDetailRequestDto(saveUser.getUserId(), saveItem.getItemId()));
+        DeleteBasketDetailResponseDto responseDto = basketFacade.deleteBasketDetailByItem(new DeleteBasketDetailRequestDto(saveUser.getUserId(), saveItem.getItemId()));
         //then
         assertNotNull(responseDto);
         assertEquals(responseDto.itemId(), saveItem.getItemId());

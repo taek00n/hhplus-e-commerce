@@ -3,7 +3,6 @@ package com.hhplus.ecommerce.domain;
 import com.hhplus.ecommerce.common.constant.OrderStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -64,5 +63,9 @@ public class Order {
         }
 
         return totalAmount;
+    }
+
+    public void changeOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
     }
 }
