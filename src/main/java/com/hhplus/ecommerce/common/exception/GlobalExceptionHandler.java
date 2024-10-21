@@ -13,12 +13,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({Exception.class})
     public ResponseEntity<Object> handleIllegalArgument(Exception e) {
+        log.error(e.getMessage(), e);
         ErrorCode errorCode = CommonErrorCode.INTERNAL_SERVER_ERROR;
         return handleExceptionInternal(errorCode);
     }
 
     @ExceptionHandler(RestApiException.class)
     public ResponseEntity<Object> handleQuizException(final RestApiException e) {
+        log.info(e.getMessage());
         final ErrorCode errorCode = e.getErrorCode();
         return handleExceptionInternal(errorCode);
     }

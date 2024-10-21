@@ -42,7 +42,6 @@ public class OrderFacade {
     public CreateOrderResponseDto createOrder(CreateOrderRequestDto requestDto) {
 
         List<OrderDetail> orderDetails = new ArrayList<>();
-
         User user = userService.getUserByUserId(requestDto.userId());
         Order order = new Order(user, OrderStatus.ORDER, LocalDateTime.now());
 

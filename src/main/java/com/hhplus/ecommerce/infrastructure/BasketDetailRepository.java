@@ -16,4 +16,6 @@ public interface BasketDetailRepository extends JpaRepository<BasketDetail, Long
 
     @Query(value = "select b from BasketDetail b where b.basket = :basket")
     List<BasketDetail> findAllByBasket(@Param("basket") Basket basket);
+
+    void deleteByItem(Item item);
 }

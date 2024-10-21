@@ -1,6 +1,7 @@
 package com.hhplus.ecommerce.business.unit;
 
 import com.hhplus.ecommerce.business.UserService;
+import com.hhplus.ecommerce.common.exception.domain.OrderErrorCode;
 import com.hhplus.ecommerce.domain.User;
 import com.hhplus.ecommerce.infrastructure.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -61,11 +62,11 @@ class UserServiceUnitTest {
     }
 
     @Test
-    @DisplayName("없는_사용자_조회")
+    @DisplayName("없는 사용자 조회 시 error 확인")
     void getNoneUser() {
         //given
-        when(userRepository.findByUserId(1L)).thenThrow(new IllegalArgumentException());
-        assertThrows(IllegalArgumentException.class, () -> userService.getUserByUserId(1L));
+        when(userRepository.findByUserId(1L)).thenThrow(new RuntimeException());
+        assertThrows(RuntimeException.class, () -> userService.getUserByUserId(1L));
     }
 
     @Test

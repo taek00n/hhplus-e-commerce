@@ -1,5 +1,8 @@
 package com.hhplus.ecommerce.domain;
 
+import com.hhplus.ecommerce.common.exception.RestApiException;
+import com.hhplus.ecommerce.common.exception.domain.BasketErrorCode;
+import com.hhplus.ecommerce.common.exception.domain.ItemErrorCode;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -36,5 +39,9 @@ public class BasketDetail {
 
     public void addAmount(int amount) {
         this.amount += amount;
+
+        if (this.amount > 10) {
+            throw new RestApiException(BasketErrorCode.OVER_ITEM_AMOUNT);
+        }
     }
 }
