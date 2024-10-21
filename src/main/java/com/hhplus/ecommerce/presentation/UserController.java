@@ -1,5 +1,6 @@
 package com.hhplus.ecommerce.presentation;
 
+import com.hhplus.ecommerce.common.exception.domain.CommonErrorCode;
 import com.hhplus.ecommerce.common.exception.RestApiException;
 import com.hhplus.ecommerce.presentation.dto.request.user.UserBalanceRequestDto;
 import com.hhplus.ecommerce.presentation.dto.request.user.UserChargeRequestDto;
@@ -42,11 +43,7 @@ public class UserController {
     @PostMapping
     public UserBalanceResponseDto getBalance(@RequestBody UserBalanceRequestDto userBalanceRequestDto) throws RestApiException {
 
-        UserBalanceResponseDto userBalance;
-
-        userBalance = userFacade.getUserBalance(userBalanceRequestDto);
-
-        return userBalance;
+        return userFacade.getUserBalance(userBalanceRequestDto);
     }
 
     @Operation(
