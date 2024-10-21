@@ -1,5 +1,7 @@
 package com.hhplus.ecommerce.business;
 
+import com.hhplus.ecommerce.common.exception.RestApiException;
+import com.hhplus.ecommerce.common.exception.domain.UserErrorCode;
 import com.hhplus.ecommerce.domain.User;
 import com.hhplus.ecommerce.infrastructure.UserRepository;
 import lombok.AllArgsConstructor;
@@ -14,7 +16,7 @@ public class UserService {
     public User getUserByUserId(long userId) {
 
         User user = userRepository.findByUserId(userId)
-                .orElseThrow(() -> new IllegalArgumentException("없는 사용자입니다."));
+                .orElseThrow(() -> new RestApiException(UserErrorCode.NO_USER_BY_ID));
 
         return user;
     }

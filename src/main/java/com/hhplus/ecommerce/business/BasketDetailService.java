@@ -1,5 +1,7 @@
 package com.hhplus.ecommerce.business;
 
+import com.hhplus.ecommerce.common.exception.RestApiException;
+import com.hhplus.ecommerce.common.exception.domain.BasketErrorCode;
 import com.hhplus.ecommerce.domain.Basket;
 import com.hhplus.ecommerce.domain.BasketDetail;
 import com.hhplus.ecommerce.domain.Item;
@@ -24,14 +26,14 @@ public class BasketDetailService {
     public void delete(Long basketDetailId) {
 
         BasketDetail basketDetail = basketDetailRepository.findById(basketDetailId)
-                .orElseThrow(() -> new IllegalArgumentException("삭제 할려는 상품은 장바구니에 없습니다."));
+                .orElseThrow(() -> new RestApiException(BasketErrorCode.NO_BASKET_DETAIL_BY_ID));
         basketDetailRepository.delete(basketDetail);
     }
 
     public BasketDetail getBasketDetail(Long basketDetailId) {
 
         BasketDetail basketDetail = basketDetailRepository.findById(basketDetailId)
-                .orElseThrow(() -> new IllegalArgumentException("조회 할려는 상품은 장바구니에 없습니다."));
+                .orElseThrow(() -> new RestApiException(BasketErrorCode.NO_BASKET_DETAIL_BY_ID));
 
         return basketDetail;
     }
@@ -46,6 +48,10 @@ public class BasketDetailService {
     public List<BasketDetail> getAllDetailByBasket(Basket basket) {
 
         List<BasketDetail> allDetailByBasket = basketDetailRepository.findAllByBasket(basket);
+
+        if (allDetailByBasket.isEmpty()) {
+            throw new RestApiException(BasketErrorCode.NO_BASKET_DETAIL_BY_ID);
+        }
 
         return allDetailByBasket;
     }

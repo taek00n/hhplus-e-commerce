@@ -63,7 +63,7 @@ public class BasketController {
     @DeleteMapping("/delete")
     public DeleteBasketDetailResponseDto deleteBasketDetail(@RequestBody DeleteBasketDetailRequestDto deleteBasketDetailRequestDto) {
 
-        return basketFacade.deleteBasketDetail(deleteBasketDetailRequestDto);
+        return basketFacade.deleteBasketDetailByItem(deleteBasketDetailRequestDto);
     }
 
     @Operation(

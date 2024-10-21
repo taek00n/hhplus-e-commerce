@@ -1,7 +1,8 @@
 package com.hhplus.ecommerce.domain;
 
 import com.hhplus.ecommerce.common.constant.ItemSellStatus;
-import com.hhplus.ecommerce.common.exception.OutOfStockException;
+import com.hhplus.ecommerce.common.exception.RestApiException;
+import com.hhplus.ecommerce.common.exception.domain.ItemErrorCode;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -53,7 +54,7 @@ public class Item {
         int restStock = this.itemStock - amount;
         if (restStock < 0) {
             this.itemSellStatus = ItemSellStatus.SOLD_OUT;
-            throw new OutOfStockException("상품의 재고가 부족합니다. (현재 재고 : " + this.itemStock + ")");
+            throw new RestApiException(ItemErrorCode.ITEM_SOLD_OUT);
         }
         this.itemStock = restStock;
     }

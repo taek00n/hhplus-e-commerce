@@ -1,6 +1,7 @@
 package com.hhplus.ecommerce.presentation;
 
 import com.hhplus.ecommerce.business.ItemService;
+import com.hhplus.ecommerce.common.exception.RestApiException;
 import com.hhplus.ecommerce.domain.Item;
 import com.hhplus.ecommerce.presentation.dto.response.basket.AddBasketResponseDto;
 import com.hhplus.ecommerce.presentation.dto.response.item.ItemResponseDto;
@@ -54,7 +55,7 @@ public class ItemController {
             )
     )
     @GetMapping("/{itemId}")
-    public ItemResponseDto getItem(@PathVariable Long itemId) {
+    public ItemResponseDto getItem(@PathVariable Long itemId){
 
         Item item = itemService.getItemByItemId(itemId);
         return new ItemResponseDto(item.getItemId(), item.getItemName(), item.getItemPrice(), item.getItemStock());
