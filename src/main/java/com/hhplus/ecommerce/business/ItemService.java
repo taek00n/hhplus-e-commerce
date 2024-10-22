@@ -7,6 +7,8 @@ import com.hhplus.ecommerce.infrastructure.ItemRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -30,5 +32,11 @@ public class ItemService {
         return itemRepository.findByItemId(itemId).orElseThrow(
                 () -> new RestApiException(ItemErrorCode.NO_ITEM_BY_ID)
         );
+    }
+
+    public List<Item> getTopItems() {
+        LocalDateTime endDateTime = LocalDate.now().atStartOfDay();
+        LocalDateTime startDateTime = endDateTime.minusDays(3);
+        return itemRepository.findTopItems(startDateTime, endDateTime);
     }
 }

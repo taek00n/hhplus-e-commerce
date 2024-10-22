@@ -57,7 +57,7 @@ class OrderFacadeTest {
         Map<Long, Integer> itemMap = new HashMap<>();
         itemMap.put(saveItem.getItemId(), 1);
         //when
-        CreateOrderResponseDto responseDto = orderFacade.createOrder(new CreateOrderRequestDto(saveUser.getUserId(), itemMap, 1));
+        CreateOrderResponseDto responseDto = orderFacade.createOrder(new CreateOrderRequestDto(saveUser.getUserId(), itemMap));
         //then
         assertNotNull(responseDto);
         assertEquals(responseDto.userId(), saveUser.getUserId());
@@ -73,7 +73,7 @@ class OrderFacadeTest {
         Item saveItem = itemService.createItem(new Item("후드티", 30000, 4, LocalDateTime.now()));
         Map<Long, Integer> itemMap = new HashMap<>();
         itemMap.put(saveItem.getItemId(), 1);
-        orderFacade.createOrder(new CreateOrderRequestDto(saveUser.getUserId(), itemMap, 1));
+        orderFacade.createOrder(new CreateOrderRequestDto(saveUser.getUserId(), itemMap));
         //when
         OrderResponseDto responseDto = orderFacade.getUserOrder(new OrderRequestDto(saveUser.getUserId()));
         //given
@@ -90,7 +90,7 @@ class OrderFacadeTest {
         Item saveItem = itemService.createItem(new Item("후드티", 30000, 4, LocalDateTime.now()));
         Map<Long, Integer> itemMap = new HashMap<>();
         itemMap.put(saveItem.getItemId(), 1);
-        CreateOrderResponseDto responseDto = orderFacade.createOrder(new CreateOrderRequestDto(saveUser.getUserId(), itemMap, 1));
+        CreateOrderResponseDto responseDto = orderFacade.createOrder(new CreateOrderRequestDto(saveUser.getUserId(), itemMap));
         //when
         PayResponseDto payResponseDto = payFacade.receiveOrderToPay(new PayRequestDto(responseDto.orderId()));
         //then

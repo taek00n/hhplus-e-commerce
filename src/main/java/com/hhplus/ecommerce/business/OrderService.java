@@ -35,10 +35,4 @@ public class OrderService {
         return orderRepository.findByOrderUser(user)
                 .orElseThrow(() -> new RestApiException(OrderErrorCode.NO_ORDER_BY_ID));
     }
-
-    public List<Item> findTopItems() {
-        LocalDateTime endDateTime = LocalDate.now().atStartOfDay();
-        LocalDateTime startDateTime = endDateTime.minusDays(3);
-        return orderRepository.findTopItems(startDateTime, endDateTime);
-    }
 }
