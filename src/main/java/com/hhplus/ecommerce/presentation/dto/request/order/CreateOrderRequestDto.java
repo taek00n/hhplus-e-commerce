@@ -5,10 +5,9 @@ import java.util.Map;
 
 public record CreateOrderRequestDto(
     Long userId,
-    Map<Long, Integer> itemMap,
-    int amount
+    Map<Long, Integer> itemMap
 ) {
-    public static CreateOrderRequestDto createOrderRequestDto(Long userId, Map<Long, Integer> itemMap, int amount) {
-        return new CreateOrderRequestDto(userId, itemMap, amount);
+    public static CreateOrderRequestDto createOrderRequestDto(Long userId, Map<Long, Integer> itemMap) {
+        return new CreateOrderRequestDto(userId, itemMap);
     }
 }

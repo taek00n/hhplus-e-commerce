@@ -15,9 +15,5 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     Order save(Order order);
 
     Optional<Order> findByOrderId(Long ordersId);
-
-    @Query(value = "select d.item, count(*) from Order o left join o.orderDetails d where o.orderDate between :startDateTime and :endDateTime group by d.item order by count(*) desc")
-    List<Item> findTopItems(LocalDateTime startDateTime, LocalDateTime endDateTime);
-
     Optional<Order> findByOrderUser(User user);
 }

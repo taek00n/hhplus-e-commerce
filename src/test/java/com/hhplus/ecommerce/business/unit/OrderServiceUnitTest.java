@@ -66,27 +66,4 @@ class OrderServiceUnitTest {
         assertNotNull(resultOrder);
         assertEquals(mockOrder.getOrderId(), resultOrder.getOrderId());
     }
-
-    @Test
-    @DisplayName("주문_상위5개_조회")
-    void findTopItems() {
-        // given
-        LocalDateTime endDateTime = LocalDate.now().atStartOfDay();
-        LocalDateTime startDateTime = endDateTime.minusDays(3);
-
-        Item mockItem1 = new Item("청바지1", 10000, 90, LocalDateTime.now());
-        Item mockItem2 = new Item("청바지2", 20000, 90, LocalDateTime.now());
-        Item mockItem3 = new Item("청바지3", 30000, 90, LocalDateTime.now());
-        Item mockItem4 = new Item("청바지4", 40000, 90, LocalDateTime.now());
-        Item mockItem5 = new Item("청바지5", 50000, 90, LocalDateTime.now());
-        Item mockItem6 = new Item("청바지6", 60000, 90, LocalDateTime.now());
-        List<Item> mockTopItemList = List.of(mockItem1, mockItem2, mockItem3, mockItem4, mockItem5);
-        when(orderRepository.findTopItems(startDateTime, endDateTime)).thenReturn(mockTopItemList);
-        //when
-        List<Item> resultTopItem = orderService.findTopItems();
-        //then
-        assertNotNull(resultTopItem);
-        assertEquals(mockTopItemList.size(), resultTopItem.size());
-        assertEquals(mockTopItemList.get(0), resultTopItem.get(0));
-    }
 }

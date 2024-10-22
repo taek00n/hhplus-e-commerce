@@ -86,23 +86,4 @@ class OrderServiceTest {
         assertNotNull(orderDetailList);
         assertEquals(orderDetailList.size(), 1);
     }
-
-    @Test
-    @DisplayName("주문량_1위_상품조회")
-    void getTopOrders() {
-        //given
-        Order order1 = new Order(saveUser, OrderStatus.ORDER, LocalDateTime.now());
-        OrderDetail orderDetail1 = new OrderDetail(order1, saveItem1, 2, saveItem1.getItemPrice());
-        order1.addOrderDetail(orderDetail1);
-        orderService.createOrder(order1);
-        Order order2 = new Order(saveUser, OrderStatus.ORDER, LocalDateTime.now());
-        OrderDetail orderDetail2 = new OrderDetail(order2, saveItem1, 2, saveItem1.getItemPrice());
-        order2.addOrderDetail(orderDetail2);
-        orderService.createOrder(order2);
-        //when
-        List<Item> topItems = orderService.findTopItems();
-        //then
-        assertNotNull(topItems);
-        assertEquals(topItems.get(0).getItemId(), saveItem1.getItemId());
-    }
 }

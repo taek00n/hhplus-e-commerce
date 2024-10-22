@@ -4,10 +4,10 @@ public record ItemResponseDto(
         Long itemId,
         String itemName,
         int itemPrice,
-        int itemQuantity
+        int itemStock
 ) {
 
-    public static ItemResponseDto ItemResponseDto(Long itemId, String itemName, int itemPrice, int itemQuantity) {
-        return new ItemResponseDto(itemId, itemName, itemPrice, itemQuantity);
+    public static ItemResponseDto ItemResponseDto(Long itemId, String itemName, int itemPrice, int itemStock) {
+        return new ItemResponseDto(itemId, itemName, itemPrice, itemStock);
     }
 }

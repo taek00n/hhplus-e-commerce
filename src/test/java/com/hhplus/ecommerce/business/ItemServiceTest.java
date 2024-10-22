@@ -1,6 +1,10 @@
 package com.hhplus.ecommerce.business;
 
+import com.hhplus.ecommerce.common.constant.OrderStatus;
 import com.hhplus.ecommerce.domain.Item;
+import com.hhplus.ecommerce.domain.Order;
+import com.hhplus.ecommerce.domain.OrderDetail;
+import com.hhplus.ecommerce.domain.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,6 +25,13 @@ class ItemServiceTest {
     @Autowired
     private ItemService itemService;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private OrderService orderService;
+
+    private User saveUser;
     private Item saveItem;
     private Long itemId;
 
@@ -28,6 +39,7 @@ class ItemServiceTest {
     void setUp() {
         saveItem = itemService.createItem(new Item("청바지", 50000, 5, LocalDateTime.now()));
         itemId = saveItem.getItemId();
+        saveUser = userService.createUser(new User("김태현", 0, LocalDateTime.now()));
     }
 
     @Test
