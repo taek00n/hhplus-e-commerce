@@ -6,6 +6,8 @@ import com.hhplus.ecommerce.domain.Item;
 import com.hhplus.ecommerce.presentation.dto.response.basket.AddBasketResponseDto;
 import com.hhplus.ecommerce.presentation.dto.response.item.ItemResponseDto;
 import com.hhplus.ecommerce.presentation.dto.response.item.ItemsResponseDto;
+import com.hhplus.ecommerce.presentation.dto.response.item.PopularItemsResponseDto;
+import com.hhplus.ecommerce.presentation.facade.ItemFacade;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -25,7 +27,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ItemController {
 
-    private final ItemService itemService;
+    private final ItemFacade itemFacade;
 
     @Operation(
             summary = "모든 상품 조회",
@@ -39,7 +41,7 @@ public class ItemController {
     @GetMapping
     public ItemsResponseDto getItems() {
 
-        return new ItemsResponseDto(itemService.getItemAll());
+        return itemFacade.getItemAll();
     }
 
     @Operation(
@@ -57,7 +59,21 @@ public class ItemController {
     @GetMapping("/{itemId}")
     public ItemResponseDto getItem(@PathVariable Long itemId){
 
-        Item item = itemService.getItemByItemId(itemId);
-        return new ItemResponseDto(item.getItemId(), item.getItemName(), item.getItemPrice(), item.getItemStock());
+        return itemFacade.getItemByItemId(itemId);
+    }
+
+    @Operation(
+            summary = "인기 상품 조회",
+            description = "인기 상품 TOP5 조회 API",
+            responses = @ApiResponse(
+                    responseCode = "200",
+                    description = "성공",
+                    content = @Content(schema = @Schema(implementation = PopularItemsResponseDto.class))
+            )
+    )
+    @GetMapping("/popular")
+    public PopularItemsResponseDto getPopularItem(){
+
+        return itemFacade.getPopularItem();
     }
 }
