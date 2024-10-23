@@ -5,18 +5,19 @@ import com.hhplus.ecommerce.common.exception.domain.BasketErrorCode;
 import com.hhplus.ecommerce.domain.Basket;
 import com.hhplus.ecommerce.domain.BasketDetail;
 import com.hhplus.ecommerce.domain.Item;
-import com.hhplus.ecommerce.infrastructure.BasketDetailRepository;
+import com.hhplus.ecommerce.domain.repository.BasketDetailRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class BasketDetailService {
 
-    private BasketDetailRepository basketDetailRepository;
-
+    private final BasketDetailRepository basketDetailRepository;
 
     public BasketDetail createBasketDetail(BasketDetail basketDetail) {
 

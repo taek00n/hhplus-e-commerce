@@ -1,17 +1,20 @@
 package com.hhplus.ecommerce.business;
 
+import com.hhplus.ecommerce.common.constant.ItemSellStatus;
 import com.hhplus.ecommerce.common.exception.RestApiException;
 import com.hhplus.ecommerce.common.exception.domain.ItemErrorCode;
 import com.hhplus.ecommerce.domain.Item;
-import com.hhplus.ecommerce.infrastructure.ItemRepository;
+import com.hhplus.ecommerce.domain.repository.ItemRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class ItemService {
 
@@ -38,5 +41,13 @@ public class ItemService {
         LocalDateTime endDateTime = LocalDate.now().atStartOfDay();
         LocalDateTime startDateTime = endDateTime.minusDays(3);
         return itemRepository.findTopItems(startDateTime, endDateTime);
+    }
+
+    public void removeStock(Long itemId, Integer amount) {
+        Item item = itemRepository.findByItemIdWithLock(itemId);
+        if (item.getItemSellStatus().equals(ItemSellStatus.SOLD_OUT)) {
+            throw new RestApiException(ItemErrorCode.ITEM_SOLD_OUT);
+        }
+        item.removeStock(amount);
     }
 }

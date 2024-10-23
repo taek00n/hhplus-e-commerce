@@ -2,18 +2,15 @@ package com.hhplus.ecommerce.business;
 
 import com.hhplus.ecommerce.common.exception.RestApiException;
 import com.hhplus.ecommerce.common.exception.domain.OrderErrorCode;
-import com.hhplus.ecommerce.domain.Item;
 import com.hhplus.ecommerce.domain.Order;
 import com.hhplus.ecommerce.domain.User;
-import com.hhplus.ecommerce.infrastructure.OrderRepository;
+import com.hhplus.ecommerce.domain.repository.OrderRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class OrderService {
 
