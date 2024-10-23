@@ -37,17 +37,16 @@ public class ItemService {
         );
     }
 
+    public Item getItemByItemIdWithLock(long ItemId) {
+
+        Item byItemIdWithLock = itemRepository.findByItemIdWithLock(ItemId);
+
+        return byItemIdWithLock;
+    }
+
     public List<Item> getTopItems() {
         LocalDateTime endDateTime = LocalDate.now().atStartOfDay();
         LocalDateTime startDateTime = endDateTime.minusDays(3);
         return itemRepository.findTopItems(startDateTime, endDateTime);
-    }
-
-    public void removeStock(Long itemId, Integer amount) {
-        Item item = itemRepository.findByItemIdWithLock(itemId);
-        if (item.getItemSellStatus().equals(ItemSellStatus.SOLD_OUT)) {
-            throw new RestApiException(ItemErrorCode.ITEM_SOLD_OUT);
-        }
-        item.removeStock(amount);
     }
 }

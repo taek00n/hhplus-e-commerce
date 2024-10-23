@@ -48,10 +48,10 @@ public class OrderFacade {
         Order order = new Order(user, OrderStatus.ORDER, LocalDateTime.now());
 
         requestDto.itemMap().forEach((itemId, amount) -> {
-            Item item = itemService.getItemByItemId(itemId);
+            Item item = itemService.getItemByItemIdWithLock(itemId);
             OrderDetail orderDetail = new OrderDetail(order, item, amount, item.getItemPrice());
             orderDetails.add(orderDetail);
-            itemService.removeStock(item.getItemId(), amount);
+            item.removeStock(amount);
         });
 
         orderDetails.forEach(orderDetail -> {

@@ -74,7 +74,7 @@ class UserServiceUnitTest {
         //given
         int chargeBalance = 3000;
         User mockUser = new User("김태현", 0, LocalDateTime.now());
-        when(userRepository.findByUserIdWithLock(1L)).thenReturn(mockUser);
+        when(userRepository.findByUserId(1L)).thenReturn(Optional.of(mockUser));
         //when
         User resultUser = userService.chargeUserBalance(1L, chargeBalance);
         //then

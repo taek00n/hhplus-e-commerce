@@ -30,10 +30,12 @@ public class UserService {
 
     public User chargeUserBalance(long userId, int chargeBalance) {
 
-        User user = userRepository.findByUserIdWithLock(userId);
-        user.chargeBalance(chargeBalance);
+        User getLockUser = userRepository.findByUserIdWithLock(userId).orElseThrow(
+                () -> new RestApiException(UserErrorCode.NO_USER_BY_ID)
+        );
+        getLockUser.chargeBalance(chargeBalance);
 
-        return user;
+        return getLockUser;
     }
 
     public User useUserBalance(long userId, int useBalance) {

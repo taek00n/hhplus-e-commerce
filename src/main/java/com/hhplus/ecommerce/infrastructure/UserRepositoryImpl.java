@@ -32,9 +32,9 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User findByUserIdWithLock(long userId) {
+    public Optional<User> findByUserIdWithLock(long userId) {
 
-        User getLockUser = userJpaRepository.findByUserIdWithLock(userId);
+        Optional<User> getLockUser = userJpaRepository.findByUserIdWithLock(userId);
 
         return getLockUser;
     }

@@ -16,5 +16,5 @@ public interface UserJpaRepository extends JpaRepository<User, Long> {
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query(value = "select u from User u where u.userId = :userId")
-    User findByUserIdWithLock(@Param("userId") long userId);
+    Optional<User> findByUserIdWithLock(@Param("userId") long userId);
 }
