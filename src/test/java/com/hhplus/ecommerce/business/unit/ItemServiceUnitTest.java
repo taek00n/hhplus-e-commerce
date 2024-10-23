@@ -2,7 +2,7 @@ package com.hhplus.ecommerce.business.unit;
 
 import com.hhplus.ecommerce.business.ItemService;
 import com.hhplus.ecommerce.domain.Item;
-import com.hhplus.ecommerce.infrastructure.ItemRepository;
+import com.hhplus.ecommerce.domain.repository.ItemRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

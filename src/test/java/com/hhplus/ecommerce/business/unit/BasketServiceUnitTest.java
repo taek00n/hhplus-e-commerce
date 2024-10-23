@@ -3,7 +3,7 @@ package com.hhplus.ecommerce.business.unit;
 import com.hhplus.ecommerce.business.BasketService;
 import com.hhplus.ecommerce.domain.Basket;
 import com.hhplus.ecommerce.domain.User;
-import com.hhplus.ecommerce.infrastructure.BasketRepository;
+import com.hhplus.ecommerce.domain.repository.BasketRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -54,11 +54,10 @@ class BasketServiceUnitTest {
     void deleteBasket() {
         // given
         Basket mockBasket = new Basket(mockUser, LocalDateTime.now());
-        when(basketRepository.findByBasketId(1L)).thenReturn(Optional.of(mockBasket));
         // when
         basketService.removeBasketByBasketId(1L);
         //then
-        verify(basketRepository, times(1)).delete(mockBasket);
+        verify(basketRepository, times(1)).deleteByBasketId(1L);
     }
 
     @Test

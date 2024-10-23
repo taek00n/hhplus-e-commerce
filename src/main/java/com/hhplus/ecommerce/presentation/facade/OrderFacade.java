@@ -13,6 +13,7 @@ import com.hhplus.ecommerce.domain.Order;
 import com.hhplus.ecommerce.domain.OrderDetail;
 import com.hhplus.ecommerce.domain.User;
 import com.hhplus.ecommerce.presentation.dto.response.order.OrderResponseDto;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -39,6 +40,7 @@ public class OrderFacade {
         return new OrderResponseDto(order.getOrderId(), orderDetailList, order.getTotalPrice(), order.getTotalAmount());
     }
 
+    @Transactional
     public CreateOrderResponseDto createOrder(CreateOrderRequestDto requestDto) {
 
         List<OrderDetail> orderDetails = new ArrayList<>();
@@ -49,7 +51,7 @@ public class OrderFacade {
             Item item = itemService.getItemByItemId(itemId);
             OrderDetail orderDetail = new OrderDetail(order, item, amount, item.getItemPrice());
             orderDetails.add(orderDetail);
-            item.removeStock(amount);
+            itemService.removeStock(item.getItemId(), amount);
         });
 
         orderDetails.forEach(orderDetail -> {

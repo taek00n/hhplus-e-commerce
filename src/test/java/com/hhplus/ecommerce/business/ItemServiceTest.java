@@ -1,9 +1,7 @@
 package com.hhplus.ecommerce.business;
 
-import com.hhplus.ecommerce.common.constant.OrderStatus;
+import com.hhplus.ecommerce.common.exception.RestApiException;
 import com.hhplus.ecommerce.domain.Item;
-import com.hhplus.ecommerce.domain.Order;
-import com.hhplus.ecommerce.domain.OrderDetail;
 import com.hhplus.ecommerce.domain.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,9 +24,6 @@ class ItemServiceTest {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private OrderService orderService;
 
     private User saveUser;
     private Item saveItem;
@@ -59,7 +53,7 @@ class ItemServiceTest {
         //given
         Long searchItemId = itemId + 1L;
         //when then
-        assertThrows(IllegalArgumentException.class, () -> itemService.getItemByItemId(searchItemId));
+        assertThrows(RestApiException.class, () -> itemService.getItemByItemId(searchItemId));
     }
 
     @Test

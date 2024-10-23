@@ -1,9 +1,8 @@
 package com.hhplus.ecommerce.business.unit;
 
 import com.hhplus.ecommerce.business.UserService;
-import com.hhplus.ecommerce.common.exception.domain.OrderErrorCode;
 import com.hhplus.ecommerce.domain.User;
-import com.hhplus.ecommerce.infrastructure.UserRepository;
+import com.hhplus.ecommerce.domain.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -75,7 +74,7 @@ class UserServiceUnitTest {
         //given
         int chargeBalance = 3000;
         User mockUser = new User("김태현", 0, LocalDateTime.now());
-        when(userRepository.findByUserId(1L)).thenReturn(Optional.of(mockUser));
+        when(userRepository.findByUserIdWithLock(1L)).thenReturn(mockUser);
         //when
         User resultUser = userService.chargeUserBalance(1L, chargeBalance);
         //then

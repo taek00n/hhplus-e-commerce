@@ -2,7 +2,7 @@ package com.hhplus.ecommerce.business.unit;
 
 import com.hhplus.ecommerce.business.BasketDetailService;
 import com.hhplus.ecommerce.domain.*;
-import com.hhplus.ecommerce.infrastructure.BasketDetailRepository;
+import com.hhplus.ecommerce.domain.repository.BasketDetailRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
