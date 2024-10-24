@@ -1,9 +1,8 @@
 package com.hhplus.ecommerce.business.unit;
 
 import com.hhplus.ecommerce.business.UserService;
-import com.hhplus.ecommerce.common.exception.domain.OrderErrorCode;
 import com.hhplus.ecommerce.domain.User;
-import com.hhplus.ecommerce.infrastructure.UserRepository;
+import com.hhplus.ecommerce.domain.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

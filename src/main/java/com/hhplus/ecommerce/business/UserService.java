@@ -3,11 +3,13 @@ package com.hhplus.ecommerce.business;
 import com.hhplus.ecommerce.common.exception.RestApiException;
 import com.hhplus.ecommerce.common.exception.domain.UserErrorCode;
 import com.hhplus.ecommerce.domain.User;
-import com.hhplus.ecommerce.infrastructure.UserRepository;
+import com.hhplus.ecommerce.domain.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class UserService {
 
@@ -28,10 +30,12 @@ public class UserService {
 
     public User chargeUserBalance(long userId, int chargeBalance) {
 
-        User user = this.getUserByUserId(userId);
-        user.chargeBalance(chargeBalance);
+        User getLockUser = userRepository.findByUserIdWithLock(userId).orElseThrow(
+                () -> new RestApiException(UserErrorCode.NO_USER_BY_ID)
+        );
+        getLockUser.chargeBalance(chargeBalance);
 
-        return user;
+        return getLockUser;
     }
 
     public User useUserBalance(long userId, int useBalance) {

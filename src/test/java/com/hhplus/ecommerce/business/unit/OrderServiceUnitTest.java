@@ -2,10 +2,9 @@ package com.hhplus.ecommerce.business.unit;
 
 import com.hhplus.ecommerce.business.OrderService;
 import com.hhplus.ecommerce.common.constant.OrderStatus;
-import com.hhplus.ecommerce.domain.Item;
 import com.hhplus.ecommerce.domain.Order;
 import com.hhplus.ecommerce.domain.User;
-import com.hhplus.ecommerce.infrastructure.OrderRepository;
+import com.hhplus.ecommerce.domain.repository.OrderRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,9 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -45,7 +42,7 @@ class OrderServiceUnitTest {
     void createOrders() {
         //given
         Order mockOrder = new Order(mockUser, OrderStatus.ORDER, LocalDateTime.now());
-        when(orderService.createOrder(mockOrder)).thenReturn(mockOrder);
+        when(orderRepository.save(mockOrder)).thenReturn(mockOrder);
         //when
         Order resultOrder = orderService.createOrder(mockOrder);
         //then

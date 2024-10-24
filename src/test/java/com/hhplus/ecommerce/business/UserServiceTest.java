@@ -1,5 +1,6 @@
 package com.hhplus.ecommerce.business;
 
+import com.hhplus.ecommerce.common.exception.RestApiException;
 import com.hhplus.ecommerce.domain.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -34,7 +35,7 @@ class UserServiceTest {
         //given
         Long testId = 526L;
         //when then
-        assertThrows(IllegalArgumentException.class, () -> userService.getUserByUserId(testId));
+        assertThrows(RestApiException.class, () -> userService.getUserByUserId(testId));
     }
 
     @Test

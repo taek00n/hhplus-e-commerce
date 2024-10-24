@@ -4,13 +4,15 @@ import com.hhplus.ecommerce.common.exception.RestApiException;
 import com.hhplus.ecommerce.common.exception.domain.OrderErrorCode;
 import com.hhplus.ecommerce.domain.Order;
 import com.hhplus.ecommerce.domain.OrderDetail;
-import com.hhplus.ecommerce.infrastructure.OrderDetailRepository;
+import com.hhplus.ecommerce.domain.repository.OrderDetailRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class OrderDetailService {
 

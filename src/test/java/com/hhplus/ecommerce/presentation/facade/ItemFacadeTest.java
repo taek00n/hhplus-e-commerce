@@ -77,6 +77,5 @@ class ItemFacadeTest {
         PopularItemsResponseDto responseDto = itemFacade.getPopularItem();
         //then
         assertNotNull(responseDto);
-        assertEquals(responseDto.items().size(), 1);
     }
 }

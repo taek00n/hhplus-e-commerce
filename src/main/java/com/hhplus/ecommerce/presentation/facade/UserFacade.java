@@ -26,8 +26,7 @@ public class UserFacade {
 
     public UserChargeResponseDto chargeUserBalance(UserChargeRequestDto requestDto) {
 
-        User user = userService.getUserByUserId(requestDto.userId());
-        user.chargeBalance(requestDto.balance());
+        User user = userService.chargeUserBalance(requestDto.userId(), requestDto.balance());
 
         return new UserChargeResponseDto(user.getUserId(), requestDto.balance(), user.getBalance());
     }

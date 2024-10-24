@@ -3,13 +3,13 @@ package com.hhplus.ecommerce.business;
 import com.hhplus.ecommerce.common.exception.RestApiException;
 import com.hhplus.ecommerce.common.exception.domain.BasketErrorCode;
 import com.hhplus.ecommerce.domain.Basket;
-import com.hhplus.ecommerce.infrastructure.BasketRepository;
+import com.hhplus.ecommerce.domain.repository.BasketRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class BasketService {
 

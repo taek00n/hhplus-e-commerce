@@ -1,12 +1,12 @@
 package com.hhplus.ecommerce.business;
 
+import com.hhplus.ecommerce.common.exception.RestApiException;
 import com.hhplus.ecommerce.domain.Basket;
 import com.hhplus.ecommerce.domain.User;
-import com.hhplus.ecommerce.infrastructure.UserRepository;
+import com.hhplus.ecommerce.domain.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,7 +53,7 @@ class BasketServiceTest {
         //given
         Long basketId = saveBasket.getBasketId() + 1L;
         //when then
-        assertThrows(IllegalArgumentException.class, () -> basketService.getBasket(basketId));
+        assertThrows(RestApiException.class, () -> basketService.getBasket(basketId));
     }
 
     @Test
