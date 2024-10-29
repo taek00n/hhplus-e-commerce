@@ -1,6 +1,6 @@
 package com.hhplus.ecommerce.presentation.facade;
 
-import com.hhplus.ecommerce.business.ItemService;
+import com.hhplus.ecommerce.application.ItemService;
 import com.hhplus.ecommerce.domain.Item;
 import com.hhplus.ecommerce.presentation.dto.response.item.ItemResponseDto;
 import com.hhplus.ecommerce.presentation.dto.response.item.ItemsResponseDto;

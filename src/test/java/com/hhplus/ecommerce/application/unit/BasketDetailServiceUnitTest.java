@@ -1,6 +1,6 @@
-package com.hhplus.ecommerce.business.unit;
+package com.hhplus.ecommerce.application.unit;
 
-import com.hhplus.ecommerce.business.BasketDetailService;
+import com.hhplus.ecommerce.application.BasketDetailService;
 import com.hhplus.ecommerce.domain.*;
 import com.hhplus.ecommerce.domain.repository.BasketDetailRepository;
 import org.junit.jupiter.api.BeforeEach;

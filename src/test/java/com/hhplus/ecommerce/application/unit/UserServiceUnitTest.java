@@ -1,6 +1,6 @@
-package com.hhplus.ecommerce.business.unit;
+package com.hhplus.ecommerce.application.unit;
 
-import com.hhplus.ecommerce.business.UserService;
+import com.hhplus.ecommerce.application.UserService;
 import com.hhplus.ecommerce.domain.User;
 import com.hhplus.ecommerce.domain.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;

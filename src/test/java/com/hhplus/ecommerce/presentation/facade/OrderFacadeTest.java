@@ -1,8 +1,7 @@
 package com.hhplus.ecommerce.presentation.facade;
 
-import com.hhplus.ecommerce.business.ItemService;
-import com.hhplus.ecommerce.business.OrderService;
-import com.hhplus.ecommerce.business.UserService;
+import com.hhplus.ecommerce.application.ItemService;
+import com.hhplus.ecommerce.application.UserService;
 import com.hhplus.ecommerce.presentation.dto.request.order.CreateOrderRequestDto;
 import com.hhplus.ecommerce.presentation.dto.request.order.OrderRequestDto;
 import com.hhplus.ecommerce.presentation.dto.request.pay.PayRequestDto;
@@ -11,14 +10,8 @@ import com.hhplus.ecommerce.domain.Item;
 import com.hhplus.ecommerce.domain.User;
 import com.hhplus.ecommerce.presentation.dto.response.order.OrderResponseDto;
 import com.hhplus.ecommerce.presentation.dto.response.pay.PayResponseDto;
-import com.hhplus.ecommerce.presentation.facade.OrderFacade;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +23,6 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.reset;
 
 @SpringBootTest
 @Transactional

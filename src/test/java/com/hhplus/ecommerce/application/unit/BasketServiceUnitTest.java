@@ -1,6 +1,6 @@
-package com.hhplus.ecommerce.business.unit;
+package com.hhplus.ecommerce.application.unit;
 
-import com.hhplus.ecommerce.business.BasketService;
+import com.hhplus.ecommerce.application.BasketService;
 import com.hhplus.ecommerce.domain.Basket;
 import com.hhplus.ecommerce.domain.User;
 import com.hhplus.ecommerce.domain.repository.BasketRepository;

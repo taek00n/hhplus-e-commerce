@@ -1,8 +1,8 @@
 package com.hhplus.ecommerce.presentation.facade;
 
-import com.hhplus.ecommerce.business.ItemService;
-import com.hhplus.ecommerce.business.OrderService;
-import com.hhplus.ecommerce.business.UserService;
+import com.hhplus.ecommerce.application.ItemService;
+import com.hhplus.ecommerce.application.OrderService;
+import com.hhplus.ecommerce.application.UserService;
 import com.hhplus.ecommerce.common.constant.OrderStatus;
 import com.hhplus.ecommerce.presentation.dto.request.pay.PayRequestDto;
 import com.hhplus.ecommerce.presentation.dto.response.pay.PayResponseDto;

@@ -1,15 +1,13 @@
 package com.hhplus.ecommerce.presentation.facade;
 
-import com.hhplus.ecommerce.business.ItemService;
-import com.hhplus.ecommerce.business.UserService;
+import com.hhplus.ecommerce.application.ItemService;
+import com.hhplus.ecommerce.application.UserService;
 import com.hhplus.ecommerce.domain.Item;
 import com.hhplus.ecommerce.domain.User;
 import com.hhplus.ecommerce.presentation.dto.request.order.CreateOrderRequestDto;
 import com.hhplus.ecommerce.presentation.dto.response.item.ItemResponseDto;
 import com.hhplus.ecommerce.presentation.dto.response.item.ItemsResponseDto;
 import com.hhplus.ecommerce.presentation.dto.response.item.PopularItemsResponseDto;
-import com.hhplus.ecommerce.presentation.dto.response.order.CreateOrderResponseDto;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

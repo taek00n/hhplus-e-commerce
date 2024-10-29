@@ -1,6 +1,6 @@
 package com.hhplus.ecommerce.presentation.facade;
 
-import com.hhplus.ecommerce.business.UserService;
+import com.hhplus.ecommerce.application.UserService;
 import com.hhplus.ecommerce.domain.User;
 import com.hhplus.ecommerce.presentation.dto.request.user.UserBalanceRequestDto;
 import com.hhplus.ecommerce.presentation.dto.request.user.UserChargeRequestDto;
@@ -8,8 +8,6 @@ import com.hhplus.ecommerce.presentation.dto.response.user.UserBalanceResponseDt
 import com.hhplus.ecommerce.presentation.dto.response.user.UserChargeResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component

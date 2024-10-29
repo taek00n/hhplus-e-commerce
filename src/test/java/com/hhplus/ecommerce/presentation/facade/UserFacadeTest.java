@@ -1,6 +1,6 @@
 package com.hhplus.ecommerce.presentation.facade;
 
-import com.hhplus.ecommerce.business.UserService;
+import com.hhplus.ecommerce.application.UserService;
 import com.hhplus.ecommerce.domain.User;
 import com.hhplus.ecommerce.presentation.dto.request.user.UserBalanceRequestDto;
 import com.hhplus.ecommerce.presentation.dto.request.user.UserChargeRequestDto;

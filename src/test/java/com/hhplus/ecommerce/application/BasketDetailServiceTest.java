@@ -1,4 +1,4 @@
-package com.hhplus.ecommerce.business;
+package com.hhplus.ecommerce.application;
 
 import com.hhplus.ecommerce.domain.Basket;
 import com.hhplus.ecommerce.domain.BasketDetail;

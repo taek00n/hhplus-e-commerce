@@ -1,6 +1,6 @@
-package com.hhplus.ecommerce.business.unit;
+package com.hhplus.ecommerce.application.unit;
 
-import com.hhplus.ecommerce.business.OrderService;
+import com.hhplus.ecommerce.application.OrderService;
 import com.hhplus.ecommerce.common.constant.OrderStatus;
 import com.hhplus.ecommerce.domain.Order;
 import com.hhplus.ecommerce.domain.User;

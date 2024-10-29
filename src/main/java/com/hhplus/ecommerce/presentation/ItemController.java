@@ -1,9 +1,5 @@
 package com.hhplus.ecommerce.presentation;
 
-import com.hhplus.ecommerce.business.ItemService;
-import com.hhplus.ecommerce.common.exception.RestApiException;
-import com.hhplus.ecommerce.domain.Item;
-import com.hhplus.ecommerce.presentation.dto.response.basket.AddBasketResponseDto;
 import com.hhplus.ecommerce.presentation.dto.response.item.ItemResponseDto;
 import com.hhplus.ecommerce.presentation.dto.response.item.ItemsResponseDto;
 import com.hhplus.ecommerce.presentation.dto.response.item.PopularItemsResponseDto;

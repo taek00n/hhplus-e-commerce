@@ -1,6 +1,5 @@
-package com.hhplus.ecommerce.business;
+package com.hhplus.ecommerce.application;
 
-import com.hhplus.ecommerce.common.constant.ItemSellStatus;
 import com.hhplus.ecommerce.common.exception.RestApiException;
 import com.hhplus.ecommerce.common.exception.domain.ItemErrorCode;
 import com.hhplus.ecommerce.domain.Item;

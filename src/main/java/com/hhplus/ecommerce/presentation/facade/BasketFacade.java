@@ -1,9 +1,9 @@
 package com.hhplus.ecommerce.presentation.facade;
 
-import com.hhplus.ecommerce.business.BasketDetailService;
-import com.hhplus.ecommerce.business.BasketService;
-import com.hhplus.ecommerce.business.ItemService;
-import com.hhplus.ecommerce.business.UserService;
+import com.hhplus.ecommerce.application.BasketDetailService;
+import com.hhplus.ecommerce.application.BasketService;
+import com.hhplus.ecommerce.application.ItemService;
+import com.hhplus.ecommerce.application.UserService;
 import com.hhplus.ecommerce.common.exception.RestApiException;
 import com.hhplus.ecommerce.common.exception.domain.BasketErrorCode;
 import com.hhplus.ecommerce.common.exception.domain.ItemErrorCode;
