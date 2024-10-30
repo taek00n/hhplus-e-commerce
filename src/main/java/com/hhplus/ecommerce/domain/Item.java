@@ -51,11 +51,15 @@ public class Item {
     }
 
     public void removeStock(int amount) {
-        int restStock = this.itemStock - amount;
-        if (restStock < 0) {
+        int remainStock = this.itemStock - amount;
+        if (remainStock < 0) {
             this.itemSellStatus = ItemSellStatus.SOLD_OUT;
             throw new RestApiException(ItemErrorCode.ITEM_SOLD_OUT);
         }
-        this.itemStock = restStock;
+        this.itemStock = remainStock;
+    }
+
+    public void addStock(int amount) {
+        this.itemStock += amount;
     }
 }

@@ -1,6 +1,8 @@
 package com.hhplus.ecommerce.presentation;
 
+import com.hhplus.ecommerce.presentation.dto.request.order.CancelOrderRequestDto;
 import com.hhplus.ecommerce.presentation.dto.request.order.OrderRequestDto;
+import com.hhplus.ecommerce.presentation.dto.response.order.CancelOrderResponseDto;
 import com.hhplus.ecommerce.presentation.dto.response.order.OrderResponseDto;
 import com.hhplus.ecommerce.presentation.facade.OrderFacade;
 import com.hhplus.ecommerce.presentation.facade.PayFacade;
@@ -63,7 +65,27 @@ public class OrderController {
     @PostMapping("/order")
     public CreateOrderResponseDto createOrder(@RequestBody CreateOrderRequestDto createOrderRequestDto) {
 
+        orderFacade.createOrder(createOrderRequestDto);
+
         return orderFacade.createOrder(createOrderRequestDto);
+    }
+
+    @Operation(
+            summary = "주문 취소",
+            description = "주문 취소 API",
+            parameters = {
+                    @Parameter(name = "orderId", description = "주문 번호", required = true, example = "1", in = ParameterIn.PATH),
+            },
+            responses = @ApiResponse(
+                    responseCode = "200",
+                    description = "성공",
+                    content = @Content(schema = @Schema(implementation = CancelOrderResponseDto.class))
+            )
+    )
+    @PostMapping("/cancel")
+    public CancelOrderResponseDto cancelOrder(@RequestBody CancelOrderRequestDto cancelOrderRequestDto) {
+
+        return orderFacade.cancelOrder(cancelOrderRequestDto);
     }
 
     @Operation(

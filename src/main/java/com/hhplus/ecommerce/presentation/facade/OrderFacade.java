@@ -5,8 +5,13 @@ import com.hhplus.ecommerce.application.OrderDetailService;
 import com.hhplus.ecommerce.application.OrderService;
 import com.hhplus.ecommerce.application.UserService;
 import com.hhplus.ecommerce.common.constant.OrderStatus;
+import com.hhplus.ecommerce.common.exception.RestApiException;
+import com.hhplus.ecommerce.common.exception.domain.ItemErrorCode;
+import com.hhplus.ecommerce.common.exception.domain.OrderErrorCode;
+import com.hhplus.ecommerce.presentation.dto.request.order.CancelOrderRequestDto;
 import com.hhplus.ecommerce.presentation.dto.request.order.CreateOrderRequestDto;
 import com.hhplus.ecommerce.presentation.dto.request.order.OrderRequestDto;
+import com.hhplus.ecommerce.presentation.dto.response.order.CancelOrderResponseDto;
 import com.hhplus.ecommerce.presentation.dto.response.order.CreateOrderResponseDto;
 import com.hhplus.ecommerce.domain.Item;
 import com.hhplus.ecommerce.domain.Order;
@@ -61,5 +66,24 @@ public class OrderFacade {
         Order createOrder = orderService.createOrder(order);
 
         return new CreateOrderResponseDto(createOrder.getOrderId(), createOrder.getOrderUser().getUserId(), createOrder.getTotalPrice(), createOrder.getTotalAmount());
+    }
+
+    @Transactional
+    public CancelOrderResponseDto cancelOrder(CancelOrderRequestDto cancelOrderRequestDto) {
+
+        Order order = orderService.getOrderByOrderId(cancelOrderRequestDto.orderId());
+
+        List<OrderDetail> orderDetailList = orderDetailService.getOrderDetailByOrder(order);
+        orderDetailList.forEach(orderDetail -> {
+            Item item = itemService.getItemByItemIdWithLock(orderDetail.getItem().getItemId());
+            item.addStock(orderDetail.getAmount());
+        });
+
+        User user = userService.getUserByUserId(cancelOrderRequestDto.userId());
+        user.chargeBalance(order.getTotalPrice());
+
+        Order cancelOrder = orderService.cancelOrder(cancelOrderRequestDto.orderId(), cancelOrderRequestDto.userId());
+
+        return new CancelOrderResponseDto(cancelOrder.getOrderId(), cancelOrder.getTotalPrice());
     }
 }
