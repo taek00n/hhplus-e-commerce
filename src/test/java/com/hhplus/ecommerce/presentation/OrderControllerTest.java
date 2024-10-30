@@ -2,9 +2,11 @@ package com.hhplus.ecommerce.presentation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hhplus.ecommerce.domain.OrderDetail;
+import com.hhplus.ecommerce.presentation.dto.request.order.CancelOrderRequestDto;
 import com.hhplus.ecommerce.presentation.dto.request.order.CreateOrderRequestDto;
 import com.hhplus.ecommerce.presentation.dto.request.order.OrderRequestDto;
 import com.hhplus.ecommerce.presentation.dto.request.pay.PayRequestDto;
+import com.hhplus.ecommerce.presentation.dto.response.order.CancelOrderResponseDto;
 import com.hhplus.ecommerce.presentation.dto.response.order.CreateOrderResponseDto;
 import com.hhplus.ecommerce.presentation.dto.response.order.OrderResponseDto;
 import com.hhplus.ecommerce.presentation.dto.response.pay.PayResponseDto;
@@ -90,6 +92,26 @@ class OrderControllerTest {
         resultActions
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.orderId").value(3))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("사용자의 주문을 취소한 후 주문번호와 취소금액을 반환받는다.")
+    void cancelOrder() throws Exception {
+        //given
+        CancelOrderRequestDto requestDto = new CancelOrderRequestDto(orderId, userId);
+        when(orderFacade.cancelOrder(requestDto)).thenReturn(new CancelOrderResponseDto(orderId, 30000));
+        //when
+        ResultActions resultActions = mockMvc.perform(
+                post("/orders/cancel")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto))
+        );
+        //then
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.orderId").value(3))
+                .andExpect(jsonPath("$.totalPrice").value(30000))
                 .andDo(print());
     }
 

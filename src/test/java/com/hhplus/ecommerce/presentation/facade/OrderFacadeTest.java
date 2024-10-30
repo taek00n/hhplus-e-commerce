@@ -2,9 +2,11 @@ package com.hhplus.ecommerce.presentation.facade;
 
 import com.hhplus.ecommerce.application.ItemService;
 import com.hhplus.ecommerce.application.UserService;
+import com.hhplus.ecommerce.presentation.dto.request.order.CancelOrderRequestDto;
 import com.hhplus.ecommerce.presentation.dto.request.order.CreateOrderRequestDto;
 import com.hhplus.ecommerce.presentation.dto.request.order.OrderRequestDto;
 import com.hhplus.ecommerce.presentation.dto.request.pay.PayRequestDto;
+import com.hhplus.ecommerce.presentation.dto.response.order.CancelOrderResponseDto;
 import com.hhplus.ecommerce.presentation.dto.response.order.CreateOrderResponseDto;
 import com.hhplus.ecommerce.domain.Item;
 import com.hhplus.ecommerce.domain.User;
@@ -55,6 +57,24 @@ class OrderFacadeTest {
         assertEquals(responseDto.userId(), saveUser.getUserId());
         assertEquals(responseDto.totalPrice(), 30000);
         assertEquals(responseDto.totalAmount(), 1);
+    }
+
+    @Test
+    @DisplayName("주문을 취소하였을떄 상품과 포인트가 정상적으로 돌아오는지 확인")
+    void cancelOrder() {
+        //given
+        User saveUser = userService.createUser(new User("김태현", 3999, LocalDateTime.now()));
+        Item saveItem = itemService.createItem(new Item("후드티", 3000, 4, LocalDateTime.now()));
+        Map<Long, Integer> itemMap = new HashMap<>();
+        itemMap.put(saveItem.getItemId(), 1);
+        CreateOrderResponseDto order = orderFacade.createOrder(new CreateOrderRequestDto(saveUser.getUserId(), itemMap));
+        //when
+        CancelOrderResponseDto cancelOrderResponseDto = orderFacade.cancelOrder(new CancelOrderRequestDto(order.orderId(), order.userId()));
+        //then
+        assertNotNull(cancelOrderResponseDto);
+        assertEquals(cancelOrderResponseDto.orderId(), order.orderId());
+        assertEquals(saveUser.getBalance(), 6999);
+        assertEquals(saveItem.getItemStock(), 4);
     }
 
     @Test
