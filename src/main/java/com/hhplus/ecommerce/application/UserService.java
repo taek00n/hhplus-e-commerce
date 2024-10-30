@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
 @AllArgsConstructor
 public class UserService {
 
@@ -28,6 +27,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    @Transactional
     public User chargeUserBalance(long userId, int chargeBalance) {
 
         User getLockUser = userRepository.findByUserIdWithLock(userId).orElseThrow(
@@ -38,6 +38,7 @@ public class UserService {
         return getLockUser;
     }
 
+    @Transactional
     public User useUserBalance(long userId, int useBalance) {
 
         User user = this.getUserByUserId(userId);

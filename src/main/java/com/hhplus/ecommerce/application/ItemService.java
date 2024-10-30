@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-@Transactional
 @AllArgsConstructor
 public class ItemService {
 
