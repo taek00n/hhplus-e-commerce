@@ -4,8 +4,10 @@ import com.hhplus.ecommerce.application.UserService;
 import com.hhplus.ecommerce.domain.User;
 import com.hhplus.ecommerce.presentation.dto.request.user.UserBalanceRequestDto;
 import com.hhplus.ecommerce.presentation.dto.request.user.UserChargeRequestDto;
+import com.hhplus.ecommerce.presentation.dto.request.user.UserUseRequestDto;
 import com.hhplus.ecommerce.presentation.dto.response.user.UserBalanceResponseDto;
 import com.hhplus.ecommerce.presentation.dto.response.user.UserChargeResponseDto;
+import com.hhplus.ecommerce.presentation.dto.response.user.UserUseResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -27,5 +29,11 @@ public class UserFacade {
         User user = userService.chargeUserBalance(requestDto.userId(), requestDto.balance());
 
         return new UserChargeResponseDto(user.getUserId(), requestDto.balance(), user.getBalance());
+    }
+
+    public UserUseResponseDto useUserBalance(UserUseRequestDto requestDto) {
+        User user = userService.useUserBalance(requestDto.userId(), requestDto.amount());
+
+        return new UserUseResponseDto(user.getUserId(), requestDto.amount());
     }
 }

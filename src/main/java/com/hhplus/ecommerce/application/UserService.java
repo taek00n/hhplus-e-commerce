@@ -30,20 +30,36 @@ public class UserService {
     @Transactional
     public User chargeUserBalance(long userId, int chargeBalance) {
 
-        User getLockUser = userRepository.findByUserIdWithLock(userId).orElseThrow(
+        // 비관적락
+//        User getUser = userRepository.findByUserIdWithLock(userId).orElseThrow(
+//                () -> new RestApiException(UserErrorCode.NO_USER_BY_ID)
+//        );
+
+        // 낙관적락
+        User getUser = userRepository.findByUserId(userId).orElseThrow(
                 () -> new RestApiException(UserErrorCode.NO_USER_BY_ID)
         );
-        getLockUser.chargeBalance(chargeBalance);
 
-        return getLockUser;
+        getUser.chargeBalance(chargeBalance);
+
+        return getUser;
     }
 
     @Transactional
     public User useUserBalance(long userId, int useBalance) {
 
-        User user = this.getUserByUserId(userId);
-        user.useBalance(useBalance);
+        // 비관적락
+//        User getUser = userRepository.findByUserIdWithLock(userId).orElseThrow(
+//                () -> new RestApiException(UserErrorCode.NO_USER_BY_ID)
+//        );
 
-        return user;
+        // 낙관적락
+        User getUser = userRepository.findByUserId(userId).orElseThrow(
+                () -> new RestApiException(UserErrorCode.NO_USER_BY_ID)
+        );
+
+        getUser.useBalance(useBalance);
+
+        return getUser;
     }
 }
