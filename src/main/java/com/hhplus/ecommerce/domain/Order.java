@@ -49,7 +49,7 @@ public class Order {
 
     public int getTotalPrice() {
         int totalPrice = 0;
-        for(OrderDetail orderDetail : orderDetails) {
+        for(OrderDetail orderDetail : this.orderDetails) {
             totalPrice += orderDetail.getTotalPrice();
         }
 

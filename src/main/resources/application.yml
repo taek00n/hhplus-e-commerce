@@ -8,6 +8,14 @@ spring:
     username: sa
     password: 8961
 
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://127.0.0.1:3306/hhplus_ecommerce
+#    username: root
+#    password: 1234
+#    hikari:
+#      maximum-pool-size: 40
+
   jpa:
     hibernate:
       ddl-auto: create
@@ -22,3 +30,13 @@ springdoc:
     path: /swagger-ui
   default-consumes-media-type: application/json;charset=UTF-8
   default-produces-media-type: application/json;charset=UTF-8
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE

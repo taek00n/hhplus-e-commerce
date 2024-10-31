@@ -24,7 +24,7 @@ public class OrderDetail {
     private Item item;
 
     @Column(name = "ORDER_PRICE")
-    private int orderPrice  ;
+    private int orderPrice;
 
     @Column(name = "AMOUNT")
     private int amount;
@@ -38,6 +38,6 @@ public class OrderDetail {
 
     public int getTotalPrice() {
 
-        return orderPrice * amount;
+        return this.orderPrice * this.amount;
     }
 }
