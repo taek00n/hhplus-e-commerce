@@ -56,7 +56,8 @@ public class OrderFacade {
             Item item = itemService.getItemByItemIdWithLock(itemId);
             OrderDetail orderDetail = new OrderDetail(order, item, amount, item.getItemPrice());
             orderDetails.add(orderDetail);
-            item.removeStock(amount);
+//            itemService.reduceItemStockWithRedisson(item, amount);
+            itemService.reduceItemStock(item, amount);
         });
 
         orderDetails.forEach(orderDetail -> {
