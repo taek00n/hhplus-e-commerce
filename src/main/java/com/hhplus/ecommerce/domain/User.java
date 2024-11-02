@@ -1,5 +1,7 @@
 package com.hhplus.ecommerce.domain;
 
+import com.hhplus.ecommerce.common.exception.RestApiException;
+import com.hhplus.ecommerce.common.exception.domain.UserErrorCode;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -28,6 +30,9 @@ public class User {
     @Column(name = "JOIN_DATE")
     private LocalDateTime joinDate;
 
+    @Version
+    private Integer version;
+
     @OneToMany(mappedBy = "orderUser", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders = new ArrayList<>();
 
@@ -42,6 +47,10 @@ public class User {
     }
 
     public void useBalance(int useBalance) {
-        this.balance -= useBalance;
+        int remainBalance = this.balance - useBalance;
+        if (remainBalance < 0) {
+            throw new RestApiException(UserErrorCode.NOT_ENOUGH_BALANCE);
+        }
+        this.balance = remainBalance;
     }
 }
