@@ -8,4 +8,6 @@ import java.util.List;
 public interface OrderDetailRepository {
 
     List<OrderDetail> findByOrder(Order order);
+
+    OrderDetail save(OrderDetail orderDetail);
 }

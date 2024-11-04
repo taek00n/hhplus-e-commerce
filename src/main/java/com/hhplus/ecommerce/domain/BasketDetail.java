@@ -21,11 +21,11 @@ public class BasketDetail {
     private Long basketDetailId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "BASKET_ID")
+    @JoinColumn(name = "BASKET_ID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Basket basket;
 
     @ManyToOne
-    @JoinColumn(name = "ITEM_ID")
+    @JoinColumn(name = "ITEM_ID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Item item;
 
     @Column(name = "AMOUNT")

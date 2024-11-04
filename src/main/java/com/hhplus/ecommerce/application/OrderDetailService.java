@@ -27,4 +27,9 @@ public class OrderDetailService {
         
         return orderDetailList;
     }
+
+    public OrderDetail createOrderDetail(OrderDetail orderDetail) {
+
+        return orderDetailRepository.save(orderDetail);
+    }
 }

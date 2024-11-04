@@ -29,29 +29,9 @@ public class Basket {
     @Column(name = "CREATE_TIME")
     private LocalDateTime createTime;
 
-    @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<BasketDetail> basketDetails = new ArrayList<>();
-
     public Basket(User basketUser, LocalDateTime createTime) {
         this.basketUser = basketUser;
         this.basketStatus = BasketStatus.SHOPPING;
         this.createTime = createTime;
-    }
-
-    public void addBasketDetail(BasketDetail basketDetail) {
-        this.basketDetails.add(basketDetail);
-    }
-
-    public void removeBasketDetail(BasketDetail basketDetail) {
-        this.basketDetails.remove(basketDetail);
-    }
-
-    public int totalPrice() {
-        int totalPrice = 0;
-        for (BasketDetail basketDetail : basketDetails) {
-            totalPrice = basketDetail.getItem().getItemPrice();
-        }
-
-        return totalPrice;
     }
 }

@@ -49,11 +49,8 @@ public class BasketFacade {
     public AddBasketResponseDto addBasket(AddBasketRequestDto addBasketRequestDto) {
 
         Basket userBasket = getUserBasket(addBasketRequestDto.userId());
-        List<BasketDetail> basketDetailList = addBasketDetail(userBasket, addBasketRequestDto.itemMap());
 
-        basketDetailList.forEach(basketDetail -> {
-            userBasket.addBasketDetail(basketDetail);
-        });
+        addBasketDetail(userBasket, addBasketRequestDto.itemMap());
 
         Basket createBasket = basketService.createBasket(userBasket);
 
@@ -87,25 +84,19 @@ public class BasketFacade {
         return userBasket;
     }
 
-    private List<BasketDetail> addBasketDetail(Basket basket, Map<Long, Integer> itemMap) {
-        List<BasketDetail> basketDetailList = new ArrayList<>();
+    private void addBasketDetail(Basket basket, Map<Long, Integer> itemMap) {
 
-        itemMap.forEach((itemId, amount) -> {
+        for (Long itemId : itemMap.keySet()) {
             Item item = itemService.getItemByItemId(itemId);
-            BasketDetail itemInBasketDetail = basketDetailService.getBasketDetailByItem(item);
+            int amount = itemMap.get(itemId);
+            BasketDetail basketDetailByItem = basketDetailService.getBasketDetailByItem(item);
 
-            if (item.getItemStock() < amount) {
-                throw new RestApiException(ItemErrorCode.NO_ENOUGH_ITEM);
-            }
-
-            if (itemInBasketDetail == null) {
+            if (basketDetailByItem == null) {
                 BasketDetail basketDetail = new BasketDetail(basket, item, amount);
-                basketDetailList.add(basketDetail);
+                basketDetailService.createBasketDetail(basketDetail);
             } else {
-                itemInBasketDetail.addAmount(amount);
+                basketDetailByItem.addAmount(amount);
             }
-        });
-
-        return basketDetailList;
+        }
     }
 }

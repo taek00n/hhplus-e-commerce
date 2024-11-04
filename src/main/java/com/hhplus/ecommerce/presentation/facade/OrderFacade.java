@@ -25,6 +25,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
@@ -41,32 +42,34 @@ public class OrderFacade {
         User user = userService.getUserByUserId(orderRequestDto.userId());
         Order order = orderService.getOrderByUser(user);
         List<OrderDetail> orderDetailList = orderDetailService.getOrderDetailByOrder(order);
+        int totalPrice = orderDetailList.stream().mapToInt(OrderDetail::getTotalPrice).sum();
+        int totalAmount = orderDetailList.stream().mapToInt(OrderDetail::getAmount).sum();
 
-        return new OrderResponseDto(order.getOrderId(), orderDetailList, order.getTotalPrice(), order.getTotalAmount());
+        return new OrderResponseDto(order.getOrderId(), orderDetailList, totalPrice, totalAmount);
     }
 
     @Transactional
     public CreateOrderResponseDto createOrder(CreateOrderRequestDto requestDto) {
 
-        List<OrderDetail> orderDetails = new ArrayList<>();
+        int totalPrice = 0;
+        int totalAmount = 0;
+
         User user = userService.getUserByUserId(requestDto.userId());
         Order order = new Order(user, OrderStatus.ORDER, LocalDateTime.now());
 
-        requestDto.itemMap().forEach((itemId, amount) -> {
+        for(Long itemId : requestDto.itemMap().keySet()) {
             Item item = itemService.getItemByItemIdWithLock(itemId);
-            OrderDetail orderDetail = new OrderDetail(order, item, amount, item.getItemPrice());
-            orderDetails.add(orderDetail);
-//            itemService.reduceItemStockWithRedisson(item, amount);
-            itemService.reduceItemStock(item, amount);
-        });
-
-        orderDetails.forEach(orderDetail -> {
-            order.addOrderDetail(orderDetail);
-        });
+            int price = item.getItemPrice();
+            int amount = requestDto.itemMap().get(itemId);
+            OrderDetail orderDetail = new OrderDetail(order, item, amount, price);
+            orderDetailService.createOrderDetail(orderDetail);
+            totalPrice += price;
+            totalAmount += amount;
+            item.reduceStock(amount);
+        }
 
         Order createOrder = orderService.createOrder(order);
-
-        return new CreateOrderResponseDto(createOrder.getOrderId(), createOrder.getOrderUser().getUserId(), createOrder.getTotalPrice(), createOrder.getTotalAmount());
+        return new CreateOrderResponseDto(createOrder.getOrderId(), createOrder.getOrderUser().getUserId(), totalPrice, totalAmount);
     }
 
     @Transactional
@@ -75,16 +78,17 @@ public class OrderFacade {
         Order order = orderService.getOrderByOrderId(cancelOrderRequestDto.orderId());
 
         List<OrderDetail> orderDetailList = orderDetailService.getOrderDetailByOrder(order);
+        int totalPrice = orderDetailList.stream().mapToInt(OrderDetail::getOrderPrice).sum();
         orderDetailList.forEach(orderDetail -> {
             Item item = itemService.getItemByItemIdWithLock(orderDetail.getItem().getItemId());
             item.addStock(orderDetail.getAmount());
         });
 
         User user = userService.getUserByUserId(cancelOrderRequestDto.userId());
-        user.chargeBalance(order.getTotalPrice());
+        user.chargeBalance(totalPrice);
 
         Order cancelOrder = orderService.cancelOrder(cancelOrderRequestDto.orderId(), cancelOrderRequestDto.userId());
 
-        return new CancelOrderResponseDto(cancelOrder.getOrderId(), cancelOrder.getTotalPrice());
+        return new CancelOrderResponseDto(cancelOrder.getOrderId(), totalPrice);
     }
 }

@@ -21,7 +21,7 @@ public class Order {
     private Long orderId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ID")
+    @JoinColumn(name = "USER_ID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private User orderUser;
 
     @Column(name = "ORDERS_DATE")
@@ -30,39 +30,10 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderDetail> orderDetails = new ArrayList<>();
-
     public Order(User orderUser, OrderStatus orderStatus, LocalDateTime orderDate) {
         this.orderUser = orderUser;
         this.orderStatus = orderStatus;
         this.orderDate = orderDate;
-    }
-
-    public void addOrderDetail(OrderDetail orderDetail) {
-        this.orderDetails.add(orderDetail);
-    }
-
-    public void removeOrdersDetail(OrderDetail orderDetail) {
-        this.orderDetails.remove(orderDetail);
-    }
-
-    public int getTotalPrice() {
-        int totalPrice = 0;
-        for(OrderDetail orderDetail : this.orderDetails) {
-            totalPrice += orderDetail.getTotalPrice();
-        }
-
-        return totalPrice;
-    }
-
-    public int getTotalAmount() {
-        int totalAmount = 0;
-        for(OrderDetail orderDetail : orderDetails) {
-            totalAmount += orderDetail.getAmount();
-        }
-
-        return totalAmount;
     }
 
     public void changeOrderStatus(OrderStatus orderStatus) {

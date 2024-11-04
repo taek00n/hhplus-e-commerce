@@ -33,9 +33,6 @@ public class User {
     @Version
     private Integer version;
 
-    @OneToMany(mappedBy = "orderUser", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Order> orders = new ArrayList<>();
-
     public User(String userName, int balance, LocalDateTime joinDate) {
         this.userName = userName;
         this.balance = balance;

@@ -23,4 +23,10 @@ public class OrderDetailRepositoryImpl implements OrderDetailRepository {
 
         return getOrderDetailList;
     }
+
+    @Override
+    public OrderDetail save(OrderDetail orderDetail) {
+
+        return orderDetailJpaRepository.save(orderDetail);
+    }
 }
