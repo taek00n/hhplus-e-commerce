@@ -126,7 +126,6 @@ class OrderFacadeConcurrencyTest {
         List<Order> orderList = new ArrayList<>();
         for (int i = 0; i < thread; i++) {
             Order order = new Order(userList.get(i), OrderStatus.ORDER, LocalDateTime.now());
-            order.addOrderDetail(new OrderDetail(order, saveItem, amount, saveItem.getItemPrice()));
             Order saveOrder = orderService.createOrder(order);
             orderList.add(saveOrder);
         }

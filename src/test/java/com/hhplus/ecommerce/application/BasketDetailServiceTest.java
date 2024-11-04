@@ -55,45 +55,11 @@ class BasketDetailServiceTest {
     void addItemInBasketDetail() {
         // given
         Basket basket = new Basket(saveUser, LocalDateTime.now());
-        List<BasketDetail> basketDetails = new ArrayList<>();
-        BasketDetail basketDetail = new BasketDetail(basket, saveItem1, 2);
-        basketDetails.add(basketDetail);
-        for (BasketDetail detail : basketDetails) {
-            basket.addBasketDetail(detail);
-        }
+        BasketDetail basketDetail = new BasketDetail(basket, saveItem1, 1);
         // when
-        Basket saveBasket = basketJpaRepository.save(basket);
+        BasketDetail saveBasketDetail = basketDetailService.createBasketDetail(basketDetail);
         //then
-        assertNotNull(saveBasket);
-        assertEquals(saveBasket.getBasketDetails().size(), basketDetails.size());
-    }
-
-    @Test
-    @DisplayName("상품_삭제")
-    void deleteItemInBasketDetail() {
-        //given
-        Basket settingBasket = settingBasket();
-        Long basketDetailId = settingBasket.getBasketDetails().get(0).getBasketDetailId();
-        //when
-        BasketDetail deleteBasketDetail = basketDetailService.getBasketDetail(basketDetailId);
-        settingBasket.getBasketDetails().remove(deleteBasketDetail);
-        //then
-        assertEquals(1, settingBasket.getBasketDetails().size());
-    }
-
-    private Basket settingBasket() {
-        Basket basket = new Basket(saveUser, LocalDateTime.now());
-        List<BasketDetail> basketDetails = new ArrayList<>();
-
-        BasketDetail basketDetail1 = new BasketDetail(basket, saveItem1, 2);
-        BasketDetail basketDetail2 = new BasketDetail(basket, saveItem2, 2);
-        basketDetails.add(basketDetail1);
-        basketDetails.add(basketDetail2);
-
-        for (BasketDetail detail : basketDetails) {
-            basket.addBasketDetail(detail);
-        }
-
-        return basketJpaRepository.save(basket);
+        assertNotNull(saveBasketDetail);
+        assertEquals(saveBasketDetail.getBasket(), basket);
     }
 }

@@ -50,7 +50,6 @@ class OrderServiceTest {
         //given
         Order order = new Order(saveUser, OrderStatus.ORDER, LocalDateTime.now());
         OrderDetail orderDetail = new OrderDetail(order, saveItem1, 2, saveItem1.getItemPrice());
-        order.addOrderDetail(orderDetail);
         //when
         Order resultOrder = orderService.createOrder(order);
         //then
@@ -78,8 +77,8 @@ class OrderServiceTest {
         //given
         Order order = new Order(saveUser, OrderStatus.ORDER, LocalDateTime.now());
         OrderDetail orderDetail = new OrderDetail(order, saveItem1, 2, saveItem1.getItemPrice());
-        order.addOrderDetail(orderDetail);
         Order resultOrder = orderService.createOrder(order);
+        orderDetailService.createOrderDetail(orderDetail);
         //when
         List<OrderDetail> orderDetailList = orderDetailService.getOrderDetailByOrder(resultOrder);
         //given
