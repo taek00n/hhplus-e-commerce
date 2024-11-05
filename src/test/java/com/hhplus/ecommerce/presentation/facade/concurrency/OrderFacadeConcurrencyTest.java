@@ -104,7 +104,7 @@ class OrderFacadeConcurrencyTest {
 
         long endTime = System.currentTimeMillis();
         long duration = endTime - startTime;
-        System.out.println("상품 재고 차감 비관적락 소요시간 ==> " + duration + "ms");
+        System.out.println("상품 재고 차감 분산락 소요시간 ==> " + duration + "ms");
     }
 
     @Test

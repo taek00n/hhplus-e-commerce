@@ -55,20 +55,20 @@ public class OrderFacade {
         int totalAmount = 0;
 
         User user = userService.getUserByUserId(requestDto.userId());
-        Order order = new Order(user, OrderStatus.ORDER, LocalDateTime.now());
+        Order createOrder = orderService.createOrder(new Order(user, OrderStatus.ORDER, LocalDateTime.now()));
 
         for(Long itemId : requestDto.itemMap().keySet()) {
             Item item = itemService.getItemByItemIdWithLock(itemId);
             int price = item.getItemPrice();
             int amount = requestDto.itemMap().get(itemId);
-            OrderDetail orderDetail = new OrderDetail(order, item, amount, price);
+            OrderDetail orderDetail = new OrderDetail(createOrder, item, amount, price);
             orderDetailService.createOrderDetail(orderDetail);
+            itemService.reduceItemStockWithRedisson(item, amount);
             totalPrice += price;
             totalAmount += amount;
-            item.reduceStock(amount);
         }
 
-        Order createOrder = orderService.createOrder(order);
+
         return new CreateOrderResponseDto(createOrder.getOrderId(), createOrder.getOrderUser().getUserId(), totalPrice, totalAmount);
     }
 

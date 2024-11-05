@@ -55,25 +55,12 @@ public class ItemService {
         return itemRepository.findTopItems(startDateTime, endDateTime);
     }
 
-    public void reduceItemStock(Item item, int amount) {
-
-        Item getItem = itemRepository.findByItemId(item.getItemId()).orElseThrow(
-                () -> new RestApiException(ItemErrorCode.NO_ITEM_BY_ID)
-        );
-
-        if (getItem.getItemSellStatus().equals(ItemSellStatus.SOLD_OUT)) {
-            throw new RestApiException(ItemErrorCode.ITEM_SOLD_OUT);
-        }
-
-        getItem.reduceStock(amount);
-    }
-
     public void reduceItemStockWithRedisson(Item item, int amount) {
 
         RLock lock = redissonClient.getLock("itemId:" + item.getItemId());
 
         try {
-            boolean available = lock.tryLock(15, 1, TimeUnit.MILLISECONDS);
+            boolean available = lock.tryLock(15, 1, TimeUnit.SECONDS);
 
             if (!available) {
                 return;
@@ -88,6 +75,7 @@ public class ItemService {
             }
 
             getItem.reduceStock(amount);
+            itemRepository.save(getItem);
 
         } catch (InterruptedException e) {
             throw new RuntimeException("failed");

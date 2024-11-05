@@ -24,7 +24,7 @@ public class BasketDetail {
     @JoinColumn(name = "BASKET_ID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Basket basket;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ITEM_ID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Item item;
 
