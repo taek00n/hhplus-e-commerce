@@ -8,6 +8,9 @@ import com.hhplus.ecommerce.domain.repository.ItemRepository;
 import lombok.AllArgsConstructor;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +33,7 @@ public class ItemService {
         return itemRepository.save(item);
     }
 
+    @Cacheable(cacheNames = "allItem", key = "'allItems'", unless = "#result == null || #result.isEmpty()")
     public List<Item> getItemAll() {
 
         return itemRepository.findAll();
@@ -49,10 +53,21 @@ public class ItemService {
         return byItemIdWithLock;
     }
 
+    @Cacheable(cacheNames = "topItems", key = "'topItems'")
     public List<Item> getTopItems() {
         LocalDateTime endDateTime = LocalDate.now().atStartOfDay();
         LocalDateTime startDateTime = endDateTime.minusDays(3);
-        return itemRepository.findTopItems(startDateTime, endDateTime);
+        List<Item> geTopItemList = itemRepository.findTopItems(startDateTime, endDateTime);
+        return geTopItemList;
+    }
+
+    @CachePut(cacheNames = "topItems", key = "'topItems'")
+    @Scheduled(cron = "0 0 12 * * ?")
+    public List<Item> refreshGetTopItems() {
+        LocalDateTime endDateTime = LocalDate.now().atStartOfDay();
+        LocalDateTime startDateTime = endDateTime.minusDays(3);
+        List<Item> geTopItemList = itemRepository.findTopItems(startDateTime, endDateTime);
+        return geTopItemList;
     }
 
     public void reduceItemStockWithRedisson(Item item, int amount) {
