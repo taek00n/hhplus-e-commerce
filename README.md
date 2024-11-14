@@ -424,7 +424,7 @@
 
 </details>
 
-### STEP 14
+### STEP 15
 <details>
   <summary>인덱스</summary>
 
