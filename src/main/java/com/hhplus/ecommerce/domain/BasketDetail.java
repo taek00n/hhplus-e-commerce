@@ -11,7 +11,13 @@ import lombok.NoArgsConstructor;
 import java.util.Map;
 
 @Entity
-@Table(name = "BASKET_DETAIL")
+@Table(
+    name = "BASKET_DETAIL",
+    indexes = {
+        @Index(name = "idx_basket_detail_basket_id", columnList = "basket_id"),
+        @Index(name = "idx_basket_detail_item_id", columnList = "item_id")
+    }
+)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class BasketDetail {
