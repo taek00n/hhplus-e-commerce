@@ -423,3 +423,47 @@
    * 만약 재고가 0이 되어서 판매종료된다면 해당 내용을 다시 조회한다.
 
 </details>
+
+### STEP 14
+<details>
+  <summary>인덱스</summary>
+
+[인덱스에 대하여...](https://taekoon.tistory.com/58)
+
+### 1. 테이블 별 인덱스
+쿼리분석 전에 단순히 테이블만 확인했을때 필요한 인덱스들을 생각해봤습니다.
+  - Basket Table
+
+    장바구니 테이블에서 적용할 인덱스는 딱 하나밖에 안보인다.
+    장바구니를 조회할때는 user_id를 가지고 조회를 하기때문에 해당 테이블에는 user_id에만 인덱스를 적용해준다.![basket_user_id](docs/idx_basket_user_id.png)
+  - Basket_Detail Table
+
+    장바구니 상세 테이블에서도 인덱스를 적용할 컬럼은 딱 하나만 보인다.
+    장바구니 상세를 조회할때 사용하는 값은 basket_id 밖에 없으니 해당 컬럼에만 인덱스를 적용해준다.![basket_detail_basket_id](docs/idx_basket_detail_basket_id.png)
+  - Item Table
+    
+    아무래도 이커머스에서 가장 많이 사용되어지는 테이블이 아닐까 싶다. 
+    
+    1. 이름 검색이 많을 테니깐 item_name (해당 프로젝트에는 이름검색은 아직 구현하지 않았음) ![item_name](docs/idx_item_item_name.png)
+    2. 금액의 범위로도 조회할 수 있으니 item_price ![item_price](docs/idx_item_item_price.png)
+  - Orders Table
+    
+    주문을 조회할때는 사용자의 구매목록을 조회하는 일이 대부분일꺼같으므로 user_id에 인덱스를 걸어준다. ![orders_user_id](docs/idx_orders_user_id.png)
+  - Orders_Detail Table
+
+    주문 상세에서는 주문번호를 가지고만 조회가 일어날꺼같으니 order_id에 인덱스를 걸어준다.![orders_detail_orders_id](docs/idx_orders_detail_order_id.png)
+
+### 2. 쿼리 별 인덱스 
+
+테이블 별 인덱스를 제외하고 자주 실행될꺼같은 쿼리에서 인덱스들을 생각해봤습니다.
+1. 장바구니 기능
+   - Basket_Detail - item_id
+   
+        장바구니 상세 추가,삭제에서 item_id 기준으로 검색을 자주 일어날꺼같다라는 생각이 든다.![basket_detail_item_id](docs/idx_basket_detail_item_id.png)
+2. 판매 상위 검색
+    - Order - order_date 
+
+        3일동안이라는 기준이 있어서 Order에 order_date 인덱스를 추가해준다.![orders__orders_date](docs/idx_orders_orders_date.png)
+
+</details>
+

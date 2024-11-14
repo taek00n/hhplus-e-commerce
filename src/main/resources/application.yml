@@ -13,7 +13,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: validate  # 개발 중에는 'update'를 사용, 운영 환경에서는 'validate'나 'none'을 추천
+      ddl-auto: update  # 개발 중에는 'update'를 사용, 운영 환경에서는 'validate'나 'none'을 추천
     show-sql: true  # 쿼리 로깅을 활성화합니다.
     properties:
       hibernate:
