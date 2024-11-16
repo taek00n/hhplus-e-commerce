@@ -10,7 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "BASKET")
+@Table(
+    name = "BASKET",
+    indexes = {
+        @Index(name = "idx_basket_user_id", columnList = "user_id")
+    }
+)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Basket {
@@ -20,7 +25,7 @@ public class Basket {
     private Long basketId;
 
     @OneToOne
-    @JoinColumn(name="user_id")
+    @JoinColumn(name="USER_ID")
     private User basketUser;
 
     @Enumerated(EnumType.STRING)

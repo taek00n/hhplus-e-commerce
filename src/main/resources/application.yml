@@ -2,27 +2,37 @@ server:
   port: 8080
 
 spring:
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:tcp://localhost/~/test
-    username: sa
-    password: 8961
 
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://127.0.0.1:3306/hhplus_ecommerce
-#    username: root
-#    password: 1234
-#    hikari:
-#      maximum-pool-size: 40
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/hhplus?useSSL=false&serverTimezone=UTC
+    username: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 40
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update  # 개발 중에는 'update'를 사용, 운영 환경에서는 'validate'나 'none'을 추천
+    show-sql: true  # 쿼리 로깅을 활성화합니다.
     properties:
       hibernate:
-        format_sql: true
-        show_sql: true
+        format_sql: true  # 쿼리를 보기 쉽게 포맷팅합니다.
+        dialect: org.hibernate.dialect.MySQL8Dialect  # MySQL 버전에 맞는 dialect 선택
+
+#  datasource:
+#    driver-class-name: org.h2.Driver
+#    url: jdbc:h2:tcp://localhost/~/test
+#    username: sa
+#    password: 8961
+
+#  jpa:
+#    hibernate:
+#      ddl-auto: create
+#    properties:
+#      hibernate:
+#        format_sql: true
+#        show_sql: true
 
   data:
     redis:
