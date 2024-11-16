@@ -8,6 +8,7 @@ import com.hhplus.ecommerce.common.constant.OrderStatus;
 import com.hhplus.ecommerce.common.exception.RestApiException;
 import com.hhplus.ecommerce.common.exception.domain.ItemErrorCode;
 import com.hhplus.ecommerce.common.exception.domain.OrderErrorCode;
+import com.hhplus.ecommerce.infrastructure.event.CreateOrderEvent;
 import com.hhplus.ecommerce.presentation.dto.request.order.CancelOrderRequestDto;
 import com.hhplus.ecommerce.presentation.dto.request.order.CreateOrderRequestDto;
 import com.hhplus.ecommerce.presentation.dto.request.order.OrderRequestDto;
@@ -18,6 +19,8 @@ import com.hhplus.ecommerce.domain.Order;
 import com.hhplus.ecommerce.domain.OrderDetail;
 import com.hhplus.ecommerce.domain.User;
 import com.hhplus.ecommerce.presentation.dto.response.order.OrderResponseDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -37,6 +40,8 @@ public class OrderFacade {
     private final UserService userService;
     private final ItemService itemService;
 
+    private final ApplicationEventPublisher publisher;
+
     public OrderResponseDto getUserOrder(OrderRequestDto orderRequestDto) {
 
         User user = userService.getUserByUserId(orderRequestDto.userId());
@@ -48,7 +53,6 @@ public class OrderFacade {
         return new OrderResponseDto(order.getOrderId(), orderDetailList, totalPrice, totalAmount);
     }
 
-    @Transactional
     public CreateOrderResponseDto createOrder(CreateOrderRequestDto requestDto) {
 
         int totalPrice = 0;
@@ -68,11 +72,11 @@ public class OrderFacade {
             totalAmount += amount;
         }
 
+        publisher.publishEvent(new CreateOrderEvent(createOrder.getOrderId()));
 
         return new CreateOrderResponseDto(createOrder.getOrderId(), createOrder.getOrderUser().getUserId(), totalPrice, totalAmount);
     }
 
-    @Transactional
     public CancelOrderResponseDto cancelOrder(CancelOrderRequestDto cancelOrderRequestDto) {
 
         Order order = orderService.getOrderByOrderId(cancelOrderRequestDto.orderId());

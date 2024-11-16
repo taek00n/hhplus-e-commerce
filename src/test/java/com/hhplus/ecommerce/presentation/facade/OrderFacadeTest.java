@@ -2,6 +2,7 @@ package com.hhplus.ecommerce.presentation.facade;
 
 import com.hhplus.ecommerce.application.ItemService;
 import com.hhplus.ecommerce.application.UserService;
+import com.hhplus.ecommerce.infrastructure.event.CreateOrderEvent;
 import com.hhplus.ecommerce.presentation.dto.request.order.CancelOrderRequestDto;
 import com.hhplus.ecommerce.presentation.dto.request.order.CreateOrderRequestDto;
 import com.hhplus.ecommerce.presentation.dto.request.order.OrderRequestDto;
@@ -16,16 +17,21 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.event.ApplicationEvents;
+import org.springframework.test.context.event.RecordApplicationEvents;
 import org.springframework.transaction.annotation.Transactional;
 
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+@RecordApplicationEvents
 @SpringBootTest
 @Transactional
 class OrderFacadeTest {
@@ -42,6 +48,10 @@ class OrderFacadeTest {
     @Autowired
     private ItemService itemService;
 
+    @Autowired
+    private ApplicationEvents applicationEvents;
+
+
     @Test
     @DisplayName("주문생성")
     void createOrder() {
@@ -57,6 +67,8 @@ class OrderFacadeTest {
         assertEquals(responseDto.userId(), saveUser.getUserId());
         assertEquals(responseDto.totalPrice(), 30000);
         assertEquals(responseDto.totalAmount(), 1);
+        List<CreateOrderEvent> events = applicationEvents.stream(CreateOrderEvent.class).toList();
+        assertThat(events).isNotEmpty();
     }
 
     @Test
