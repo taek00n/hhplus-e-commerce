@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @Table(
     name = "ORDERS_DETAIL",
     indexes = {
-        @Index(name = "idx_orders_detail_order_id", columnList = "order_id")
+        @Index(name = "idx_orders_detail_order_id", columnList = "order_id"),
+        @Index(name = "idx_orders_detail_item_id", columnList = "item_id")
     }
 )
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

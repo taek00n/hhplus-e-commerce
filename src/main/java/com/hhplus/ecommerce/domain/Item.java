@@ -14,7 +14,6 @@ import java.util.List;
 @Table(
     name = "ITEM",
     indexes = {
-        @Index(name = "idx_item_item_name", columnList = "item_name"),
         @Index(name = "idx_item_item_price", columnList = "item_price")
     }
 )
