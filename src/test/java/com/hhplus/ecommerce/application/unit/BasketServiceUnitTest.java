@@ -32,14 +32,14 @@ class BasketServiceUnitTest {
     @BeforeEach
     void setUp() {
         reset(basketRepository);
-        mockUser = new User("김태현", 0, LocalDateTime.now());
+        mockUser = new User("김태현", 0);
     }
 
     @Test
     @DisplayName("장바구니_생성")
     void createBasket() {
         //given
-        Basket mockBasket = new Basket(mockUser, LocalDateTime.now());
+        Basket mockBasket = new Basket(mockUser);
         when(basketRepository.save(mockBasket)).thenReturn(mockBasket);
         //when
         Basket resultBasket = basketService.createBasket(mockBasket);
@@ -53,7 +53,7 @@ class BasketServiceUnitTest {
     @DisplayName("장바구니_삭제")
     void deleteBasket() {
         // given
-        Basket mockBasket = new Basket(mockUser, LocalDateTime.now());
+        Basket mockBasket = new Basket(mockUser);
         // when
         basketService.removeBasketByBasketId(1L);
         //then
@@ -64,7 +64,7 @@ class BasketServiceUnitTest {
     @DisplayName("장바구니_번호로_조회")
     void getBasket() {
         //given
-        Basket mockBasket = new Basket(mockUser, LocalDateTime.now());
+        Basket mockBasket = new Basket(mockUser);
         when(basketRepository.findByBasketId(1L)).thenReturn(Optional.of(mockBasket));
         //when
         Basket resultBasket = basketService.getBasket(1L);
@@ -77,7 +77,7 @@ class BasketServiceUnitTest {
     @DisplayName("사용자의_장바구니_조회")
     void getUserBasket() {
         //given
-        Basket mockBasket = new Basket(mockUser, LocalDateTime.now());
+        Basket mockBasket = new Basket(mockUser);
         when(basketRepository.getUserBasket(1L)).thenReturn(mockBasket);
         //when
         Basket resultBasket = basketService.getUserBasket(1L);

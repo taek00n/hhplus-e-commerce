@@ -31,9 +31,9 @@ class ItemServiceTest {
 
     @BeforeEach
     void setUp() {
-        saveItem = itemService.createItem(new Item("청바지", 50000, 5, LocalDateTime.now()));
+        saveItem = itemService.createItem(new Item("청바지", 50000, 5));
         itemId = saveItem.getItemId();
-        saveUser = userService.createUser(new User("김태현", 0, LocalDateTime.now()));
+        saveUser = userService.createUser(new User("김태현", 0));
     }
 
     @Test
@@ -60,9 +60,9 @@ class ItemServiceTest {
     @DisplayName("전체_상품_조회")
     void getItems() {
         //given
-        Item item1 = new Item("맨투맨", 30000, 59, LocalDateTime.now());
-        Item item2 = new Item("후드티", 30000, 59, LocalDateTime.now());
-        Item item3 = new Item("슬랙스", 30000, 59, LocalDateTime.now());
+        Item item1 = new Item("맨투맨", 30000, 59);
+        Item item2 = new Item("후드티", 30000, 59);
+        Item item3 = new Item("슬랙스", 30000, 59);
         itemService.createItem(item1);
         itemService.createItem(item2);
         itemService.createItem(item3);

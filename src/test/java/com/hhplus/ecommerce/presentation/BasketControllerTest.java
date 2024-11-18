@@ -50,7 +50,7 @@ class BasketControllerTest {
 
     @BeforeEach
     void setUp() {
-        saveUser = new User("김태현", 0, LocalDateTime.now());
+        saveUser = new User("김태현", 0);
     }
 
     @Test
@@ -99,10 +99,10 @@ class BasketControllerTest {
     void getBasket() throws Exception {
         //given
         BasketRequestDto requestDto = new BasketRequestDto(1L);
-        Item item = new Item("청바지", 30000, 40, LocalDateTime.now());
-        User user = new User("김태현", 0, LocalDateTime.now());
-        new Item("청바지", 30000, 40, LocalDateTime.now());
-        Basket basket = new Basket(user, LocalDateTime.now());
+        Item item = new Item("청바지", 30000, 40);
+        User user = new User("김태현", 0);
+        new Item("청바지", 30000, 40);
+        Basket basket = new Basket(user);
         BasketDetail basketDetail = new BasketDetail(basket, item, 1);
         List<BasketDetail> basketDetailList = new ArrayList<>();
         basketDetailList.add(basketDetail);

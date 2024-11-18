@@ -5,6 +5,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(
     name = "ORDERS_DETAIL",
@@ -35,11 +37,15 @@ public class OrderDetail {
     @Column(name = "AMOUNT")
     private int amount;
 
+    @Column(name = "ORDERS_DATE")
+    private LocalDateTime orderDate;
+
     public OrderDetail(Order order, Item item, int amount, int orderPrice) {
         this.order = order;
         this.item = item;
         this.amount = amount;
         this.orderPrice = orderPrice;
+        this.orderDate = LocalDateTime.now();
     }
 
     public int getTotalPrice() {

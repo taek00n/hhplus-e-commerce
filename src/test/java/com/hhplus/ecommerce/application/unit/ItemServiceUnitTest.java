@@ -37,7 +37,7 @@ class ItemServiceUnitTest {
     @DisplayName("상품_등록")
     void saveItem() {
         //given
-        Item mockItem = new Item("후드티", 50000, 10, LocalDateTime.now());
+        Item mockItem = new Item("후드티", 50000, 10);
         when(itemRepository.save(mockItem)).thenReturn(mockItem);
         //when
         Item resultItem = itemService.createItem(mockItem);
@@ -52,9 +52,9 @@ class ItemServiceUnitTest {
     void getItems() {
         //given
         List<Item> mockItemList = new ArrayList<>();
-        Item mockItem1 = new Item("후드티", 50000, 10, LocalDateTime.now());
-        Item mockItem2 = new Item("청바지", 56000, 16, LocalDateTime.now());
-        Item mockItem3 = new Item("맨투맨", 58000, 13, LocalDateTime.now());
+        Item mockItem1 = new Item("후드티", 50000, 10);
+        Item mockItem2 = new Item("청바지", 56000, 16);
+        Item mockItem3 = new Item("맨투맨", 58000, 13);
         mockItemList.add(mockItem1);
         mockItemList.add(mockItem2);
         mockItemList.add(mockItem3);
@@ -70,7 +70,7 @@ class ItemServiceUnitTest {
     @DisplayName("특정_상품_조회")
     void getItemById() {
         //given
-        Item mockItem = new Item("후드티", 50000, 10, LocalDateTime.now());
+        Item mockItem = new Item("후드티", 50000, 10);
         when(itemRepository.findByItemId(1L)).thenReturn(Optional.of(mockItem));
         //when
         Item resultItem = itemService.getItemByItemId(1L);

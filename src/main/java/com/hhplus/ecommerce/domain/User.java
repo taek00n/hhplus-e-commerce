@@ -33,10 +33,10 @@ public class User {
     @Version
     private Integer version;
 
-    public User(String userName, int balance, LocalDateTime joinDate) {
+    public User(String userName, int balance) {
         this.userName = userName;
         this.balance = balance;
-        this.joinDate = joinDate;
+        this.joinDate = LocalDateTime.now();
     }
 
     public void chargeBalance(int chargeBalance) {

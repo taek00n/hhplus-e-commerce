@@ -31,15 +31,15 @@ class BasketServiceTest {
 
     @BeforeEach
     void setUp() {
-        saveUser = userRepository.save(new User("김태현", 0, LocalDateTime.now()));
-        saveBasket = basketService.createBasket(new Basket(saveUser, LocalDateTime.now()));
+        saveUser = userRepository.save(new User("김태현", 0));
+        saveBasket = basketService.createBasket(new Basket(saveUser));
     }
 
     @Test
     @DisplayName("장바구니_생성")
     void createBasket() {
         //given
-        Basket basket = new Basket(saveUser, LocalDateTime.now());
+        Basket basket = new Basket(saveUser);
         //when
         Basket saveBasket = basketService.createBasket(basket);
         //then

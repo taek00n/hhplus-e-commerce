@@ -40,16 +40,12 @@ public class Item {
     @Column(name = "REGISTER_DATE")
     private LocalDateTime registerDate;
 
-    public Item(String itemName, int itemPrice, int itemStock, LocalDateTime registerDate) {
+    public Item(String itemName, int itemPrice, int itemStock) {
         this.itemName = itemName;
         this.itemPrice = itemPrice;
         this.itemStock = itemStock;
         this.itemSellStatus = ItemSellStatus.SELL;
-        this.registerDate = registerDate;
-
-        if(itemStock < 1) {
-            this.itemSellStatus = ItemSellStatus.SOLD_OUT;
-        }
+        this.registerDate = LocalDateTime.now();
     }
 
     public void reduceStock(int amount) {

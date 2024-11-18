@@ -36,7 +36,7 @@ class UserFacadeConcurrencyTest {
     @BeforeEach
     @Transactional
     void setUp() {
-        saveUser = userRepository.save(new User("김태현", 200, LocalDateTime.now()));
+        saveUser = userRepository.save(new User("김태현", 200));
     }
 
     @Test

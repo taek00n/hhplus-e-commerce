@@ -37,9 +37,9 @@ class ItemControllerTest {
     @DisplayName("전체 상품 조회 API 테스트")
     void getItems() throws Exception {
         // given
-        Item item1 = new Item("후드티1", 100000, 1, LocalDateTime.now());
-        Item item2 = new Item("후드티2", 200000, 2, LocalDateTime.now());
-        Item item3 = new Item("후드티3", 300000, 3, LocalDateTime.now());
+        Item item1 = new Item("후드티1", 100000, 1);
+        Item item2 = new Item("후드티2", 200000, 2);
+        Item item3 = new Item("후드티3", 300000, 3);
         List<Item> itemList = new ArrayList<>();
         itemList.add(item1);
         itemList.add(item2);
@@ -61,7 +61,7 @@ class ItemControllerTest {
     @DisplayName("특정 상품 조회 API 테스트")
     void getItem() throws Exception {
         // given
-        Item item = new Item("후드티", 100000, 3, LocalDateTime.now());
+        Item item = new Item("후드티", 100000, 3);
         when(itemFacade.getItemByItemId(1L)).thenReturn(new ItemResponseDto(item.getItemId(), item.getItemName(), item.getItemPrice(), item.getItemStock()));
         //when
         ResultActions resultActions = mockMvc.perform(
@@ -79,11 +79,11 @@ class ItemControllerTest {
     @DisplayName("인기을 조회하면 최근 3일간 수량 top이 반환된다.")
     void getPopularItem() throws Exception {
         // given
-        Item item1 = new Item("후드티1", 100000, 3, LocalDateTime.now());
-        Item item2 = new Item("후드티2", 200000, 3, LocalDateTime.now());
-        Item item3 = new Item("후드티3", 300000, 3, LocalDateTime.now());
-        Item item4 = new Item("후드티4", 400000, 3, LocalDateTime.now());
-        Item item5 = new Item("후드티5", 500000, 3, LocalDateTime.now());
+        Item item1 = new Item("후드티1", 100000, 3);
+        Item item2 = new Item("후드티2", 200000, 3);
+        Item item3 = new Item("후드티3", 300000, 3);
+        Item item4 = new Item("후드티4", 400000, 3);
+        Item item5 = new Item("후드티5", 500000, 3);
         List<Item> itemList = new ArrayList<>();
         itemList.add(item1);
         itemList.add(item2);

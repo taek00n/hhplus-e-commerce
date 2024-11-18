@@ -40,8 +40,8 @@ class ItemFacadeTest {
     @DisplayName("전체상품을 조회했을때 전체 상품의 정보를 반환해준다.")
     void getItemAll() {
         //given
-        itemService.createItem(new Item("청바지1", 100000, 45, LocalDateTime.now()));
-        itemService.createItem(new Item("청바지2", 200000, 55, LocalDateTime.now()));
+        itemService.createItem(new Item("청바지1", 100000, 45));
+        itemService.createItem(new Item("청바지2", 200000, 55));
         //when
         ItemsResponseDto responseDto = itemFacade.getItemAll();
         //then
@@ -53,7 +53,7 @@ class ItemFacadeTest {
     @DisplayName("상품아이디로 조회시 해당 상품의 정보를 반환해준다.")
     void getItemByItemId() {
         //given
-        Item saveItem = itemService.createItem(new Item("청바지1", 100000, 45, LocalDateTime.now()));
+        Item saveItem = itemService.createItem(new Item("청바지1", 100000, 45));
         //when
         ItemResponseDto responseDto = itemFacade.getItemByItemId(saveItem.getItemId());
         //then
@@ -66,8 +66,8 @@ class ItemFacadeTest {
     @DisplayName("인기 상품 조회시 최근 3일간의 판매량이 많은 TOP5를 반환해준다.")
     void getPopularItem() {
         //given
-        Item saveItem = itemService.createItem(new Item("청바지1", 100000, 45, LocalDateTime.now()));
-        User saveUser = userService.createUser(new User("김태현", 3999, LocalDateTime.now()));
+        Item saveItem = itemService.createItem(new Item("청바지1", 100000, 45));
+        User saveUser = userService.createUser(new User("김태현", 3999));
         Map<Long, Integer> itemMap = new HashMap<>();
         itemMap.put(saveItem.getItemId(), 1);
         orderFacade.createOrder(new CreateOrderRequestDto(saveUser.getUserId(), itemMap));

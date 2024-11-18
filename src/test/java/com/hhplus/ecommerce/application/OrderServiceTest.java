@@ -39,16 +39,16 @@ class OrderServiceTest {
 
     @BeforeEach
     void setUp() {
-        saveUser = userService.createUser(new User("김태현", 0, LocalDateTime.now()));
-        saveItem1 = itemService.createItem(new Item("청바지1", 40000, 5, LocalDateTime.now()));
-        saveItem2 = itemService.createItem(new Item("청바지2", 20000, 5, LocalDateTime.now()));
+        saveUser = userService.createUser(new User("김태현", 0));
+        saveItem1 = itemService.createItem(new Item("청바지1", 40000, 5));
+        saveItem2 = itemService.createItem(new Item("청바지2", 20000, 5));
     }
 
     @Test
     @DisplayName("주문_생성")
     void createOrder() {
         //given
-        Order order = new Order(saveUser, OrderStatus.ORDER, LocalDateTime.now());
+        Order order = new Order(saveUser);
         OrderDetail orderDetail = new OrderDetail(order, saveItem1, 2, saveItem1.getItemPrice());
         //when
         Order resultOrder = orderService.createOrder(order);
@@ -61,7 +61,7 @@ class OrderServiceTest {
     @DisplayName("사용자의_주문_조회")
     void getOrderByUserId() {
         //given
-        Order order = new Order(saveUser, OrderStatus.ORDER, LocalDateTime.now());
+        Order order = new Order(saveUser);
         Order createOrder = orderService.createOrder(order);
         //when
         Order resultOrder = orderService.getOrderByUser(saveUser);
@@ -75,7 +75,7 @@ class OrderServiceTest {
     @DisplayName("주문번호로_주문_상세_조회")
     void getDetailByOrderId() {
         //given
-        Order order = new Order(saveUser, OrderStatus.ORDER, LocalDateTime.now());
+        Order order = new Order(saveUser);
         OrderDetail orderDetail = new OrderDetail(order, saveItem1, 2, saveItem1.getItemPrice());
         Order resultOrder = orderService.createOrder(order);
         orderDetailService.createOrderDetail(orderDetail);

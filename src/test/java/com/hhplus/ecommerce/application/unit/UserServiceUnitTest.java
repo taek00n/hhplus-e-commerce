@@ -38,7 +38,7 @@ class UserServiceUnitTest {
     @DisplayName("사용자_등록")
     void saveUser() {
         //given
-        User mockUser = new User("김태현", 0, LocalDateTime.now());
+        User mockUser = new User("김태현", 0);
         when(userRepository.save(mockUser)).thenReturn(mockUser);
         //when
         User resultUser = userService.createUser(mockUser);
@@ -52,7 +52,7 @@ class UserServiceUnitTest {
     void getUser() {
         //given
         int balance = 2000;
-        when(userRepository.findByUserId(userId)).thenReturn(Optional.of(new User("김태현", balance, LocalDateTime.now())));
+        when(userRepository.findByUserId(userId)).thenReturn(Optional.of(new User("김태현", balance)));
         //when
         User resultUser = userService.getUserByUserId(userId);
         //then
@@ -73,7 +73,7 @@ class UserServiceUnitTest {
     void chargeBalance() {
         //given
         int chargeBalance = 3000;
-        User mockUser = new User("김태현", 0, LocalDateTime.now());
+        User mockUser = new User("김태현", 0);
         when(userRepository.findByUserId(1L)).thenReturn(Optional.of(mockUser));
         //when
         User resultUser = userService.chargeUserBalance(1L, chargeBalance);
@@ -88,7 +88,7 @@ class UserServiceUnitTest {
     void useBalance() {
         //given
         int useBalance = 3000;
-        User mockUser = new User("김태현", 5000, LocalDateTime.now());
+        User mockUser = new User("김태현", 5000);
         when(userRepository.findByUserId(1L)).thenReturn(Optional.of(mockUser));
         //when
         User resultUser = userService.useUserBalance(1L, useBalance);

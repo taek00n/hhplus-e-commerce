@@ -56,8 +56,8 @@ class OrderFacadeTest {
     @DisplayName("주문생성")
     void createOrder() {
         //given
-        User saveUser = userService.createUser(new User("김태현", 3999, LocalDateTime.now()));
-        Item saveItem = itemService.createItem(new Item("후드티", 30000, 4, LocalDateTime.now()));
+        User saveUser = userService.createUser(new User("김태현", 3999));
+        Item saveItem = itemService.createItem(new Item("후드티", 30000, 4));
         Map<Long, Integer> itemMap = new HashMap<>();
         itemMap.put(saveItem.getItemId(), 1);
         //when
@@ -75,8 +75,8 @@ class OrderFacadeTest {
     @DisplayName("주문을 취소하였을떄 상품과 포인트가 정상적으로 돌아오는지 확인")
     void cancelOrder() {
         //given
-        User saveUser = userService.createUser(new User("김태현", 3999, LocalDateTime.now()));
-        Item saveItem = itemService.createItem(new Item("후드티", 3000, 4, LocalDateTime.now()));
+        User saveUser = userService.createUser(new User("김태현", 3999));
+        Item saveItem = itemService.createItem(new Item("후드티", 3000, 4));
         Map<Long, Integer> itemMap = new HashMap<>();
         itemMap.put(saveItem.getItemId(), 1);
         CreateOrderResponseDto order = orderFacade.createOrder(new CreateOrderRequestDto(saveUser.getUserId(), itemMap));
@@ -93,8 +93,8 @@ class OrderFacadeTest {
     @DisplayName("주문조회")
     void getOrder() {
         //given
-        User saveUser = userService.createUser(new User("김태현", 3999, LocalDateTime.now()));
-        Item saveItem = itemService.createItem(new Item("후드티", 30000, 4, LocalDateTime.now()));
+        User saveUser = userService.createUser(new User("김태현", 3999));
+        Item saveItem = itemService.createItem(new Item("후드티", 30000, 4));
         Map<Long, Integer> itemMap = new HashMap<>();
         itemMap.put(saveItem.getItemId(), 1);
         orderFacade.createOrder(new CreateOrderRequestDto(saveUser.getUserId(), itemMap));
@@ -110,8 +110,8 @@ class OrderFacadeTest {
     @DisplayName("결제")
     void pay() {
         //given
-        User saveUser = userService.createUser(new User("김태현", 3999, LocalDateTime.now()));
-        Item saveItem = itemService.createItem(new Item("후드티", 30000, 4, LocalDateTime.now()));
+        User saveUser = userService.createUser(new User("김태현", 3999));
+        Item saveItem = itemService.createItem(new Item("후드티", 30000, 4));
         Map<Long, Integer> itemMap = new HashMap<>();
         itemMap.put(saveItem.getItemId(), 1);
         CreateOrderResponseDto responseDto = orderFacade.createOrder(new CreateOrderRequestDto(saveUser.getUserId(), itemMap));

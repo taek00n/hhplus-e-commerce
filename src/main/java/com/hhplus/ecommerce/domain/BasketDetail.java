@@ -8,6 +8,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @Entity
@@ -37,10 +38,14 @@ public class BasketDetail {
     @Column(name = "AMOUNT")
     private int amount;
 
+    @Column(name = "CREATE_TIME")
+    private LocalDateTime createTime;
+
     public BasketDetail(Basket basket, Item item, int amount) {
         this.basket = basket;
         this.item = item;
         this.amount = amount;
+        this.createTime = LocalDateTime.now();
     }
 
     public void addAmount(int amount) {

@@ -34,9 +34,9 @@ public class Basket {
     @Column(name = "CREATE_TIME")
     private LocalDateTime createTime;
 
-    public Basket(User basketUser, LocalDateTime createTime) {
+    public Basket(User basketUser) {
         this.basketUser = basketUser;
         this.basketStatus = BasketStatus.SHOPPING;
-        this.createTime = createTime;
+        this.createTime = LocalDateTime.now();
     }
 }

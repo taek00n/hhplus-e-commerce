@@ -34,14 +34,14 @@ class OrderServiceUnitTest {
     @BeforeEach
     void setUp() {
         reset(orderRepository);
-        mockUser = new User("김태현", 0, LocalDateTime.now());
+        mockUser = new User("김태현", 0);
     }
 
     @Test
     @DisplayName("주문_생성")
     void createOrders() {
         //given
-        Order mockOrder = new Order(mockUser, OrderStatus.ORDER, LocalDateTime.now());
+        Order mockOrder = new Order(mockUser);
         when(orderRepository.save(mockOrder)).thenReturn(mockOrder);
         //when
         Order resultOrder = orderService.createOrder(mockOrder);
@@ -55,7 +55,7 @@ class OrderServiceUnitTest {
     @DisplayName("주문_조회")
     void getOrders() {
         //given
-        Order mockOrder = new Order(mockUser, OrderStatus.ORDER, LocalDateTime.now());
+        Order mockOrder = new Order(mockUser);
         when(orderRepository.findByOrderId(mockOrder.getOrderId())).thenReturn(Optional.of(mockOrder));
         //when
         Order resultOrder = orderService.getOrderByOrderId(mockOrder.getOrderId());

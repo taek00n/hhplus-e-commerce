@@ -36,10 +36,10 @@ class BasketDetailServiceUnitTest {
     @BeforeEach
     void setUp() {
         reset(basketDetailRepository);
-        mockUser = new User("김태현", 0, LocalDateTime.now());
-        mockBasket = new Basket(mockUser, LocalDateTime.now());
-        mockItem1 = new Item("청바지1", 10000, 10, LocalDateTime.now());
-        mockItem2 = new Item("청바지2", 20000, 20, LocalDateTime.now());
+        mockUser = new User("김태현", 0);
+        mockBasket = new Basket(mockUser);
+        mockItem1 = new Item("청바지1", 10000, 10);
+        mockItem2 = new Item("청바지2", 20000, 20);
     }
 
     @Test

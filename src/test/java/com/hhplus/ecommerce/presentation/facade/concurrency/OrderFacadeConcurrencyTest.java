@@ -57,7 +57,7 @@ class OrderFacadeConcurrencyTest {
     void orderConcurrencyTest() throws Exception {
         long startTime = System.currentTimeMillis();
         //given
-        Item saveItem = itemRepository.save(new Item("특가세일", 5000, 120, LocalDateTime.now()));
+        Item saveItem = itemRepository.save(new Item("특가세일", 5000, 120));
 
         int thread = 30;
         int amount = 5;
@@ -112,7 +112,7 @@ class OrderFacadeConcurrencyTest {
     void cancelOrderConcurrencyTest() throws Exception {
         long startTime = System.currentTimeMillis();
         //given
-        Item saveItem = itemRepository.save(new Item("특가세일", 5000, 120, LocalDateTime.now()));
+        Item saveItem = itemRepository.save(new Item("특가세일", 5000, 120));
 
         int thread = 10;
         int amount = 5;
@@ -125,7 +125,7 @@ class OrderFacadeConcurrencyTest {
 
         List<Order> orderList = new ArrayList<>();
         for (int i = 0; i < thread; i++) {
-            Order order = new Order(userList.get(i), OrderStatus.ORDER, LocalDateTime.now());
+            Order order = new Order(userList.get(i));
             Order saveOrder = orderService.createOrder(order);
             orderList.add(saveOrder);
         }
@@ -168,6 +168,6 @@ class OrderFacadeConcurrencyTest {
 
     private User createUser(String username, int balance) {
 
-        return userRepository.save(new User(username, balance, LocalDateTime.now()));
+        return userRepository.save(new User(username, balance));
     }
 }

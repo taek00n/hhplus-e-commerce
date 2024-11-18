@@ -25,7 +25,7 @@ class UserServiceTest {
 
     @BeforeEach
     void setUp() {
-        saveUser = userService.createUser(new User("김태현", 0, LocalDateTime.now()));
+        saveUser = userService.createUser(new User("김태현", 0));
         userId = saveUser.getUserId();
     }
 

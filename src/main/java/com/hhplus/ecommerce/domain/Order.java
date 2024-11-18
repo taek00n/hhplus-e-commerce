@@ -36,10 +36,10 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
-    public Order(User orderUser, OrderStatus orderStatus, LocalDateTime orderDate) {
+    public Order(User orderUser) {
         this.orderUser = orderUser;
-        this.orderStatus = orderStatus;
-        this.orderDate = orderDate;
+        this.orderStatus = OrderStatus.ORDER;
+        this.orderDate = LocalDateTime.now();
     }
 
     public void changeOrderStatus(OrderStatus orderStatus) {

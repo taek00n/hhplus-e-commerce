@@ -45,16 +45,16 @@ class BasketDetailServiceTest {
 
     @BeforeEach
     void setUp() {
-        saveUser = userRepository.save(new User("김태현", 0, LocalDateTime.now()));
-        saveItem1 = itemJpaRepository.save(new Item("청바지A", 9999, 4, LocalDateTime.now()));
-        saveItem2 = itemJpaRepository.save(new Item("청바지B", 9999, 2, LocalDateTime.now()));
+        saveUser = userRepository.save(new User("김태현", 0));
+        saveItem1 = itemJpaRepository.save(new Item("청바지A", 9999, 4));
+        saveItem2 = itemJpaRepository.save(new Item("청바지B", 9999, 2));
     }
 
     @Test
     @DisplayName("상품_추가")
     void addItemInBasketDetail() {
         // given
-        Basket basket = new Basket(saveUser, LocalDateTime.now());
+        Basket basket = new Basket(saveUser);
         BasketDetail basketDetail = new BasketDetail(basket, saveItem1, 1);
         // when
         BasketDetail saveBasketDetail = basketDetailService.createBasketDetail(basketDetail);

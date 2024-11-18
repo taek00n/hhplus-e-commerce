@@ -30,7 +30,7 @@ class UserFacadeTest {
     @DisplayName("사용자_잔액_확인")
     void getUserBalance() {
         //given
-        User saveUser = userService.createUser(new User("김태현", 3999, LocalDateTime.now()));
+        User saveUser = userService.createUser(new User("김태현", 3999));
         //when
         UserBalanceResponseDto responseDto = userFacade.getUserBalance(new UserBalanceRequestDto(saveUser.getUserId()));
         //then
@@ -43,7 +43,7 @@ class UserFacadeTest {
     @DisplayName("사용자_금액_충전")
     void chargeUserBalance() {
         //given
-        User saveUser = userService.createUser(new User("김태현", 3999, LocalDateTime.now()));
+        User saveUser = userService.createUser(new User("김태현", 3999));
         //when
         UserChargeResponseDto responseDto = userFacade.chargeUserBalance(new UserChargeRequestDto(saveUser.getUserId(), 4000));
         //then

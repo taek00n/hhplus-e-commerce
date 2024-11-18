@@ -39,8 +39,8 @@ class BasketFacadeTest {
     @DisplayName("장바구니 추가")
     void addBasket() {
         //given
-        User saveUser = userService.createUser(new User("김태현", 3999, LocalDateTime.now()));
-        Item saveItem = itemService.createItem(new Item("후드티", 30000, 4, LocalDateTime.now()));
+        User saveUser = userService.createUser(new User("김태현", 3999));
+        Item saveItem = itemService.createItem(new Item("후드티", 30000, 4));
         Map<Long, Integer> itemMap = new HashMap<>();
         itemMap.put(saveItem.getItemId(), 1);
         //when
@@ -53,8 +53,8 @@ class BasketFacadeTest {
     @DisplayName("장바구니 상품 제거")
     void deleteBasketDetail() {
         //given
-        User saveUser = userService.createUser(new User("김태현", 3999, LocalDateTime.now()));
-        Item saveItem = itemService.createItem(new Item("후드티", 30000, 4, LocalDateTime.now()));
+        User saveUser = userService.createUser(new User("김태현", 3999));
+        Item saveItem = itemService.createItem(new Item("후드티", 30000, 4));
         Map<Long, Integer> itemMap = new HashMap<>();
         itemMap.put(saveItem.getItemId(), 1);
         basketFacade.addBasket(new AddBasketRequestDto(saveUser.getUserId(), itemMap));
@@ -70,8 +70,8 @@ class BasketFacadeTest {
     @DisplayName("장바구니_상세_조회")
     void getBasket() {
         //given
-        User saveUser = userService.createUser(new User("김태현", 3999, LocalDateTime.now()));
-        Item saveItem = itemService.createItem(new Item("후드티", 30000, 4, LocalDateTime.now()));
+        User saveUser = userService.createUser(new User("김태현", 3999));
+        Item saveItem = itemService.createItem(new Item("후드티", 30000, 4));
         Map<Long, Integer> itemMap = new HashMap<>();
         itemMap.put(saveItem.getItemId(), 1);
         basketFacade.addBasket(new AddBasketRequestDto(saveUser.getUserId(), itemMap));
