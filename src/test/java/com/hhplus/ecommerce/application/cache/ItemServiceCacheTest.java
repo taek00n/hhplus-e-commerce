@@ -56,9 +56,9 @@ public class ItemServiceCacheTest {
         //given
         LocalDateTime endDateTime = LocalDate.now().atStartOfDay();
         LocalDateTime startDateTime = endDateTime.minusDays(3);
-        Item item1 = new Item("청바지1", 10000, 4, LocalDateTime.now());
-        Item item2 = new Item("청바지2", 20000, 5, LocalDateTime.now());
-        Item item3 = new Item("청바지3", 30000, 6, LocalDateTime.now());
+        Item item1 = new Item("청바지1", 10000, 4);
+        Item item2 = new Item("청바지2", 20000, 5);
+        Item item3 = new Item("청바지3", 30000, 6);
         List<Item> topItemList = new ArrayList<>();
         topItemList.add(item1);
         topItemList.add(item2);
@@ -85,9 +85,9 @@ public class ItemServiceCacheTest {
         //given
         LocalDateTime endDateTime = LocalDate.now().atStartOfDay();
         LocalDateTime startDateTime = endDateTime.minusDays(3);
-        Item item1 = new Item("청바지1", 10000, 4, LocalDateTime.now());
-        Item item2 = new Item("청바지2", 20000, 5, LocalDateTime.now());
-        Item item3 = new Item("청바지3", 30000, 6, LocalDateTime.now());
+        Item item1 = new Item("청바지1", 10000, 4);
+        Item item2 = new Item("청바지2", 20000, 5);
+        Item item3 = new Item("청바지3", 30000, 6);
         List<Item> topItemList = new ArrayList<>();
         topItemList.add(item1);
         topItemList.add(item2);
@@ -118,9 +118,9 @@ public class ItemServiceCacheTest {
         //given
         LocalDateTime endDateTime = LocalDate.now().atStartOfDay();
         LocalDateTime startDateTime = endDateTime.minusDays(3);
-        Item item1 = new Item("청바지1", 10000, 4, LocalDateTime.now());
-        Item item2 = new Item("청바지2", 20000, 5, LocalDateTime.now());
-        Item item3 = new Item("청바지3", 30000, 6, LocalDateTime.now());
+        Item item1 = new Item("청바지1", 10000, 4);
+        Item item2 = new Item("청바지2", 20000, 5);
+        Item item3 = new Item("청바지3", 30000, 6);
         List<Item> topItemList = new ArrayList<>();
         topItemList.add(item1);
         topItemList.add(item2);

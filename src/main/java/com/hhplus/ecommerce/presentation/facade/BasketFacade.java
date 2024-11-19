@@ -78,7 +78,7 @@ public class BasketFacade {
 
         if (userBasket == null) {
             User user = userService.getUserByUserId(userId);
-            return new Basket(user, LocalDateTime.now());
+            return new Basket(user);
         }
 
         return userBasket;
