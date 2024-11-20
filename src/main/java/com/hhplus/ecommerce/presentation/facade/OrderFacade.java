@@ -9,6 +9,7 @@ import com.hhplus.ecommerce.common.exception.RestApiException;
 import com.hhplus.ecommerce.common.exception.domain.ItemErrorCode;
 import com.hhplus.ecommerce.common.exception.domain.OrderErrorCode;
 import com.hhplus.ecommerce.infrastructure.event.CreateOrderEvent;
+import com.hhplus.ecommerce.infrastructure.kafka.producer.OrderCreateProducer;
 import com.hhplus.ecommerce.presentation.dto.request.order.CancelOrderRequestDto;
 import com.hhplus.ecommerce.presentation.dto.request.order.CreateOrderRequestDto;
 import com.hhplus.ecommerce.presentation.dto.request.order.OrderRequestDto;
@@ -42,6 +43,8 @@ public class OrderFacade {
 
     private final ApplicationEventPublisher publisher;
 
+    private final OrderCreateProducer orderCreateProducer;
+
     public OrderResponseDto getUserOrder(OrderRequestDto orderRequestDto) {
 
         User user = userService.getUserByUserId(orderRequestDto.userId());
@@ -53,13 +56,14 @@ public class OrderFacade {
         return new OrderResponseDto(order.getOrderId(), orderDetailList, totalPrice, totalAmount);
     }
 
+    @Transactional
     public CreateOrderResponseDto createOrder(CreateOrderRequestDto requestDto) {
 
         int totalPrice = 0;
         int totalAmount = 0;
 
         User user = userService.getUserByUserId(requestDto.userId());
-        Order createOrder = orderService.createOrder(new Order(user, OrderStatus.ORDER, LocalDateTime.now()));
+        Order createOrder = orderService.createOrder(new Order(user));
 
         for(Long itemId : requestDto.itemMap().keySet()) {
             Item item = itemService.getItemByItemIdWithLock(itemId);
@@ -72,7 +76,8 @@ public class OrderFacade {
             totalAmount += amount;
         }
 
-        publisher.publishEvent(new CreateOrderEvent(createOrder.getOrderId()));
+//        publisher.publishEvent(new CreateOrderEvent(createOrder.getOrderId()));
+        orderCreateProducer.create(user.getUserId());
 
         return new CreateOrderResponseDto(createOrder.getOrderId(), createOrder.getOrderUser().getUserId(), totalPrice, totalAmount);
     }
@@ -94,5 +99,11 @@ public class OrderFacade {
         Order cancelOrder = orderService.cancelOrder(cancelOrderRequestDto.orderId(), cancelOrderRequestDto.userId());
 
         return new CancelOrderResponseDto(cancelOrder.getOrderId(), totalPrice);
+    }
+
+    // 카프카 연동 테스트 (테스트완료 후 삭제)
+    public void kafkaTest(long userId) {
+
+        orderCreateProducer.create(userId);
     }
 }
