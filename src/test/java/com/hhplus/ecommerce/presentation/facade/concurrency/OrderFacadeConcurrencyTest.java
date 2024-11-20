@@ -170,4 +170,24 @@ class OrderFacadeConcurrencyTest {
 
         return userRepository.save(new User(username, balance));
     }
+
+    @Test
+    @DisplayName("카프카 연동 테스트 : 여러개 동시성 테스트")
+    void kafkaTest() throws Exception {
+        int thread = 10;
+        ExecutorService executorService = Executors.newFixedThreadPool(thread);
+        CountDownLatch countDownLatch = new CountDownLatch(thread);
+
+        for (int i = 0; i < thread; i++) {
+            long userId = i;
+            executorService.execute(() -> {
+                try {
+                    orderFacade.kafkaTest(userId);
+                } finally {
+                    countDownLatch.countDown();
+                }
+            });
+        }
+        countDownLatch.await();
+    }
 }
