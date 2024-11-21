@@ -4,10 +4,6 @@ import com.hhplus.ecommerce.application.ItemService;
 import com.hhplus.ecommerce.application.OrderDetailService;
 import com.hhplus.ecommerce.application.OrderService;
 import com.hhplus.ecommerce.application.UserService;
-import com.hhplus.ecommerce.common.constant.OrderStatus;
-import com.hhplus.ecommerce.common.exception.RestApiException;
-import com.hhplus.ecommerce.common.exception.domain.ItemErrorCode;
-import com.hhplus.ecommerce.common.exception.domain.OrderErrorCode;
 import com.hhplus.ecommerce.infrastructure.event.CreateOrderEvent;
 import com.hhplus.ecommerce.infrastructure.kafka.producer.KafkaTestProducer;
 import com.hhplus.ecommerce.presentation.dto.request.order.CancelOrderRequestDto;
@@ -20,16 +16,12 @@ import com.hhplus.ecommerce.domain.Order;
 import com.hhplus.ecommerce.domain.OrderDetail;
 import com.hhplus.ecommerce.domain.User;
 import com.hhplus.ecommerce.presentation.dto.response.order.OrderResponseDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.transaction.Transactional;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
@@ -45,6 +37,9 @@ public class OrderFacade {
 
     private final KafkaTestProducer kafkaTestProducer;
 
+    /**
+     * 사용자 주문 조회
+     * */
     public OrderResponseDto getUserOrder(OrderRequestDto orderRequestDto) {
 
         User user = userService.getUserByUserId(orderRequestDto.userId());
@@ -56,6 +51,11 @@ public class OrderFacade {
         return new OrderResponseDto(order.getOrderId(), orderDetailList, totalPrice, totalAmount);
     }
 
+    /**
+     * 주문 생성
+     * 주문 생성 & 재고 차감만 진행 한다.
+     * */
+    @Transactional
     public CreateOrderResponseDto createOrder(CreateOrderRequestDto requestDto) {
 
         int totalPrice = 0;
@@ -80,6 +80,9 @@ public class OrderFacade {
         return new CreateOrderResponseDto(createOrder.getOrderId(), createOrder.getOrderUser().getUserId(), totalPrice, totalAmount);
     }
 
+    /**
+     * 주문 취소
+     * */
     public CancelOrderResponseDto cancelOrder(CancelOrderRequestDto cancelOrderRequestDto) {
 
         Order order = orderService.getOrderByOrderId(cancelOrderRequestDto.orderId());
@@ -99,7 +102,9 @@ public class OrderFacade {
         return new CancelOrderResponseDto(cancelOrder.getOrderId(), totalPrice);
     }
 
-    // 카프카 연동 테스트 (테스트완료 후 삭제)
+    /**
+     * Kafka 연동 테스트
+     * */
     public void kafkaTest(long userId) {
 
         kafkaTestProducer.create(userId);
