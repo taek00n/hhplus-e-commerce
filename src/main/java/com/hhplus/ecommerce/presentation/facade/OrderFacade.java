@@ -9,6 +9,7 @@ import com.hhplus.ecommerce.common.exception.RestApiException;
 import com.hhplus.ecommerce.common.exception.domain.ItemErrorCode;
 import com.hhplus.ecommerce.common.exception.domain.OrderErrorCode;
 import com.hhplus.ecommerce.infrastructure.event.CreateOrderEvent;
+import com.hhplus.ecommerce.infrastructure.kafka.producer.KafkaTestProducer;
 import com.hhplus.ecommerce.presentation.dto.request.order.CancelOrderRequestDto;
 import com.hhplus.ecommerce.presentation.dto.request.order.CreateOrderRequestDto;
 import com.hhplus.ecommerce.presentation.dto.request.order.OrderRequestDto;
@@ -42,6 +43,8 @@ public class OrderFacade {
 
     private final ApplicationEventPublisher publisher;
 
+    private final KafkaTestProducer kafkaTestProducer;
+
     public OrderResponseDto getUserOrder(OrderRequestDto orderRequestDto) {
 
         User user = userService.getUserByUserId(orderRequestDto.userId());
@@ -59,7 +62,7 @@ public class OrderFacade {
         int totalAmount = 0;
 
         User user = userService.getUserByUserId(requestDto.userId());
-        Order createOrder = orderService.createOrder(new Order(user, OrderStatus.ORDER, LocalDateTime.now()));
+        Order createOrder = orderService.createOrder(new Order(user));
 
         for(Long itemId : requestDto.itemMap().keySet()) {
             Item item = itemService.getItemByItemIdWithLock(itemId);
@@ -94,5 +97,11 @@ public class OrderFacade {
         Order cancelOrder = orderService.cancelOrder(cancelOrderRequestDto.orderId(), cancelOrderRequestDto.userId());
 
         return new CancelOrderResponseDto(cancelOrder.getOrderId(), totalPrice);
+    }
+
+    // 카프카 연동 테스트 (테스트완료 후 삭제)
+    public void kafkaTest(long userId) {
+
+        kafkaTestProducer.create(userId);
     }
 }
